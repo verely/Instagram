@@ -1,0 +1,124 @@
+import { userService } from "../../services/user.service.js";
+import { store } from '../store.js'
+
+import { LOADING_DONE, LOADING_START } from "../reducers/system.reducer.js";
+import {
+    REMOVE_USER,
+    SET_USER,
+    SET_USERS,
+    SET_WATCHED_USER,
+    FOLLOW_USER,
+    UNFOLLOW_USER,
+    UPDATE_PROFILE,
+    SET_ERROR,
+} from "../reducers/user.reducer.js";
+
+export async function loadUsers() {
+    try {
+      store.dispatch({ type: LOADING_START });
+      const users = await userService.getUsers();
+      store.dispatch({ type: SET_USERS, users });
+    } catch (err) {
+      console.log("UserActions: err in loadUsers", err);
+      store.dispatch({ type: SET_ERROR, error: "Error loading users." });
+    } finally {
+      store.dispatch({ type: LOADING_DONE });
+    }
+  }
+
+  export async function removeUser(userId) {
+    try {
+      await userService.remove(userId);
+      store.dispatch({ type: REMOVE_USER, userId });
+    } catch (err) {
+      console.log("UserActions: err in removeUser", err);
+      store.dispatch({ type: SET_ERROR, error: "Error removing user." });
+    }
+  }
+
+  export async function login(credentials) {
+    try {
+      const user = await userService.login(credentials);
+      store.dispatch({
+        type: SET_USER,
+        user,
+      });
+      return user;
+    } catch (err) {
+      console.log("Cannot login", err);
+      store.dispatch({ type: SET_ERROR, error: "Login failed." });
+      throw err;
+    }
+  }
+
+  export async function signup(credentials) {
+    try {
+      const user = await userService.signup(credentials);
+      store.dispatch({
+        type: SET_USER,
+        user,
+      });
+      return user;
+    } catch (err) {
+      console.log("Cannot signup", err);
+      store.dispatch({ type: SET_ERROR, error: "Signup failed." });
+      throw err;
+    }
+  }
+
+  export async function logout() {
+    try {
+      await userService.logout();
+      store.dispatch({
+        type: SET_USER,
+        user: null,
+      });
+    } catch (err) {
+      console.log("Cannot logout", err);
+      store.dispatch({ type: SET_ERROR, error: "Logout failed." });
+      throw err;
+    }
+  }
+
+  export async function loadUser(userId) {
+    try {
+      const user = await userService.getById(userId);
+      store.dispatch({ type: SET_WATCHED_USER, user });
+    } catch (err) {
+      console.log("Cannot load user", err);
+      store.dispatch({ type: SET_ERROR, error: "Error loading user." });
+    }
+  }
+
+  // Implementing follow and unfollow actions
+  export async function followUser(userId) {
+    try {
+      const followedUser = await userService.follow(userId);
+      store.dispatch({ type: FOLLOW_USER, userId: followedUser._id });
+    } catch (err) {
+      console.log("UserActions: err in followUser", err);
+      store.dispatch({ type: SET_ERROR, error: "Error following user." });
+    }
+  }
+
+  export async function unfollowUser(userId) {
+    try {
+      await userService.unfollow(userId);
+      store.dispatch({ type: UNFOLLOW_USER, userId });
+    } catch (err) {
+      console.log("UserActions: err in unfollowUser", err);
+      store.dispatch({ type: SET_ERROR, error: "Error unfollowing user." });
+    }
+  }
+
+  // Implementing profile update action
+  export async function updateUserProfile(userId, profileData) {
+    try {
+      const updatedUser = await userService.updateProfile(userId, profileData);
+      store.dispatch({ type: UPDATE_PROFILE, user: updatedUser });
+    } catch (err) {
+      console.log("UserActions: err in updateUserProfile", err);
+      store.dispatch({ type: SET_ERROR, error: "Error updating profile." });
+    }
+  }
+
