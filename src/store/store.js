@@ -11,7 +11,6 @@ const rootReducer = combineReducers({
 
 const middleware = (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__() : undefined
 export const store = createStore(rootReducer, middleware)
-github.com/
 
 // store.subscribe(() => {
 //     console.log('**** Store state changed: ****')
@@ -19,5 +18,5 @@ github.com/
 //     console.log('*******************************')
 // })
 
-
+console.log('test');
 
