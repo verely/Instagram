@@ -18,5 +18,5 @@ export const store = createStore(rootReducer, middleware)
 //     console.log('*******************************')
 // })
 
-
+console.log('test');
 
