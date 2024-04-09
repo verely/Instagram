@@ -1,14 +1,14 @@
 
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 
-import { UserMsg } from './UserMsg.jsx'
+import { ActionAlert } from './ActionAlert.jsx'
 
 export function AppFooter() {
 
     return (
         <footer className="app-footer">
             <section>Footer</section>
-            <UserMsg />
+            <ActionAlert />
         </footer>
     )
 }
