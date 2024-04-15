@@ -3,14 +3,14 @@
 }
 
 ::selection {
-    background-color: $clr1;
-    color: $clr6;
+    background-color: $selection-bgc;
+    color: $primary-color-1;
 }
 
 html {
     font-family: 'Segoe UI', 'Roboto', Helvetica, Arial, sans-serif;
     line-height: 1.6;
-    color: $clr2;
+    color: $primary-color-1;
 }
 
 body {
@@ -18,8 +18,8 @@ body {
     margin: 0;
     max-width: 1024px;
     margin: auto;
-    background-color: $clr1;
-    color: #e0f1ff;
+    background-color: $primary-bgc;
+    color: $primary-color-1;
 }
 
 h1, h2, h3, h4, h5, h6 {

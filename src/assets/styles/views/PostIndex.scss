@@ -1,26 +1,31 @@
 // normal/full layout (laptop, desktop)
-.main-wrapper {
+.layout-container {
     display: flex;
     flex-direction: column;
 
-    .posts-container {
+    .content-area {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: rem(80px) 1fr rem(80px);
         grid-template-rows: 0.3fr 1.7fr;
         gap: 0px 0px;
         grid-auto-flow: row;
         grid-template-areas:
-          "s . ."
+          "s s s"
           ". p .";
-        height: 100vh;
 
         // Story section
-        .story {
-            justify-self: end;
+        .featured-stories {
             width: rem(56px);
             height: rem(56px);
-            // align-self: center;
+            display: flex;
+            flex-direction: row;
+            gap: rem(15px);
             grid-area: s;
+            grid-column: 1/-1;
+
+            img {
+                border-radius: 50%;
+            }
         }
 
         // Posts section
@@ -31,6 +36,7 @@
             justify-self: center;
             align-self: center;
             grid-area: p;
+            // max-width: rem(470px);
         }
     }
 }

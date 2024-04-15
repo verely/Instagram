@@ -3,7 +3,6 @@
     flex-direction: column;
     align-items: left;
     width: 470px;
-    height: 100vh;
     font-size: rem(14px);
     line-height: rem(18px);
     letter-spacing: normal;
@@ -43,7 +42,7 @@
 
        .date {
          grid-area: d;
-         color: $clr6;
+         color: $secondary-color-1;
          text-align: start;
        }
 
@@ -99,7 +98,6 @@
     }
 
     .post-message {
-       color: $clr3;
        padding-bottom: 12px;
        margin-top: 14px;
     }
@@ -116,7 +114,7 @@
 
    hr {
       border: none;
-      border-top: 1px solid $clr2;
+      border-top: 1px solid $secondary-bgc;
       width: 100%;
       margin-bottom: 15px;
    }

@@ -69,16 +69,24 @@ export function PostIndex() {
        };
 
     return (
-        <div className="main-wrapper">
+        <div className="layout-container">
             <nav>
                 <h1>Nav</h1>
             </nav>
             <section>
-                <div className="posts-container">
-                    <div className="story ">
+                <div className="content-area">
+                    <div className="featured-stories">
+
                         <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
+                        <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
+                        <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
+                        <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
+                        <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
+                        <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
+                        <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
+
                     </div>
-                    <div className="posts">
+                    <div className='posts'>
                       <PostList posts={posts} postActions={postActions}/>
                     </div>
                 </div>
