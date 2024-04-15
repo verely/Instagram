@@ -4,9 +4,11 @@ export const post = {
     "imgUrl": "http://some-img",
     "owner": {
       "_id": "u101",
-      "userName": "Ulash Ulashi",
+      "userName": "Sloner_garden",
+      "fullName": "Mashtelat Sloner",
       "imgUrl": "http://some-img"
     },
+    "created_at": "1712839080",
     "loc": {
       "lat": 11.11,
       "lng": 22.22,

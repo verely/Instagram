@@ -1,4 +1,4 @@
-import { eventBus, showSuccessMsg } from "../services/event-bus.service.js"
+import { eventBus } from "../services/event-bus.service.js"
 import { useState, useEffect, useRef } from 'react'
 
 export function ActionAlert() {

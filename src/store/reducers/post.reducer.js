@@ -4,6 +4,7 @@ export const ADD_POST = 'ADD_POST'
 export const LIKE_POST = 'LIKE_POST'
 export const COMMENT_POST = 'COMMENT_POST'
 export const SHARE_POST = 'SHARE_POST'
+export const SAVE_POST = 'SAVE_POST'
 export const UNDO_REMOVE_POST = 'UNDO_REMOVE_POST'
 
 export const CHANGE_COUNT = 'CHANGE_COUNT'
@@ -21,6 +22,7 @@ export function postReducer(state = initialState, action) {
 
     switch (action.type) {
         case ADD_POST:
+        case SAVE_POST:
             newState = { ...state, posts: [...state.posts, action.post] }
             break
         case REMOVE_POST:

@@ -1,0 +1,63 @@
+// normal/full layout (laptop, desktop)
+.main-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    .posts-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 0.3fr 1.7fr;
+        gap: 0px 0px;
+        grid-auto-flow: row;
+        grid-template-areas:
+          "s . ."
+          ". p .";
+        height: 100vh;
+
+        // Story section
+        .story {
+            justify-self: end;
+            width: rem(56px);
+            height: rem(56px);
+            // align-self: center;
+            grid-area: s;
+        }
+
+        // Posts section
+        .posts {
+            display:flex;
+            flex-direction: column;
+            padding: 10px;
+            justify-self: center;
+            align-self: center;
+            grid-area: p;
+        }
+    }
+}
+
+// mobile layout
+// .posts-container  {
+//     display: grid;
+//     grid-template-columns: 1fr;
+//     grid-template-rows: 0.3fr 1.7fr;
+//     gap: 0px 0px;
+//     grid-auto-flow: row;
+//     grid-template-areas:
+//       "s"
+//       "p";
+//     height: 100vh;
+//}
+
+//   .story {
+//     justify-self: start;
+//     align-self: start;
+//     grid-area: s;
+//   }
+
+//   .post {
+//     justify-self: center;
+//     align-self: stretch;
+//     grid-area: p;
+//   }
+
+
