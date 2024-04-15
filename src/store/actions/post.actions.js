@@ -1,10 +1,9 @@
-// import { postService } from "../../services/post.service.local.js";
 import { postService } from "../../services/post.service.local.js";
 import { userService } from "../../services/user.service.js";
 import { store } from '../../store/store.js'
 import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service.js'
 import { ADD_POST, REMOVE_POST, LIKE_POST, COMMENT_POST,
-    SHARE_POST, SET_POSTS, UNDO_REMOVE_POST} from "../reducers/post.reducer.js";
+    SHARE_POST, SAVE_POST, SET_POSTS, UNDO_REMOVE_POST} from "../reducers/post.reducer.js";
 
 // Action Creators:
 export function getActionAddPost(post) {
@@ -38,6 +37,13 @@ export function getActionCommentPost(post) {
 export function getActionSharePost(post) {
     return {
         type: SHARE_POST,
+        post
+    }
+}
+
+export function getActionSavePost(post) {
+    return {
+        type: SAVE_POST,
         post
     }
 }
@@ -133,4 +139,8 @@ export async function sharePost(postId, senderId, recipientId) {
         console.error(`Failed to share post ${postId}:`, err)
         throw err
     }
+}
+
+export async function savePost(post) {
+    addPost(post)
 }

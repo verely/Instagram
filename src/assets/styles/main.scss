@@ -13,15 +13,12 @@
 
 
 // Views
+@import "views/PostIndex";
 @import "views/HomePage";
 @import "views/UserProfile";
 
 // Components
 @import "cmps/AppFooter";
-@import "cmps/UserMsg";
-
-
-
-
-
-
+@import "cmps/ActionAlert";
+@import "cmps/PostPreview.scss";
+@import "cmps/PostList.scss"
