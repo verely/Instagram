@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { loadPosts, addPost, removePost,
     addCommentToPost, likePost, sharePost, getActionRemovePost } from '../store/actions/post.actions.js'
@@ -7,17 +7,34 @@ import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { userService } from '../services/user.service.js'
 import { postService } from '../services/post.service.local.js'
 import { PostList } from '../cmps/PostList.jsx'
+import { CreatePost } from '../cmps/CreatePost.jsx'
 
 
 
 export function PostIndex() {
 
+    const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
     const posts = useSelector(storeState => storeState.postModule.posts)
     const dispatch = useDispatch()
+
+    const handleOpenCreatePost = () => {
+       setIsCreatePostOpen(true);
+    };
+
+    const handleCloseCreatePost = () => {
+       setIsCreatePostOpen(false);
+    };
 
     useEffect(() => {
         loadPosts()
     }, [])
+
+
+    function getLoggedInUser() {
+        const imgPath = '../media_samples/img_profile/sloner.jpeg'
+        return { "_id": "u103", "userName": "Sloner_garden", "fullName": "Mashtelat Sloner", "imgUrl": imgPath}
+        //return userService.getLoggedinUser()
+    }
 
     async function onRemovePost(postId) {
         try {
@@ -90,7 +107,8 @@ export function PostIndex() {
                       <PostList posts={posts} postActions={postActions}/>
                     </div>
                 </div>
-                {/* <button onClick={onAddPost}>Add Post </button> */}
+                <button onClick={handleOpenCreatePost}>Add Post </button>
+                <CreatePost isOpen={isCreatePostOpen} onClose={handleCloseCreatePost} owner={getLoggedInUser()}/>
             </section>
         </div>
     )
