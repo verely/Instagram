@@ -8,6 +8,7 @@ import { userService } from '../services/user.service.js'
 import { postService } from '../services/post.service.local.js'
 import { PostList } from '../cmps/PostList.jsx'
 import { CreatePost } from '../cmps/CreatePost.jsx'
+import { SideBarNavigation } from '../cmps/SideBarNavigation.jsx'
 
 
 
@@ -87,9 +88,9 @@ export function PostIndex() {
 
     return (
         <div className="layout-container">
-            <nav>
-                <h1>Nav</h1>
-            </nav>
+            <div className="sidebar-wrapper">
+                <SideBarNavigation handleOpenCreatePost={handleOpenCreatePost}/>
+            </div>
             <section>
                 <div className="content-area">
                     <div className="featured-stories">
@@ -107,7 +108,6 @@ export function PostIndex() {
                       <PostList posts={posts} postActions={postActions}/>
                     </div>
                 </div>
-                <button onClick={handleOpenCreatePost}>Add Post </button>
                 <CreatePost isOpen={isCreatePostOpen} onClose={handleCloseCreatePost} owner={getLoggedInUser()}/>
             </section>
         </div>
