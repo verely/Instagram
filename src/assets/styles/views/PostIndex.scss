@@ -1,8 +1,15 @@
 // normal/full layout (laptop, desktop)
 .layout-container {
+    width: 100%;
+    margin: 0 !important;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: start;
 
+    .sidebar-wrapper {
+        margin: 0;
+        max-width: 200px;
+    }
     .content-area {
         display: grid;
         grid-template-columns: rem(80px) 1fr rem(80px);
@@ -30,6 +37,7 @@
 
         // Posts section
         .posts {
+            margin-top: 10px;
             display:flex;
             flex-direction: column;
             padding: 10px;
