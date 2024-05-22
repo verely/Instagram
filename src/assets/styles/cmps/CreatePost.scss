@@ -182,11 +182,22 @@
                         margin-top: 10px;
                         border: none;
                         background-color: $secondary-bgc;
+                        color: ($primary-color-1);
                         columns: $secondary-color-1;
                         resize: none;
                         font-family: 'Segoe UI', 'Roboto', Helvetica, Arial, sans-serif;
                         font-size: rem(16px);
                         line-height: rem(24px);
+
+                        &::placeholder {
+                            color: $secondary-color-2
+                        }
+
+                        &:focus {
+                            outline: none;
+                            box-shadow: none;
+                            border: none;
+                        }
                     }
                 }
             }
