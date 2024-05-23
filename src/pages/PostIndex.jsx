@@ -46,8 +46,8 @@ export function PostIndex() {
         }
     }
 
-    async function onAddPost() {
-        const post = postService.getEmptyPost()
+    async function onAddPost(post) {
+        //console.log(post)
         try {
             const savedPost = await addPost(post)
             showSuccessMsg(`Post added (id: ${savedPost._id})`)
@@ -108,7 +108,7 @@ export function PostIndex() {
                       <PostList posts={posts} postActions={postActions}/>
                     </div>
                 </div>
-                <CreatePost isOpen={isCreatePostOpen} onClose={handleCloseCreatePost} owner={getLoggedInUser()}/>
+                <CreatePost isOpen={isCreatePostOpen} onClose={handleCloseCreatePost} owner={getLoggedInUser} onAddPost={onAddPost}/>
             </section>
         </div>
     )
