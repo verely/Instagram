@@ -18,6 +18,10 @@ export function SideBarNavigation({handleOpenCreatePost}){
         setIsCollapsed(!isCollapsed);
     };
 
+    const expand = () => {
+        if (isCollapsed) { setIsCollapsed(false) }
+    }
+
     useEffect(() => {
         const breakpoint = NARROW_BREAKPOINT;
 
@@ -42,11 +46,11 @@ export function SideBarNavigation({handleOpenCreatePost}){
         <nav className={`navbar ${isCollapsed ? 'collapsed' : ''}`}>
             <div className="navbar-brand">
                 <img src={isCollapsed? brandIcon : brandName} alt="Brand Name"
-                     className={`brand-name ${isCollapsed ? 'collapsed' : ''}`}/>
+                     className={`brand-name ${isCollapsed ? 'collapsed' : ''}`} onClick={expand}/>
             </div>
             <div className="navbar-nav">
                 <NavLink to="/" className="nav-link">
-                    <img src={home} alt="Home" className="nav-icon"/>
+                    <img src={home} alt="Home" className="nav-icon" onClick={expand}/>
                     {!isCollapsed && <span>Home</span>}
                 </NavLink>
                 <NavLink to="/search" className="nav-link" onClick={toggleCollapse}>
@@ -54,18 +58,18 @@ export function SideBarNavigation({handleOpenCreatePost}){
                     {!isCollapsed && <span>Search</span>}
                 </NavLink>
                 <NavLink to="/explore" className="nav-link">
-                    <img src={explore} alt="Explore" className="nav-icon"/>
+                    <img src={explore} alt="Explore" className="nav-icon" onClick={expand}/>
                     {!isCollapsed && <span>Explore</span>}
                 </NavLink>
                 <NavLink to="/messages" className="nav-link">
-                    <img src={messenger} alt="Messenger" className="nav-icon"/>
+                    <img src={messenger} alt="Messenger" className="nav-icon" onClick={expand}/>
                     {!isCollapsed && <span>Messages</span>}
                 </NavLink>
                 <button className="create-post" onClick={handleOpenCreatePost}>
                    <img src={newPost} alt="CreatePost" className="nav-icon"  />
                     {!isCollapsed && <span>Create</span>}
                 </button>
-                <NavLink to="/profile" className="nav-link">
+                <NavLink to="/profile" className="nav-link" onClick={expand}>
                     <img src={explore} alt="Profile" className="nav-icon"/>
                     {!isCollapsed && <span>Profile</span>}
                 </NavLink>
