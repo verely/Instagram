@@ -91,7 +91,7 @@ export function PostIndex() {
             <div className="sidebar-wrapper">
                 <SideBarNavigation handleOpenCreatePost={handleOpenCreatePost}/>
             </div>
-            <section>
+            <section className="content-wrapper">
                 <div className="content-area">
                     <div className="featured-stories">
 
