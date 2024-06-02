@@ -21,7 +21,6 @@ export function CreatePost({ isOpen, onClose, owner, onAddPost }) {
     if(isOpen) {
       setCurrentStep(States.SELECT_IMAGE);
       setPostText("")
-      console.log("currentStep")
     }
   },[isOpen]);
 

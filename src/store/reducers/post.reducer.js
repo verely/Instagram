@@ -1,6 +1,3 @@
-import { act } from "react"
-//import { likePost } from "../actions/post.actions"
-
 export const SET_POSTS = 'SET_POSTS'
 export const REMOVE_POST = 'REMOVE_POST'
 export const ADD_POST = 'ADD_POST'
@@ -16,8 +13,6 @@ export const CHANGE_COUNT = 'CHANGE_COUNT'
 const initialState = {
     posts: [],
     lastRemovedPost: null,
-    currentPost: null,
-    likedBy: [],
     count: 10,
 }
 
@@ -43,13 +38,13 @@ export function postReducer(state = initialState, action) {
             break
         case LIKE_POST:
             posts = state.posts.map(post => post._id === action.postId
-                ? { ...post, likedBy: [...post.likedBy, action.user]}
+                ? { ...post, likedBy: [...post.likedBy || [], action.user]}
                 : post)
             newState = { ...state, posts }
             break
         case UNLIKE_POST:
             posts = state.posts.map(post => post._id === action.postId
-                ? {...post, likedBy: post.likedBy.filter(user => user._id !== action.user._id)}
+                ? {...post, likedBy: (post.likedBy || []).filter(user => user._id !== action.user._id)}
                 : post)
             newState = { ...state, posts }
             break

@@ -87,6 +87,6 @@ function updateLocalUserFields(user) {
 // }
 
 function getLoggedinUser() {
-    const imgPath = '../media_samples/img_profile/1.jpeg'
+    const imgPath = '../media_samples/img_profile/1.jpg'
     return { "_id": "u101", "userName": "Tuppence", "fullName": "Tuppence Beresford", "imgUrl": imgPath}
 }

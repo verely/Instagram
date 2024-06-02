@@ -20,13 +20,6 @@ export function getActionRemovePost(postId) {
     }
 }
 
-// export function getActionLikePost(post) {
-//     return {
-//         type: LIKE_POST,
-//         post
-//     }
-// }
-
 export function getActionLikePost(postId, user) {
     return {
         type: LIKE_POST,
@@ -34,13 +27,6 @@ export function getActionLikePost(postId, user) {
         user
     }
 }
-
-// export function getActionUnLikePost(post) {
-//     return {
-//         type: UNLIKE_POST,
-//         post
-//     }
-// }
 
 export function getActionUnLikePost(postId, user) {
     return {
@@ -154,55 +140,6 @@ export async function updateLikeStatus(actionType, postId, user) {
         throw err
     }
 }
-// export function likePost(postId, user) {
-//     try {
-//         console.log(postId, user)
-//         const likeByUser = postService.updateLikeStatus("like", postId, user);
-//         store.dispatch(getActionLikePost(postId, user));
-//         //dispatch({type: 'LIKE_POST', postId, user})
-//         //return likeByUser
-//         return [user]
-//     } catch (err) {
-//         console.error(`Failed to like post ${postId}:`, err)
-//         throw err
-//     }
-// }
-
-// export function unlikePost(postId, user) {
-//     try {
-//         const unlikeByUser = postService.updateLikeStatus("unlike", postId, user);
-//         store.dispatch(getActionUnLikePost(postId, user));
-//         //return unlikeByUser
-//         return [user]
-//     } catch (err) {
-//         console.error(`Failed to unlike post ${postId}:`, err)
-//         throw err
-//     }
-// }
-
-// export async function likePost(postId) {
-//     try {
-//         const likeByUser = await postService.updateLikeStatus(postId, "like")
-//         console.log(`Like post ${postId} completed`)
-//         store.dispatch(getActionLikePost(postId, likeByUser))
-//         return likeByUser
-//     } catch (err) {
-//         console.error(`Failed to like post ${postId}:`, err)
-//         throw err
-//     }
-// }
-
-// export async function unlikePost(postId) {
-//     try {
-//         const likeByUser = await postService.updateLikeStatus(postId, "unlike")
-//         console.log(`Unlike post ${postId} completed`)
-//         store.dispatch(getActionLikePost(postId, likeByUser))
-//         return likeByUser
-//     } catch (err) {
-//         console.error(`Failed to unlike post ${postId}:`, err)
-//         throw err
-//     }
-// }
 
 export async function sharePost(postId, senderId, recipientId) {
     try {

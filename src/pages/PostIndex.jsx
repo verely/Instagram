@@ -37,8 +37,8 @@ export function PostIndex() {
     async function onAddPost(post) {
         //console.log(post)
         try {
-            const savedPost = await addPost(post)
-            showSuccessMsg(`Post added (id: ${savedPost._id})`)
+            await addPost(post)
+            //showSuccessMsg(`Post added`)
         } catch (err) {
             showErrorMsg('Cannot add post')
         }
@@ -55,10 +55,10 @@ export function PostIndex() {
 
     async function onUpdateLikeStatus(postId, actionType) {
         try {
-            const user = getLoggedInUser();
+            const user = getLoggedInUser()
             updateLikeStatus(actionType, postId, user)
         } catch (err) {
-            showErrorMsg(`Cannot ${actionType} post`);
+            showErrorMsg(`Cannot ${actionType} post`)
         }
     }
 
@@ -75,7 +75,7 @@ export function PostIndex() {
     }
 
     function getLoggedInUser() {
-        const imgPath = '../media_samples/img_profile/1.jpeg'
+        const imgPath = '../media_samples/img_profile/1.jpg'
         return { "_id": "u101", "userName": "Tuppence", "fullName": "Tuppence Beresford", "imgUrl": imgPath}
 
         // const imgPath = '../media_samples/img_profile/sloner.jpeg'
@@ -113,7 +113,7 @@ export function PostIndex() {
                       <PostList posts={posts} postActions={postActions} currentUser={getLoggedInUser()}/>
                     </div>
                 </div>
-                <CreatePost isOpen={isCreatePostOpen} onClose={handleCloseCreatePost} owner={getLoggedInUser} onAddPost={onAddPost}/>
+                <CreatePost isOpen={isCreatePostOpen} onClose={handleCloseCreatePost} owner={getLoggedInUser()} onAddPost={onAddPost}/>
             </section>
         </div>
     )
