@@ -49,7 +49,10 @@ export function postReducer(state = initialState, action) {
             newState = { ...state, posts }
             break
         case COMMENT_POST:
-            newState = { ...state, comments: [...state.comments, action.comment] }
+            posts = state.posts.map(post => post._id === action.postId
+                ? { ...post, comments: [...post.comments || [], action.comment]}
+                : post)
+            newState = { ...state, posts }
             break
         case SHARE_POST:
             //to do

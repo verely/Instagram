@@ -9,7 +9,7 @@ export const postService = {
     getById,
     save,
     remove,
-    // addCommentToPost, //disabled until user logic enabled
+    addCommentToPost,
     updateLikeStatus,
     // sharePost,
     getEmptyPost
@@ -91,31 +91,26 @@ async function save(post) {
     }
 }
 
-async function addCommentToPost(postId, text){
+async function addCommentToPost(postId, text, user){
     try {
-        const loggedInUser = getLoggedInUser()
-        if (!loggedInUser) {
-            throw new Error('No user is logged in')
-        }
-
         const post = await getById(postId)
 
-        const user = {
-            _id: loggedInUser._id,
-            userName: loggedInUser.userName,
-            imgUrl: loggedInUser.imgUrl
+        if (!post) {
+            throw new Error('Invalid post.')
+        }
+
+        if (!post.comments) {
+            post.comments = []
         }
 
         const comment = {
             id: utilService.makeId(),
-            by: user,
-            txt: text
-        }
-        const updatedPost = {
-            ...post, comments: [...(post.comments || []), comment]
+            txt: text,
+            by: user
         }
 
-        await storageService.put(STORAGE_KEY, updatedPost)
+        post.comments.push(comment)
+        await storageService.put(STORAGE_KEY, post)
         return comment
 
     } catch (error) {
