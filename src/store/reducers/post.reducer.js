@@ -2,6 +2,7 @@ export const SET_POSTS = 'SET_POSTS'
 export const REMOVE_POST = 'REMOVE_POST'
 export const ADD_POST = 'ADD_POST'
 export const LIKE_POST = 'LIKE_POST'
+export const UNLIKE_POST = 'UNLIKE_POST'
 export const COMMENT_POST = 'COMMENT_POST'
 export const SHARE_POST = 'SHARE_POST'
 export const SAVE_POST = 'SAVE_POST'
@@ -22,6 +23,8 @@ export function postReducer(state = initialState, action) {
 
     switch (action.type) {
         case ADD_POST:
+            newState = { ...state, posts: [...state.posts, action.post] }
+            break
         case SAVE_POST:
             newState = { ...state, posts: [...state.posts, action.post] }
             break
@@ -34,9 +37,19 @@ export function postReducer(state = initialState, action) {
             newState = { ...state, posts: action.posts }
             break
         case LIKE_POST:
-        case COMMENT_POST:
-            posts = state.posts.map(post => (post._id === action.post._id) ? action.post : post)
+            posts = state.posts.map(post => post._id === action.postId
+                ? { ...post, likedBy: [...post.likedBy || [], action.user]}
+                : post)
             newState = { ...state, posts }
+            break
+        case UNLIKE_POST:
+            posts = state.posts.map(post => post._id === action.postId
+                ? {...post, likedBy: (post.likedBy || []).filter(user => user._id !== action.user._id)}
+                : post)
+            newState = { ...state, posts }
+            break
+        case COMMENT_POST:
+            newState = { ...state, comments: [...state.comments, action.comment] }
             break
         case SHARE_POST:
             //to do

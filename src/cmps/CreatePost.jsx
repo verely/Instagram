@@ -11,7 +11,7 @@ const States = {
     SHARED: 'shared',
   };
 
-export function CreatePost({ isOpen, onClose, owner }) {
+export function CreatePost({ isOpen, onClose, owner, onAddPost }) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [currentStep, setCurrentStep] = useState(States.SELECT_IMAGE);
   const [fileLoadingComplete, setFileLoadingComplete] = useState(false);
@@ -21,7 +21,6 @@ export function CreatePost({ isOpen, onClose, owner }) {
     if(isOpen) {
       setCurrentStep(States.SELECT_IMAGE);
       setPostText("")
-      console.log("currentStep")
     }
   },[isOpen]);
 
@@ -46,6 +45,15 @@ export function CreatePost({ isOpen, onClose, owner }) {
     }
    };
 
+  const sharePost = () => {
+    const newPost = {
+      desc: postText,
+      imgUrl: "to do"
+    };
+    onAddPost(newPost);
+    setCurrentStep(States.SHARED)
+  }
+
   return (
     <div className={`modal ${isOpen ? "open" : ""}`}>
 
@@ -63,7 +71,7 @@ export function CreatePost({ isOpen, onClose, owner }) {
                         <img src={left} alt="left" />
                     </button>
                     <p className="title">Add text to your post</p>
-                    <button className="next" onClick={() => setCurrentStep(States.SHARED)}>Share</button>
+                    <button className="next" onClick={sharePost}>Share</button>
                 </>
                 )}
 

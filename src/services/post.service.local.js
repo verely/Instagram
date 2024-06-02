@@ -10,7 +10,7 @@ export const postService = {
     save,
     remove,
     // addCommentToPost, //disabled until user logic enabled
-    // likePost,
+    updateLikeStatus,
     // sharePost,
     getEmptyPost
 }
@@ -28,8 +28,8 @@ async function query(filterBy = { txt: '' }) {
         }
         return posts
     } catch (error) {
-        console.error('Error occurred while querying posts:', error.message);
-        throw new Error('Failed to query posts. Please try again later.');
+        console.error('Error occurred while querying posts:', error.message)
+        throw new Error('Failed to query posts. Please try again later.')
     }
 }
 
@@ -37,8 +37,8 @@ function getById(postId) {
     try {
         return storageService.get(STORAGE_KEY, postId)
     } catch (error) {
-        console.error(`Error occurred while getting the post ${postId}:`, error.message);
-        throw new Error('Failed to remove the post. Please try again later.');
+        console.error(`Error occurred while getting the post ${postId}:`, error.message)
+        throw new Error('Failed to remove the post. Please try again later.')
     }
 }
 
@@ -46,15 +46,37 @@ async function remove(postId) {
     try {
         await storageService.remove(STORAGE_KEY, postId)
     } catch (error) {
-        console.error(`Error occurred while removing the post ${postId}:`, error.message);
-        throw new Error('Failed to remove the post. Please try again later.');
+        console.error(`Error occurred while removing the post ${postId}:`, error.message)
+        throw new Error('Failed to remove the post. Please try again later.')
     }
+}
+
+async function updateLikeStatus(actionType, postId, currentUser) {
+
+    const post = await getById(postId)
+    if (!post) {
+        throw new Error('Invalid post.')
+    }
+
+    if (!post.likedBy) {
+        post.likedBy = []
+    }
+
+    if (actionType === "like") {
+        post.likedBy.push(currentUser)
+    } else {
+        post.likedBy = post.likedBy.filter(user => user._id !== currentUser._id)
+    }
+
+    await storageService.put(STORAGE_KEY, post)
+
+    return post.likedBy
 }
 
 async function save(post) {
     try {
       const isNewPost = !post._id
-      const storageFunction = isNewPost? storageService.post :storageService.put
+      const storageFunction = isNewPost? storageService.post : storageService.put
 
       if (isNewPost){
         post.owner = getLoggedInUser()
@@ -64,8 +86,8 @@ async function save(post) {
       return savedPost
 
     } catch (error) {
-        console.error('Error occurred while saving the post:', error.message);
-        throw new Error('Failed to save the post. Please try again later.');
+        console.error('Error occurred while saving the post:', error.message)
+        throw new Error('Failed to save the post. Please try again later.')
     }
 }
 
@@ -97,31 +119,8 @@ async function addCommentToPost(postId, text){
         return comment
 
     } catch (error) {
-        console.error('Error occurred while adding comment the post:', error.message);
-        throw new Error('Failed to add comment to the post. Please try again later.');
-    }
-}
-
-async function likePost(postId){
-    try {
-        const loggedInUser = getLoggedInUser()
-        if (!loggedInUser) {
-            throw new Error('No user is logged in')
-        }
-
-        const post = await getById(postId)
-
-        const user = {_id: loggedInUser._id, userName: loggedInUser.userName, imgUrl: loggedInUser.imgUrl}
-
-        const updatedPost = {
-            ...post, likedBy: [...(post.likedBy || []), user]
-        }
-        await storageService.put(STORAGE_KEY, updatedPost)
-        return user
-
-    } catch (error) {
-        console.error('Error occurred while liking the post:', error.message);
-        throw new Error('Failed to like the post. Please try again later.');
+        console.error('Error occurred while adding comment the post:', error.message)
+        throw new Error('Failed to add comment to the post. Please try again later.')
     }
 }
 
@@ -130,8 +129,8 @@ function sharePost(postId, senderId, recipientId){
     try {
         console.log(`Share Post ${postId} with user ${recipientId} by user ${senderId}`)
     } catch (error) {
-        console.error('Error occurred while sharing the post:', error.message);
-        throw new Error('Failed to share the post. Please try again later.');
+        console.error('Error occurred while sharing the post:', error.message)
+        throw new Error('Failed to share the post. Please try again later.')
     }
 }
 
@@ -143,7 +142,7 @@ function getEmptyPost() {
         }
         const user = {_id: loggedInUser._id, userName: loggedInUser.userName, imgUrl: loggedInUser.imgUrl}
 
-        const imgPath = '../media_samples/img_flowers/1.jpeg'
+        const imgPath = '../media_samples/img_flowers/1.jpg'
         //utilService.getAssetSrc('react.svg')
         const post = {
             _id: utilService.makeId(),
@@ -153,8 +152,8 @@ function getEmptyPost() {
         }
         return post
     } catch (error) {
-        console.error('Error occurred while creating post:', error.message);
-        throw new Error('Failed to create the post. Please try again later.');
+        console.error('Error occurred while creating post:', error.message)
+        throw new Error('Failed to create the post. Please try again later.')
     }
 }
 
@@ -237,7 +236,7 @@ function _createPosts() {
 }
 
 function getLoggedInUser() {
-    const imgPath = '../media_samples/img_profile/1.jpeg'
+    const imgPath = '../media_samples/img_profile/1.jpg'
     return { "_id": "u101", "userName": "Tuppence", "fullName": "Tuppence Beresford", "imgUrl": imgPath}
     //return userService.getLoggedinUser()
 }

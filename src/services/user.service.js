@@ -82,6 +82,11 @@ function updateLocalUserFields(user) {
     return user
 }
 
+// function getLoggedinUser() {
+//     return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
+// }
+
 function getLoggedinUser() {
-    return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
+    const imgPath = '../media_samples/img_profile/1.jpg'
+    return { "_id": "u101", "userName": "Tuppence", "fullName": "Tuppence Beresford", "imgUrl": imgPath}
 }

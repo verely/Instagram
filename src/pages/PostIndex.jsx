@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { loadPosts, addPost, removePost,
-    addCommentToPost, likePost, sharePost, getActionRemovePost } from '../store/actions/post.actions.js'
+    updateLikeStatus,
+    sharePost, getActionRemovePost } from '../store/actions/post.actions.js'
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { userService } from '../services/user.service.js'
@@ -31,10 +32,16 @@ export function PostIndex() {
     }, [])
 
 
-    function getLoggedInUser() {
-        const imgPath = '../media_samples/img_profile/sloner.jpeg'
-        return { "_id": "u103", "userName": "Sloner_garden", "fullName": "Mashtelat Sloner", "imgUrl": imgPath}
-        //return userService.getLoggedinUser()
+
+
+    async function onAddPost(post) {
+        //console.log(post)
+        try {
+            await addPost(post)
+            //showSuccessMsg(`Post added`)
+        } catch (err) {
+            showErrorMsg('Cannot add post')
+        }
     }
 
     async function onRemovePost(postId) {
@@ -46,27 +53,17 @@ export function PostIndex() {
         }
     }
 
-    async function onAddPost() {
-        const post = postService.getEmptyPost()
+    async function onUpdateLikeStatus(postId, actionType) {
         try {
-            const savedPost = await addPost(post)
-            showSuccessMsg(`Post added (id: ${savedPost._id})`)
+            const user = getLoggedInUser()
+            updateLikeStatus(actionType, postId, user)
         } catch (err) {
-            showErrorMsg('Cannot add post')
+            showErrorMsg(`Cannot ${actionType} post`)
         }
     }
 
     function onAddCommentToPost(text) {
         console.log(`TODO Adding comment to post`)
-    }
-
-    async function onLikePost(postId) {
-        try {
-            const likedBy = await likePost(postId)
-            showSuccessMsg(`Post liked by user (id: ${likedBy.userName})`)
-        } catch (err) {
-            showErrorMsg('Cannot like post')
-        }
     }
 
     function onSharePost(postId, recipient) {
@@ -77,10 +74,18 @@ export function PostIndex() {
         console.log(`TODO Save post`)
     }
 
+    function getLoggedInUser() {
+        const imgPath = '../media_samples/img_profile/1.jpg'
+        return { "_id": "u101", "userName": "Tuppence", "fullName": "Tuppence Beresford", "imgUrl": imgPath}
+
+        // const imgPath = '../media_samples/img_profile/sloner.jpeg'
+        // return { "_id": "u103", "userName": "Sloner_garden", "fullName": "Mashtelat Sloner", "imgUrl": imgPath}
+        //return userService.getLoggedinUser()
+    }
+
     const postActions = {
-        onAddPost: onAddPost,
         onRemovePost: onRemovePost,
-        onLikePost: onLikePost,
+        onUpdateLikeStatus: onUpdateLikeStatus,
         onAddCommentToPost: onAddCommentToPost,
         onSharePost: onSharePost,
         onSavePost: onSavePost
@@ -105,10 +110,10 @@ export function PostIndex() {
 
                     </div>
                     <div className='posts'>
-                      <PostList posts={posts} postActions={postActions}/>
+                      <PostList posts={posts} postActions={postActions} currentUser={getLoggedInUser()}/>
                     </div>
                 </div>
-                <CreatePost isOpen={isCreatePostOpen} onClose={handleCloseCreatePost} owner={getLoggedInUser()}/>
+                <CreatePost isOpen={isCreatePostOpen} onClose={handleCloseCreatePost} owner={getLoggedInUser()} onAddPost={onAddPost}/>
             </section>
         </div>
     )

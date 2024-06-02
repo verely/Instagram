@@ -2,7 +2,7 @@ import { postService } from "../../services/post.service.local.js";
 import { userService } from "../../services/user.service.js";
 import { store } from '../../store/store.js'
 import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service.js'
-import { ADD_POST, REMOVE_POST, LIKE_POST, COMMENT_POST,
+import { ADD_POST, REMOVE_POST, LIKE_POST, UNLIKE_POST, COMMENT_POST,
     SHARE_POST, SAVE_POST, SET_POSTS, UNDO_REMOVE_POST} from "../reducers/post.reducer.js";
 
 // Action Creators:
@@ -20,10 +20,19 @@ export function getActionRemovePost(postId) {
     }
 }
 
-export function getActionLikePost(post) {
+export function getActionLikePost(postId, user) {
     return {
         type: LIKE_POST,
-        post
+        postId,
+        user
+    }
+}
+
+export function getActionUnLikePost(postId, user) {
+    return {
+        type: UNLIKE_POST,
+        postId,
+        user
     }
 }
 
@@ -105,7 +114,7 @@ export async function onRemovePostOptimistic(postId) {
     }
 }
 
-export async function addCommentToPost(postId, comment) {
+export async function addCommentToPost(postId, comment="test") {
     try {
         const savedComment = await postService.save(postId, comment);
         console.log(`Comment ${savedComment} added successfully to Post ${postId}`)
@@ -117,16 +126,17 @@ export async function addCommentToPost(postId, comment) {
     }
 }
 
-export async function likePost(postId, userId) {
+export async function updateLikeStatus(actionType, postId, user) {
     try {
-        const userDetails = await userService.getUser(userId)
-        const user = { _id: userDetails._id, userName: userDetails.userName, imgUrl: userDetails.imgUrl }
-        const likeByUser = await postService.save(postId, user)
-        console.log(`Post ${postId} liked successfully by user ${userId}`)
-        store.dispatch(getActionLikePost(postId, likeByUser))
+        const likeByUser = await postService.updateLikeStatus(actionType, postId, user)
+        console.log(`${actionType} post ${postId} completed`)
+        if (actionType === "like")
+         store.dispatch(getActionLikePost(postId, user))
+        else
+         store.dispatch(getActionUnLikePost(postId, user))
         return likeByUser
     } catch (err) {
-        console.error(`Failed to like post ${postId}:`, err)
+        console.error(`Failed to ${actionType} post ${postId}:`, err)
         throw err
     }
 }
