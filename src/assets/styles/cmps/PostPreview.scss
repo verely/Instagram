@@ -103,12 +103,13 @@
     }
 
    .svg {
-      filter: invert(1);
       width: 23px;
       height: 23px;
 
-      &:hover {
-         filter: invert(50%) sepia(50%) saturate(20%) hue-rotate(90deg) brightness(100%) contrast(100%) grayscale(0%);
+      &.with-effect{
+         &:hover {
+            filter: invert(50%) sepia(50%) saturate(20%) hue-rotate(90deg) brightness(100%) contrast(100%) grayscale(0%);
+         }
       }
    }
 

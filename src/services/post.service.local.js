@@ -10,7 +10,7 @@ export const postService = {
     save,
     remove,
     // addCommentToPost, //disabled until user logic enabled
-    // likePost,
+    updateLikeStatus,
     // sharePost,
     getEmptyPost
 }
@@ -42,19 +42,88 @@ function getById(postId) {
     }
 }
 
-async function remove(postId) {
+function remove(postId) {
     try {
-        await storageService.remove(STORAGE_KEY, postId)
+        storageService.remove(STORAGE_KEY, postId)
     } catch (error) {
         console.error(`Error occurred while removing the post ${postId}:`, error.message);
         throw new Error('Failed to remove the post. Please try again later.');
     }
 }
 
+// async function updateLikeStatus(postId, actionType)
+// {
+//     try {
+//         const currentUser = getLoggedInUser()
+//         const post = await getById(postId)
+
+//         if (!post) {
+//             throw new Error('Invalid post.')
+//         }
+//         // if (!post || post.likedBy.includes(currentUser)) {
+//         //     throw new Error('Invalid post or user has already liked this post.')
+//         // }
+//         let updatedLikedBy
+//         if (actionType === 'like') {
+//             updatedLikedBy = [...(post.likedBy || []), currentUser]
+//         } else if (actionType === 'unlike') {
+//             updatedLikedBy = post.likedBy.filter(user => user._id!== currentUser._id)
+//         } else {
+//             throw new Error('Invalid action type.')
+//         }
+
+//         const updatedPost = {
+//             ...post,
+//              likedBy: updatedLikedBy,
+//          };
+
+//         await storageService.put(STORAGE_KEY, updatedPost)
+//         return updatedLikedBy
+//     } catch (error) {
+//         console.error(`Error occurred while like operation of post ${postId}:`, error.message)
+//         throw new Error('Failed to like the post. Please try again later.')
+//     }
+// }
+
+// async function updateLikeStatus(postId, actionType) {
+//     // Implementation for updating like status in the backend or local storage
+//     const posts = await query();
+//     const post = posts.find(post => post._id === postId);
+//     if (actionType === "like") {
+//         post.likedBy.push(getLoggedInUser()._id);
+//     } else {
+//         post.likedBy = post.likedBy.filter(userId => userId !== getLoggedInUser()._id);
+//     }
+//     // Save updated posts to storage
+//     localStorage.setItem('posts', JSON.stringify(posts));
+//     return post;
+// }
+
+async function updateLikeStatus(actionType, postId, currentUser) {
+
+    //console.log(actionType, postId, currentUser)
+    const post = await getById(postId)
+    if (!post) {
+        throw new Error('Invalid post.')
+    }
+
+    if (actionType === "like") {
+        post.likedBy.push(currentUser)
+    } else {
+        console.log(currentUser._id)
+        console.log(post.likedBy.filter(user => user._id !== currentUser._id))
+        post.likedBy = post.likedBy.filter(user => user._id !== currentUser._id)
+    }
+
+    await storageService.put(STORAGE_KEY, post)
+
+    return post.likedBy
+}
+
 async function save(post) {
     try {
       const isNewPost = !post._id
-      const storageFunction = isNewPost? storageService.post :storageService.put
+      const storageFunction = isNewPost? storageService.post : storageService.put
 
       if (isNewPost){
         post.owner = getLoggedInUser()
