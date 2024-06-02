@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { loadPosts, addPost, removePost,
-    updateLikeStatus,
+    updateLikeStatus, addCommentToPost,
     sharePost, getActionRemovePost } from '../store/actions/post.actions.js'
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
@@ -62,8 +62,13 @@ export function PostIndex() {
         }
     }
 
-    function onAddCommentToPost(text) {
-        console.log(`TODO Adding comment to post`)
+    function onAddCommentToPost(postId, text) {
+        try {
+            const user = getLoggedInUser()
+            addCommentToPost(postId, text, user)
+        } catch (err) {
+            showErrorMsg(`Cannot comment post`)
+        }
     }
 
     function onSharePost(postId, recipient) {

@@ -1,3 +1,4 @@
+import { useState } from "react"
 import more from "../assets/img/PostPreview/more.svg"
 import like from "../assets/img/PostPreview/like.svg"
 import unlike from "../assets/img/PostPreview/unlike.svg"
@@ -7,8 +8,29 @@ import save from "../assets/img/PostPreview/save.svg"
 import remove from "../assets/img/PostPreview/remove.svg"
 
 export function PostPreview({ post, postActions, isLiked, isSaved}) {
+    const [postComment, setPostComment] = useState("");
+
     const likeCount = post.likedBy?.length || 0;
-    const likeSubtitle = likeCount>0 ? "likes" : "like"
+    const likeSubtitle = likeCount>1 ? "likes" : "like"
+
+    const commentsCount = post.comments?.length || 0;
+    const commentsSubtitle = commentsCount>1 ? "comments" : "comment"
+
+    const addComment = () => {
+        if (postComment.trim()) {
+            console.log(postComment)
+            postActions.onAddCommentToPost(post._id, postComment);
+            setPostComment("");
+        }
+    };
+
+    const handleKeyPress = (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            addComment();
+        }
+    };
+
     return (
         <div className="post-preview">
 
@@ -42,6 +64,22 @@ export function PostPreview({ post, postActions, isLiked, isSaved}) {
             {likeCount>0 && <div className="like-count">{post.likedBy.length} {likeSubtitle}</div>}
 
             <div className="post-message">{post.desc}</div>
+
+            {commentsCount>0 && <div className="like-count">{post.comments.length} {commentsSubtitle}</div>}
+            <div className="comment-area">
+                <textarea
+                    value={postComment}
+                    onChange={(e) => setPostComment(e.target.value)}
+                    onKeyDown={handleKeyPress}
+                    placeholder="Add a comment..."
+                />
+                {postComment.trim() && (
+                    <button className="submit-comment" onClick={addComment}>
+                        Post
+                    </button>
+                )}
+            </div>
+
             <hr/>
         </div>
     );

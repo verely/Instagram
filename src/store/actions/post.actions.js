@@ -36,10 +36,11 @@ export function getActionUnLikePost(postId, user) {
     }
 }
 
-export function getActionCommentPost(post) {
+export function getActionCommentPost(postId, comment) {
     return {
         type: COMMENT_POST,
-        post
+        postId,
+        comment
     }
 }
 
@@ -114,15 +115,15 @@ export async function onRemovePostOptimistic(postId) {
     }
 }
 
-export async function addCommentToPost(postId, comment="test") {
+export async function addCommentToPost(postId, text, user) {
     try {
-        const savedComment = await postService.save(postId, comment);
+        const savedComment = await postService.addCommentToPost(postId, text, user)
         console.log(`Comment ${savedComment} added successfully to Post ${postId}`)
-        store.dispatch(getActionCommentPost(postId, savedComment));
-        return savedComment;
+        store.dispatch(getActionCommentPost(postId, savedComment))
+        return savedComment
     } catch (err) {
         console.error(`Failed to add comment to post ${postId}:`, err)
-        throw err;
+        throw err
     }
 }
 
