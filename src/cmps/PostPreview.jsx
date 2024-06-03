@@ -1,4 +1,5 @@
 import { useState } from "react"
+import EmojiPicker from 'emoji-picker-react';
 import more from "../assets/img/PostPreview/more.svg"
 import like from "../assets/img/PostPreview/like.svg"
 import unlike from "../assets/img/PostPreview/unlike.svg"
@@ -6,9 +7,11 @@ import comment from "../assets/img/PostPreview/comment.svg"
 import share from "../assets/img/PostPreview/share.svg"
 import save from "../assets/img/PostPreview/save.svg"
 import remove from "../assets/img/PostPreview/remove.svg"
+import emoji from "../assets/img/PostPreview/emoji.svg"
 
 export function PostPreview({ post, postActions, isLiked, isSaved}) {
     const [postComment, setPostComment] = useState("");
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
     const likeCount = post.likedBy?.length || 0;
     const likeSubtitle = likeCount>1 ? "likes" : "like"
@@ -29,6 +32,10 @@ export function PostPreview({ post, postActions, isLiked, isSaved}) {
             e.preventDefault();
             addComment();
         }
+    };
+
+    const onEmojiClick = (event, emojiObject) => {
+        setPostComment(prevComment => prevComment + event.emoji);
     };
 
     return (
@@ -73,11 +80,22 @@ export function PostPreview({ post, postActions, isLiked, isSaved}) {
                     onKeyDown={handleKeyPress}
                     placeholder="Add a comment..."
                 />
+
                 {postComment.trim() && (
-                    <button className="submit-comment" onClick={addComment}>
+                    <div className="submit-comment" onClick={addComment}>
                         Post
-                    </button>
+                    </div>
                 )}
+
+                <div className="emoji" onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
+                  <img src={emoji} alt="Emoji" onClick={() => setShowEmojiPicker(!showEmojiPicker)}/>
+                </div>
+                {showEmojiPicker && (
+                    <div className="emoji-picker">
+                        <EmojiPicker onEmojiClick={onEmojiClick} />
+                    </div>
+                )}
+
             </div>
 
             <hr/>

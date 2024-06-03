@@ -114,13 +114,21 @@
    }
 
    .comment-area {
+      margin-top: 5px;
+      margin-left: -1px;
       position: relative;
       display: flex;
+      gap: 8px;
       align-items: center;
 
+      // border: 4px solid red;
+      height: 22px;
+      max-height: 50px;
+
       textarea {
-         height: rem(22px);
-         max-height: calc(rem(18px) * 4);
+         // height: rem(22px);
+         // max-height: calc(rem(22px) * 4);
+         height: 100%;
          overflow: auto;
          flex: 1;
          border: none;
@@ -138,20 +146,31 @@
              outline: none;
              border: none;
          }
+         // border: 4px solid blue;
       }
 
       .submit-comment {
-            width: auto;
             height: auto;
             background-color: $primary-bgc;
             color: $btn-secondary-bgc;
-            padding: 6px 12px;
             font-weight: bold;
+            cursor: pointer;
 
             &:hover {
                 color: $primary-color-1;
             }
+            // border: 4px solid greenyellow;
       }
+
+      .emoji {
+         cursor: pointer;
+      }
+
+     .emoji-picker {
+         position: absolute;
+         bottom: 50px;
+         right: 10px;
+     }
    }
 
 
