@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import signV from "../assets/img/CreatePost/signV.png"
 import left from "../assets/img/CreatePost/leftArrow.svg"
 import close from "../assets/img/CreatePost/close.svg"
-import { NavLink } from "react-router-dom";
-// import left from "../assets/img/CreatePost/l"
+import { uploadService } from '../services/upload.service'
+import { showErrorMsg } from "../services/event-bus.service";
 
 const States = {
     SELECT_IMAGE: 'selectImage',
@@ -16,6 +16,7 @@ export function CreatePost({ isOpen, onClose, owner, onAddPost }) {
   const [currentStep, setCurrentStep] = useState(States.SELECT_IMAGE);
   const [fileLoadingComplete, setFileLoadingComplete] = useState(false);
   const [postText, setPostText] = useState("");
+  const [imgFile, setImgFile] = useState("");
 
   useEffect(()=>{
     if(isOpen) {
@@ -34,6 +35,7 @@ export function CreatePost({ isOpen, onClose, owner, onAddPost }) {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
+       setImgFile(file)
        const reader = new FileReader();
        reader.onloadend = () => {
          setSelectedImage(reader.result);
@@ -45,13 +47,20 @@ export function CreatePost({ isOpen, onClose, owner, onAddPost }) {
     }
    };
 
-  const sharePost = () => {
-    const newPost = {
-      desc: postText,
-      imgUrl: "to do"
-    };
-    onAddPost(newPost);
-    setCurrentStep(States.SHARED)
+  async function sharePost() {
+    try {
+      const { secure_url } = await uploadService.uploadImgFile(imgFile)
+      const newPost = {
+        desc: postText,
+        imgUrl: secure_url
+      };
+      onAddPost(newPost)
+      setCurrentStep(States.SHARED)
+      setImgFile("")
+    } catch (err) {
+      console.log(`Error occurred while post sharing: ${err}`)
+      showErrorMsg("Cannot share post")
+    }
   }
 
   return (
