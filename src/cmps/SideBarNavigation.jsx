@@ -65,10 +65,10 @@ export function SideBarNavigation({handleOpenCreatePost}){
                     <img src={messenger} alt="Messenger" className="nav-icon" onClick={expand}/>
                     {!isCollapsed && <span>Messages</span>}
                 </NavLink>
-                <button className="create-post" onClick={handleOpenCreatePost}>
+                <NavLink className="nav-link" onClick={handleOpenCreatePost}>
                    <img src={newPost} alt="CreatePost" className="nav-icon"  />
                     {!isCollapsed && <span>Create</span>}
-                </button>
+                </NavLink>
                 <NavLink to="/profile" className="nav-link" onClick={expand}>
                     <img src={explore} alt="Profile" className="nav-icon"/>
                     {!isCollapsed && <span>Profile</span>}

@@ -25,8 +25,8 @@
     flex-direction: column;
     justify-content: start;
     align-items: start;
-    background-color: $primary-color-1;
     padding: 10px 20px;
+    background-color: $primary-color-1;
     background-color: $primary-bgc;
     color: $primary-color-1;
 
@@ -60,9 +60,10 @@
     height: calc(100vh - 73px);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: start;
     align-items: start;
     list-style: none;
+    gap: 10px;
     padding-top: 30px;
 
     .nav-link {
@@ -83,21 +84,14 @@
         }
 
         .nav-icon {
-            margin-right: 10px;
+            width: 24px;
+            height: 24px;
+            margin-right: 14px;
         }
-    }
 
-    .create-post{
-        display: flex;
-        align-items: center;
-        margin-left: 0px;
-
-        font-family: inherit;
-        font-size: inherit;
-        line-height: inherit;
-
-        .nav-icon {
-            margin-right: 10px;
+        &:last-child {
+            margin-top: auto;
+            margin-bottom: 20px;
         }
     }
 }
