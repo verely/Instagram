@@ -4,6 +4,7 @@ import left from "../assets/img/CreatePost/leftArrow.svg"
 import close from "../assets/img/CreatePost/close.svg"
 import { uploadService } from '../services/upload.service'
 import { showErrorMsg } from "../services/event-bus.service";
+import { addPost } from '../store/actions/post.actions.js'
 
 const States = {
     SELECT_IMAGE: 'selectImage',
@@ -11,7 +12,7 @@ const States = {
     SHARED: 'shared',
   };
 
-export function CreatePost({ isOpen, onClose, owner, onAddPost }) {
+export function CreatePost({ onClose }) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [currentStep, setCurrentStep] = useState(States.SELECT_IMAGE);
   const [fileLoadingComplete, setFileLoadingComplete] = useState(false);
@@ -19,11 +20,9 @@ export function CreatePost({ isOpen, onClose, owner, onAddPost }) {
   const [imgFile, setImgFile] = useState("");
 
   useEffect(()=>{
-    if(isOpen) {
-      setCurrentStep(States.SELECT_IMAGE);
-      setPostText("")
-    }
-  },[isOpen]);
+    setCurrentStep(States.SELECT_IMAGE);
+    setPostText("")
+  },[]);
 
   useEffect(() => {
     if (fileLoadingComplete) {
@@ -31,6 +30,23 @@ export function CreatePost({ isOpen, onClose, owner, onAddPost }) {
       setFileLoadingComplete(true);
     }
   }, [fileLoadingComplete]);
+
+  async function onAddPost(post) {
+    try {
+        await addPost(post)
+    } catch (err) {
+        showErrorMsg('Cannot add post')
+    }
+  }
+
+  function getLoggedInUser() {
+    const imgPath = '../media_samples/img_profile/1.jpg'
+    return { "_id": "u101", "userName": "Tuppence", "fullName": "Tuppence Beresford", "imgUrl": imgPath}
+
+    // const imgPath = '../media_samples/img_profile/sloner.jpeg'
+    // return { "_id": "u103", "userName": "Sloner_garden", "fullName": "Mashtelat Sloner", "imgUrl": imgPath}
+    //return userService.getLoggedinUser()
+  }
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -63,8 +79,10 @@ export function CreatePost({ isOpen, onClose, owner, onAddPost }) {
     }
   }
 
+  const owner = getLoggedInUser()
+
   return (
-    <div className={`modal ${isOpen ? "open" : ""}`}>
+    <div className="modal">
 
       <button className="close-button" onClick={onClose}>
         <img src={close} alt="closeImg" />
@@ -86,7 +104,7 @@ export function CreatePost({ isOpen, onClose, owner, onAddPost }) {
 
             {currentStep === States.SHARED && <p className="title">Post shared</p>}
 
-            <hr className="h"/>
+            <hr/>
           </header>
 
 

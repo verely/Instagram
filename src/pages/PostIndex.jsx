@@ -1,15 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { loadPosts, addPost, removePost,
+import { loadPosts, removePost,
     updateLikeStatus, addCommentToPost,
     sharePost, getActionRemovePost } from '../store/actions/post.actions.js'
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { userService } from '../services/user.service.js'
-import { postService } from '../services/post.service.local.js'
 import { PostList } from '../cmps/PostList.jsx'
-import { CreatePost } from '../cmps/CreatePost.jsx'
-import { SideBarNavigation } from '../cmps/SideBarNavigation.jsx'
+
 
 
 
@@ -34,15 +32,6 @@ export function PostIndex() {
 
 
 
-    async function onAddPost(post) {
-        //console.log(post)
-        try {
-            await addPost(post)
-            //showSuccessMsg(`Post added`)
-        } catch (err) {
-            showErrorMsg('Cannot add post')
-        }
-    }
 
     async function onRemovePost(postId) {
         try {
@@ -98,9 +87,6 @@ export function PostIndex() {
 
     return (
         <div className="layout-container">
-            <div className="sidebar-wrapper">
-                <SideBarNavigation handleOpenCreatePost={handleOpenCreatePost}/>
-            </div>
             <section className="content-wrapper">
                 <div className="content-area">
                     <div className="featured-stories">
@@ -118,7 +104,6 @@ export function PostIndex() {
                       <PostList posts={posts} postActions={postActions} currentUser={getLoggedInUser()}/>
                     </div>
                 </div>
-                <CreatePost isOpen={isCreatePostOpen} onClose={handleCloseCreatePost} owner={getLoggedInUser()} onAddPost={onAddPost}/>
             </section>
         </div>
     )
