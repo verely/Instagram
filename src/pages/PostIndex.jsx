@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { loadPosts, removePost,
     updateLikeStatus, addCommentToPost,
@@ -13,25 +13,12 @@ import { PostList } from '../cmps/PostList.jsx'
 
 export function PostIndex() {
 
-    const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
     const posts = useSelector(storeState => storeState.postModule.posts)
     const dispatch = useDispatch()
-
-    const handleOpenCreatePost = () => {
-       setIsCreatePostOpen(true);
-    };
-
-    const handleCloseCreatePost = () => {
-       setIsCreatePostOpen(false);
-    };
 
     useEffect(() => {
         loadPosts()
     }, [])
-
-
-
-
 
     async function onRemovePost(postId) {
         try {
@@ -86,25 +73,23 @@ export function PostIndex() {
        };
 
     return (
-        <div className="layout-container">
-            <section className="content-wrapper">
-                <div className="content-area">
-                    <div className="featured-stories">
+        <div className="post-index">
+            <div className="content-area">
+                <div className="featured-stories">
 
-                        <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
-                        <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
-                        <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
-                        <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
-                        <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
-                        <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
-                        <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
+                    <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
+                    <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
+                    <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
+                    <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
+                    <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
+                    <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
+                    <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
 
-                    </div>
-                    <div className='posts'>
-                      <PostList posts={posts} postActions={postActions} currentUser={getLoggedInUser()}/>
-                    </div>
                 </div>
-            </section>
+                <div className='posts'>
+                    <PostList posts={posts} postActions={postActions} currentUser={getLoggedInUser()}/>
+                </div>
+            </div>
         </div>
     )
 }

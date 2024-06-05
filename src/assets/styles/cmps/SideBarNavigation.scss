@@ -1,7 +1,8 @@
- @mixin collapsed-navbar {
+// used to collapse sidebar on search button click
+@mixin collapsed-navbar {
     &.collapsed {
         padding: 0;
-        width: 65px;
+        width: $sidebar-width-collapsed;
         align-items: center;
 
         .brand-name.collapsed {
@@ -18,8 +19,39 @@
     }
  }
 
+ // used to resize sidebar by media query
+ @mixin resize-navbar(
+  $sidebarWidth, $sidebarAlignItems, $brandNameWidth, $brandNameHeight,
+  $brandNameMarginRight, $navLinkPadding, $spanVisibility) {
+
+        .sidebar-mobile-layout {
+            display: none;
+        }
+        .sidebar-normal-layout {
+            display: block;
+        }
+
+        .navbar {
+            padding: 0;
+            width: $sidebarWidth;
+            align-items: $sidebarAlignItems;
+
+            .brand-name {
+                height: $brandNameHeight;
+                width: $brandNameWidth;
+                margin-right: $brandNameMarginRight;
+            }
+            .nav-link {
+                padding: $navLinkPadding;
+                span {
+                    display: $spanVisibility;
+                }
+            }
+        }
+ }
 
 .navbar {
+    width: 100%;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -49,61 +81,57 @@
     &.collapsed {
         @include collapsed-navbar;
     }
-}
 
-.navbar-brand {
-    margin-top: 20px;
-    align-items: center;
-}
-
-.navbar-nav {
-    height: calc(100vh - 73px);
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: start;
-    list-style: none;
-    gap: 10px;
-    padding-top: 30px;
-
-    .nav-link {
-        display: flex;
+    // navbar children
+    .navbar-brand {
+        margin-top: 20px;
         align-items: center;
-        text-decoration: none;
-        border-radius: 5px;
-        padding: 10px 10px;
-        max-width: 170px;
-        color: $primary-color-1;
 
-        &.active {
-            font-weight: bold;
-        }
-
-        &:hover {
-            background-color: $secondary-bgc;
-        }
-
-        .nav-icon {
-            width: 24px;
-            height: 24px;
-            margin-right: 14px;
-        }
-
-        &:last-child {
-            margin-top: auto;
-            margin-bottom: 20px;
+        .brand-name {
+            height: 29px;
+            width: 103px;
         }
     }
-}
 
-.nav-icon {
-    width: 24px;
-    height: 24px;
-}
+    .navbar-nav {
+        height: calc(100vh - 73px);
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: start;
+        list-style: none;
+        gap: 10px;
+        padding-top: 30px;
 
-.brand-name {
-    height: 29px;
-    width: 103px;
+        .nav-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            border-radius: 5px;
+            padding: 10px 10px;
+            max-width: 170px;
+            color: $primary-color-1;
+
+            &.active {
+                font-weight: bold;
+            }
+
+            &:hover {
+                background-color: $secondary-bgc;
+            }
+
+            .nav-icon {
+                width: 24px;
+                height: 24px;
+                margin-right: 14px;
+            }
+
+            &:last-child {
+                margin-top: auto;
+                margin-bottom: 20px;
+            }
+        }
+    }
 }
 
 .createPost-modal {
@@ -115,10 +143,107 @@
     //z-index: 1000;
     // border: 2px solid red;
 }
-/* Responsive styles */
-@media (max-width: $narrow-breakpoint) {
 
-    .navbar {
-        @include collapsed-navbar;
+
+ // Responsive styles
+
+@include for-mobile-layout {
+    .sidebar-navigation {
+        .navbar-mobile {
+            display: flex;
+            justify-content: space-around ;
+            background-color: $primary-bgc;
+            align-items: center;
+            height: $sidebar-height-hamburger;
+        }
+        .sidebar-mobile-layout {
+            display: block;
+        }
+        .sidebar-normal-layout {
+            display: none;
+        }
+    //   border: 4px solid blue;
+    }
+}
+
+@include for-narrow-layout {
+    .sidebar-navigation {
+        .sidebar-mobile-layout {
+            display: none;
+        }
+        .sidebar-normal-layout {
+            display: block;
+        }
+        .brandName {
+            display: none;
+        }
+        .brandIcon {
+            display: block;
+        }
+
+        @include resize-navbar(
+            $sidebar-width-collapsed, // $sidebarWidth
+            center,  // $sidebarAlignItems
+            54px, // $brandNameWidth
+            24px, // $brandNameHeight
+            15px, // $brandNameMarginRight
+            10px 5px 10px 10px, // $navLinkPadding (top right bottom left)
+            none // $spanVisibility (use 'none', 'block')
+        );
+
+        .navbar.collapsed {
+            @include resize-navbar(
+                $sidebar-width-collapsed, // $sidebarWidth
+                center,  // $sidebarAlignItems
+                54px, // $brandNameWidth
+                24px, // $brandNameHeight
+                15px, // $brandNameMarginRight
+                10px 5px 10px 10px, // $navLinkPadding (top right bottom left)
+                none // $spanVisibility (use 'none', 'block')
+            );
+        }
+        // border: 4px solid yellow;
+    }
+}
+
+@include for-normal-layout {
+    .sidebar-navigation {
+        .sidebar-mobile-layout {
+            display: none;
+        }
+        .sidebar-normal-layout {
+            display: block;
+        }
+        .brandName {
+            display: block;
+        }
+        .brandIcon {
+            display: none;
+        }
+
+        //set full side-bar width in case it was changed by media-query
+        @include resize-navbar(
+            $sidebar-width, // $sidebarWidth
+            start,  // $sidebarAlignItems
+            103px, // $brandNameWidth
+            29px, // $brandNameHeight
+            0px, // $brandNameMarginRight
+            10px 10px, // $navLinkPadding
+            block // $spanVisibility (use 'none', 'block')
+        );
+
+        //set full side-bar width in case it was changed by search button click
+        .navbar.collapsed {
+            @include resize-navbar(
+                $sidebar-width, // $sidebarWidth,
+                start,  // $sidebarAlignItems
+                103px, // $brandNameWidth
+                29px, // $brandNameHeight
+                0px, // $brandNameMarginRight
+                10px 10px, // $navLinkPadding
+                block // $spanVisibility (use 'none', 'block')
+            );
+        }
+        // border: 4px solid red;
     }
 }

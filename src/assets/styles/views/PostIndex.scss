@@ -1,24 +1,11 @@
 // normal/full layout (laptop, desktop)
-.layout-container {
+.post-index {
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: start;
     height: 100vh;
     // border: 4px solid purple;
-
-    .sidebar-wrapper {
-        position: fixed;
-        margin: 0;
-        width: 200px;
-        height: 100vh;
-        // border: 4px solid red;
-    }
-    .content-wrapper {
-        margin-left: 200px;
-        width: calc(100% - 200px);
-        height: 100vh;
-        // border: 4px solid blue;
 
         .content-area {
             display: grid;
@@ -57,9 +44,6 @@
                 // max-width: rem(470px);
             }
         }
-    }
-
-
 }
 
 // mobile layout

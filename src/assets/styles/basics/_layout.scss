@@ -1,13 +1,54 @@
 .main-layout {
     display: flex;
+    flex-direction: row;
 
     .sidebar-wrapper {
         position: fixed;
         margin: 0;
-        width: 200px;
+        width: $sidebar-width;
         height: 100vh;
         z-index: 1000;
         // border: 4px solid red;
+    }
+
+    .content-wrapper {
+        margin-left: $sidebar-width;
+        width: calc(100% - $sidebar-width);
+        height: 100vh;
+        // border: 4px solid pink;
+    }
+
+    @include for-mobile-layout {
+        flex-direction: column-reverse;
+
+        .sidebar-wrapper {
+            width: 100%;
+            height: $sidebar-height-hamburger;
+            margin-bottom: 10px;
+            // border: 4px solid purple;
+        }
+
+        .content-wrapper {
+            margin-left:0;
+            width: 100%;
+            //height: calc(100% - $sidebar-height-hamburger);
+            flex: 1;
+            // border: 4px solid pink;
+        }
+    }
+
+    @include for-narrow-layout {
+        .sidebar-wrapper {
+            width: $sidebar-width-collapsed;
+            // border: 4px solid yellow;
+        }
+    }
+
+    @include for-normal-layout {
+        .sidebar-wrapper {
+            width: $sidebar-width;
+            // border: 4px solid red;
+        }
     }
 }
 

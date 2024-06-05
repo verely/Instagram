@@ -16,7 +16,7 @@ export function RootCmp() {
                 <div className='sidebar-wrapper'>
                     <SideBarNavigation />
                 </div>
-                <main>
+                <main className='content-wrapper'>
                     <Routes>
                         {routes.map(route => <Route key={route.path} exact={true} element={route.component} path={route.path} />)}
                         <Route path="user/:id" element={<UserProfile />} />
