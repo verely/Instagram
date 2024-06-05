@@ -15,8 +15,12 @@ $btn-secondary-color-2: #ed4956;
 
 $selection-bgc: #025ae78c;
 
+//Constants
+$sidebar-width: 244px;
+$sidebar-width-collapsed: 72px;
+$sidebar-height-hamburger: 48px;
 
 // Breakpoints
-$mobile-breakpoint: 460px;
-$narrow-breakpoint: 720px;
-$normal-breakpoint: 960px;
+$mobile-breakpoint: 766px; // width <= 766
+$narrow-breakpoint: 1263px; // [ 767 .. 1263 ]
+$normal-breakpoint: $narrow-breakpoint + 1; // width => 1264

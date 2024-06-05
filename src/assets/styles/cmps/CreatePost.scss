@@ -1,24 +1,16 @@
 .modal {
+    width: 100%;
+    height: 100%;
+
     display: flex;
     justify-content: center;
     align-items: center;
 
-    visibility: hidden;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
     background-color: rgba($primary-bgc, 0.5);
-
     font-size: rem(16px);
     line-height: rem(24px);
     text-align: center;
-    // border: 4px solid red;
-
-    &.open {
-        visibility: visible;
-    }
+    // border: 4px solid aqua;
 
     .close-button {
         position: absolute;
@@ -31,45 +23,46 @@
     }
 
     .modal-content {
+        position: relative;
+        width: 359px;
+        height: 401px;
+
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         background-color: $secondary-bgc;
         border-radius: 10px;
-        position: relative;
-        height: 73%;
-        width: 330px;
         // border: 4px solid red;
 
         &.expanded {
-           width: 660px;
+           width: 699px;
+           // border: 4px solid white;
         }
 
         header {
             width: 100%;
+            height: 42px;
             display: grid;
             grid-template-columns: 50px 1fr 60px;
-            grid-template-rows: 25px 15px;
+            grid-template-rows: 38px 4px;
             grid-template-areas:
             "prev title next"
             "h h h";
-            align-items: bottom;
-            justify-items: center;
+            align-items: start;
 
+            // border: 2px solid red;
             button {
                 display: flex;
-                align-self: center;
-                justify-content: center;
-                width: 25px;
-                height: 25px;
+                width: 30px;
+                height: 30px;
                 background-color: $secondary-bgc;
                 color: $btn-secondary-bgc;
                 padding-top: rem(6px);
-
+                // border: 2px solid red;
                 img{
-                    width: 16px;
-                    height: 16px;
+                    width: 24px;
+                    height: 24px;
                 }
 
                 &:hover {
@@ -78,20 +71,21 @@
             }
 
             hr {
+                grid-area: h;
+                align-self: flex-end;
+                width: 100%;
                 display: block;
                 padding: 0;
                 border: none;
                 border-top: 1px solid rgba($secondary-color-2, 0.3);
                 margin-bottom: 0px;
                 // border: 4px solid red;
-                width: 100%;
             }
 
         }
-        .prev { grid-area: prev; }
+        .prev { grid-area: prev; width: 25px; height: 25px; align-self: center;}
         .next { grid-area: next; }
-        .title { grid-area: title; }
-        .h { grid-area: h; }
+        .title { grid-area: title; padding-top: 8px; font-weight: bold;}
 
         .signV{
             width: 70px;
@@ -100,11 +94,13 @@
         }
 
         .modal-content-area {
+            height: 100%;
+            width: 100%;
+
             display: flex;
             flex-direction: column;
             justify-content: center;
-            height: 90%;
-            // border: 4px solid red;
+            // border: 4px solid purple;
 
             .currentStep{
                 text-align: center;
@@ -129,41 +125,47 @@
             }
 
             .adding-post-details{
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                gap: rem(20px);
                 width: 100%;
                 height: 100%;
 
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                // border: 2px solid blue;
 
                 .selected-image-container {
-                    width: 100%;
-                    height: 100%;
+                    width: 359px;
+                    height: 359px;
                     overflow: hidden;
                     position: relative;
-                    margin-top: rem(-11px);
+                    // border: 2px solid red;
                     img {
-                        width: 100%;
-                        height: 100%;
-                        object-fit: cover
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        min-width: 100%;
+                        min-height: 100%;
+                        object-fit: cover;
+                        border-bottom-left-radius: 10px;
+                        // border: 2px solid pink;
                     }
                 }
 
                 .post-text-area {
-                    width: 50%;
+                    width: 339px;
+                    height: 100%;
                     display: flex;
                     flex-direction: column;
                     align-self: start;
-                    // justify-content: start;
-                    // align-items: start;
-                    // border: 4px solid red;
+                    padding: 20px;
+                    // border: 2px solid red;
 
                     .post-owner-details {
                         display: flex;
                         align-items: start;
                         justify-content: start;
-
+                        // border: 2px solid red;
                         .owner-icon{
                             width: 32px;
                             height: 32px;
@@ -185,10 +187,9 @@
                         color: ($primary-color-1);
                         columns: $secondary-color-1;
                         resize: none;
-                        font-family: 'Segoe UI', 'Roboto', Helvetica, Arial, sans-serif;
                         font-size: rem(16px);
                         line-height: rem(24px);
-
+                        // border: 2px solid red;
                         &::placeholder {
                             color: $secondary-color-2
                         }
