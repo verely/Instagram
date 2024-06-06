@@ -65,32 +65,8 @@
       margin-bottom: 0;
     }
 
-    .action-buttons {
-       display: flex;
-       justify-content: start;
-       width: 100%;
 
-       .action-button {
-         border: none;
-         width: 23px;
-         height: 23px;
-         cursor: pointer;
-
-         .svg {
-            margin-left: -15px;
-         }
-
-         &.save {
-            margin-left: auto;
-            justify-self: end;
-            .svg {
-               margin-left: 0;
-            }
-         }
-       }
-    }
-
-    .like-count {
+    .comment-count {
        font-size: rem(12px);
        line-height: rem(16px);
        font-weight: bold;
