@@ -4,6 +4,7 @@ export const utilService = {
     getRandomIntInclusive,
     debounce,
     randomPastTime,
+    formatDate,
     saveToStorage,
     loadFromStorage,
     getAssetSrc
@@ -33,7 +34,7 @@ function makeLorem(size = 100) {
 function getRandomIntInclusive(min, max) {
     min = Math.ceil(min)
     max = Math.floor(max)
-    return Math.floor(Math.random() * (max - min + 1)) + min //The maximum is inclusive and the minimum is inclusive 
+    return Math.floor(Math.random() * (max - min + 1)) + min //The maximum is inclusive and the minimum is inclusive
 }
 
 
@@ -44,6 +45,35 @@ function randomPastTime() {
 
     const pastTime = getRandomIntInclusive(HOUR, WEEK)
     return Date.now() - pastTime
+}
+
+function formatDate(timestamp) {
+    const MINUTE = 60;
+    const HOUR = 60 * MINUTE;
+    const DAY = 24 * HOUR;
+    const WEEK = 7 * DAY;
+
+    const date = new Date(timestamp);
+
+    const now = new Date();
+
+    const seconds = now - date;
+
+    if (seconds < MINUTE) {
+        return "just now";
+    } else if (seconds < HOUR) {
+        const minutes = Math.floor(seconds / MINUTE);
+        return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+    } else if (seconds < DAY) {
+        const hours = Math.floor(seconds / HOUR);
+        return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+    } else if (seconds < WEEK) {
+        const days = Math.floor(seconds / DAY);
+        return `${days} day${days > 1 ? 's' : ''} ago`;
+    }
+    else {
+        return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    }
 }
 
 function debounce(func, timeout = 300) {

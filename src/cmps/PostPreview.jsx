@@ -1,22 +1,13 @@
 import { ActionButtons } from './ActionButtons'
 import { CommentArea } from './CommentArea'
-
-import more from '../assets/img/PostPreview/more.svg'
+import { PostOwnerInfoCard } from './PostOwnerInfoCard';
 
 export function PostPreview({ post, postActions, isLiked}) {
 
     return (
         <div className="post-preview">
 
-            <div className="post-header">
-                <img className="owner-icon" src={post.owner.imgUrl} alt={post.owner.userName} />
-                <span className="owner-username">{post.owner.userName}</span>
-                <span className="owner-fullName">{post.owner.fullName}</span>
-                <span className="date">{post.date}</span>
-                <span className="menu">
-                    <img className="svg with-effect" src={more} alt="more" />
-                </span>
-            </div>
+            <PostOwnerInfoCard owner={post.owner} postDate={post.created_at}/>
 
             <img className="post-image" src={post.imgUrl} alt={post.imgUrl} />
 
