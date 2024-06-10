@@ -80,6 +80,7 @@ async function save(post) {
 
       if (isNewPost){
         post.owner = getLoggedInUser()
+        post.created_at = new Date()
       }
 
       const savedPost = storageFunction(STORAGE_KEY, post)
@@ -105,6 +106,7 @@ async function addCommentToPost(postId, text, user){
 
         const comment = {
             id: utilService.makeId(),
+            created_at: new Date(),
             txt: text,
             by: user
         }

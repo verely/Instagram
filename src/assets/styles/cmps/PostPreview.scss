@@ -56,21 +56,12 @@
     }
 
     .post-image {
-      margin-top: 12px;
       width: 100%;
       height: auto;
       // width: 470px;
       // width: 470px;
       border-radius: 5px;
       margin-bottom: 0;
-    }
-
-
-    .comment-count {
-       font-size: rem(12px);
-       line-height: rem(16px);
-       font-weight: bold;
-       margin-top: 14px;
     }
 
     .post-message {
@@ -88,67 +79,6 @@
          }
       }
    }
-
-   .comment-area {
-      margin-top: 5px;
-      margin-left: -1px;
-      position: relative;
-      display: flex;
-      gap: 8px;
-      align-items: center;
-
-      // border: 4px solid red;
-      height: 22px;
-      max-height: 50px;
-
-      textarea {
-         // height: rem(22px);
-         // max-height: calc(rem(22px) * 4);
-         height: 100%;
-         overflow: auto;
-         flex: 1;
-         border: none;
-         background-color: $primary-bgc;
-         color: ($primary-color-1);
-         resize: none;
-         font-size: rem(14px);
-         line-height: rem(18px);
-
-         &::placeholder {
-             color: $secondary-color-2
-         }
-
-         &:focus {
-             outline: none;
-             border: none;
-         }
-         // border: 4px solid blue;
-      }
-
-      .submit-comment {
-            height: auto;
-            background-color: $primary-bgc;
-            color: $btn-secondary-bgc;
-            font-weight: bold;
-            cursor: pointer;
-
-            &:hover {
-                color: $primary-color-1;
-            }
-            // border: 4px solid greenyellow;
-      }
-
-      .emoji {
-         cursor: pointer;
-      }
-
-     .emoji-picker {
-         position: absolute;
-         bottom: 50px;
-         right: 10px;
-     }
-   }
-
 
    hr {
       border: none;

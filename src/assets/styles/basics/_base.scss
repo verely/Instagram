@@ -19,6 +19,10 @@ body {
     // margin: auto;
     background-color: $primary-bgc;
     color: $primary-color-1;
+
+    &.no-scroll {
+        overflow: hidden;
+    }
 }
 
 h1, h2, h3, h4, h5, h6 {
