@@ -1,39 +1,45 @@
 .action-buttons {
-    display: flex;
-    justify-content: start;
-    width: 100%;
+   display: flex;
+   flex-direction: column;
 
-    .action-button {
-      border: none;
-      width: 23px;
-      height: 23px;
-      cursor: pointer;
+   .action-buttons-layout {
+      display: flex;
+      justify-content: start;
+      width: 100%;
+      gap: 7px;
 
-      &.save {
-         margin-left: auto;
-         justify-self: end;
-         .svg {
-            margin-left: 0;
-         }
-      }
-
-      .svg {
-        margin-left: -15px;
+      .action-button {
+        border: none;
         width: 23px;
         height: 23px;
+        cursor: pointer;
 
-        &.with-effect{
-           &:hover {
-              filter: invert(50%) sepia(50%) saturate(20%) hue-rotate(90deg) brightness(100%) contrast(100%) grayscale(0%);
+        &.save {
+           margin-left: auto;
+           justify-self: end;
+           .svg {
+              margin-left: 0;
            }
         }
-      }
-    }
- }
 
- .like-count {
-    font-size: rem(12px);
-    line-height: rem(16px);
-    font-weight: bold;
-    margin-top: 14px;
- }
+        .svg {
+          margin-left: -15px;
+          width: 23px;
+          height: 23px;
+
+          &.with-effect{
+             &:hover {
+                filter: invert(50%) sepia(50%) saturate(20%) hue-rotate(90deg) brightness(100%) contrast(100%) grayscale(0%);
+             }
+          }
+        }
+      }
+   }
+
+   .like-count {
+      font-size: rem(12px);
+      line-height: rem(16px);
+      font-weight: bold;
+      margin-top: 14px;
+   }
+}

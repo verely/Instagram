@@ -13,8 +13,8 @@ export function ActionButtons({ postActions, post, isLiked }) {
     const isSaved = post.isSaved
 
     return (
-        <>
-            <div className="action-buttons">
+        <div className="action-buttons">
+            <div className="action-buttons-layout">
                 <button className="action-button" onClick={() => postActions.onUpdateLikeStatus(post._id, isLiked? "unlike" : "like")}>
                     <img className={isLiked? "svg" : "svg with-effect"} src={isLiked? unlike : like} alt="like" />
                 </button>
@@ -29,6 +29,6 @@ export function ActionButtons({ postActions, post, isLiked }) {
                 </button>
             </div>
             {likeCount>0 && <div className="like-count">{post.likedBy.length} {likeSubtitle}</div>}
-        </>
+        </div>
     )
 }

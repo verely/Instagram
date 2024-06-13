@@ -7,6 +7,8 @@
 }
 
 .comment-area {
+    //width: 335px;
+    width: 100%;
     margin-top: 5px;
     margin-left: -1px;
     position: relative;
@@ -14,23 +16,38 @@
     gap: 8px;
     align-items: center;
 
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 8px 0;
+
+    font-size: rem(14px);
+    line-height: rem(18px);
     // border: 4px solid red;
-    height: 22px;
-    max-height: 50px;
+    //height: 22px;
+    //max-height: 50px;
 
     textarea {
        // height: rem(22px);
        // max-height: calc(rem(22px) * 4);
-       height: 100%;
-       overflow: auto;
+       //height: 100%;
+       //overflow: auto;
+       //flex: 1;
+
        flex: 1;
+       align-self: stretch;
+       padding: 8px;
+       line-height: 1.4;
+       overflow: hidden;
+
        border: none;
        background-color: $primary-bgc;
        color: ($primary-color-1);
        resize: none;
-       font-size: rem(14px);
-       line-height: rem(18px);
+       font-size: (14px);
+       line-height: (18px);
 
+    //    border: 2px solid blue;
        &::placeholder {
            color: $secondary-color-1
        }
@@ -38,6 +55,12 @@
        &:focus {
            outline: none;
            border: none;
+       }
+
+       .comment-owner-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
        }
        // border: 4px solid blue;
     }
@@ -56,12 +79,26 @@
     }
 
     .emoji {
+       margin-left: auto;
        cursor: pointer;
+       width: 13px;
+       height: 13px;
+
+       &.large {
+         width: 24px;
+         height: 24px;
+       }
     }
 
    .emoji-picker {
        position: absolute;
        bottom: 50px;
        right: 10px;
+   }
+
+   .comment-owner-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
    }
  }

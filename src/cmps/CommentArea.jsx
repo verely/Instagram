@@ -4,7 +4,7 @@ import EmojiPicker from 'emoji-picker-react'
 import emoji from '../assets/img/PostPreview/emoji.svg'
 
 
-export function CommentArea({post, onAddCommentToPost}) {
+export function CommentArea({post, onAddCommentToPost, showIcon = false, iconSrc = '', isEmojiLarge=false}) {
 
     const [postComment, setPostComment] = useState("")
     const [showEmojiPicker, setShowEmojiPicker] = useState(false)
@@ -31,11 +31,13 @@ export function CommentArea({post, onAddCommentToPost}) {
         setPostComment(prevComment => prevComment + event.emoji)
     }
 
+
     return (
         <>
-            {commentsCount>0 && <div className="comment-count"> View {post.comments.length} {commentsSubtitle}</div>}
+            {/* {commentsCount>0 && <div className="comment-count"> View {post.comments.length} {commentsSubtitle}</div>} */}
 
             <div className="comment-area">
+                {showIcon && <img src={iconSrc} alt="Owner Icon" className="comment-owner-icon" />}
                 <textarea
                     value={postComment}
                     onChange={(e) => setPostComment(e.target.value)}
@@ -49,7 +51,7 @@ export function CommentArea({post, onAddCommentToPost}) {
                     </div>
                 )}
 
-                <div className="emoji" onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
+                <div className={`emoji ${isEmojiLarge? 'large' : ''}`} onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
                     <img src={emoji} alt="Emoji" onClick={() => setShowEmojiPicker(!showEmojiPicker)}/>
                 </div>
                 {showEmojiPicker && (

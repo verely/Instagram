@@ -3,7 +3,7 @@ import { utilService } from '../services/util.service'
 import more from '../assets/img/PostPreview/more.svg'
 import { PostActionMenu } from './PostActionMenu'
 
-export function PostOwnerInfoCard({ owner, postDate }) {
+export function PostOwnerInfoCard({ owner, postDate, postId }) {
     const [showMenu, setShowMenu] = useState(false);
 
     const postDateFormatted = utilService.formatDate(postDate)
@@ -29,7 +29,7 @@ export function PostOwnerInfoCard({ owner, postDate }) {
           </div>
 
           {showMenu && <div className="post-action-menu-modal">
-            {<PostActionMenu  onClose={() => setShowMenu(false)} />}
+            {<PostActionMenu postId={postId} onClose={() => setShowMenu(false)} />}
           </div>}
         </div>
     )

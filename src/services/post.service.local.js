@@ -12,7 +12,8 @@ export const postService = {
     addCommentToPost,
     updateLikeStatus,
     // sharePost,
-    getEmptyPost
+    getEmptyPost,
+    recentPosts
 }
 window.cs = postService
 
@@ -131,6 +132,23 @@ function sharePost(postId, senderId, recipientId){
     }
 }
 
+function recentPosts(num=6) {
+    const imagePaths = [
+        '/media_samples/recent/01.jpeg',
+        '/media_samples/recent/02.jpeg',
+        '/media_samples/recent/03.jpeg',
+        '/media_samples/recent/04.jpeg',
+        '/media_samples/recent/05.jpeg',
+        '/media_samples/recent/06.jpeg'
+    ];
+
+    const recentPosts = imagePaths.slice(0, num).map(path => ({
+        imgUrl: path
+    }));
+
+    return recentPosts;
+}
+
 function getEmptyPost() {
     try {
         const loggedInUser = getLoggedInUser()
@@ -235,5 +253,5 @@ function _createPosts() {
 function getLoggedInUser() {
     const imgPath = '../media_samples/img_profile/1.jpg'
     return { "_id": "u101", "userName": "Tuppence", "fullName": "Tuppence Beresford", "imgUrl": imgPath}
-    //return userService.getLoggedinUser()
+    //return userService.getLoggedInUser()
 }

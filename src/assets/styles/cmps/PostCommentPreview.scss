@@ -1,0 +1,77 @@
+.PostCommentPreview {
+    width: 303px;
+    display: grid;
+    grid-template-columns: 39px 1fr 44px;
+    justify-content: center;
+
+    column-gap: 5px;
+    padding: 2px 0 18px 12px;
+
+    font-size: 14px;
+    line-height: 18px;
+    // border: 2px solid red;
+
+    .icon {
+        grid-column: 1;
+        grid-row: 1 / span 2;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        justify-self: center;
+        align-self: start;
+        // border: 2px solid red;
+        }
+
+    .info {
+        grid-column: 2;
+        grid-row: 1;
+        display: flex;
+        gap: 4px;
+        align-items: center;
+        justify-content: start;
+        // border: 2px solid red;
+
+        .userName,.date {
+            margin: 0;
+            padding: 0;
+        }
+
+        .userName {
+            font-weight: bold;
+        }
+
+        .date {
+            font-weight: 600px;
+            margin-left: 3px;
+            // border: 2px solid red;
+        }
+    }
+
+    .comment {
+        grid-column: 2;
+        grid-row: 2;
+    }
+
+    .action-button {
+        grid-column: 3;
+        grid-row: 2;
+        display: flex;
+        align-self: flex-start;
+        // border: 2px solid red;
+        .svg {
+            margin-top: -9px;
+            width: 16px;
+            height: 16px;
+            filter: invert(50%) sepia(50%) saturate(20%) hue-rotate(90deg) brightness(100%) contrast(100%) grayscale(0%);
+            // border: 2px solid red;
+        }
+    }
+
+    .likeAndReply {
+        grid-column: 2;
+        grid-row: 3;
+        color: $secondary-color-1;
+        font-size: 12px;
+        line-height: 16px;
+    }
+}

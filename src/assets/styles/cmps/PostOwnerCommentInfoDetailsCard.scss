@@ -1,0 +1,63 @@
+.PostOwnerCommentInfoDetailsCard{
+    display: grid;
+    grid-template-columns: 39px 1fr 24px;
+    // justify-items: center;
+    // align-items: center;
+    align-content: center;
+    justify-content: center;
+
+    column-gap: 5px;
+    padding: 0 0 23px 12px;
+
+    font-size: 14px;
+    line-height: 18px;
+    // border: 2px solid red;
+
+    .icon {
+        grid-column: 1;
+        grid-row: 1 / span 2;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        justify-self: center;
+        align-self: start;
+        // border: 2px solid red;
+      }
+
+    .userFullName {
+        grid-column: 2;
+        grid-row: 2;
+        font-size: 12px;
+        line-height: 16px;
+        // border: 2px solid red;
+    }
+
+    .info {
+        grid-column: 2;
+        grid-row: 1;
+        display: flex;
+        gap: 4px;
+        align-items: center;
+        justify-content: start;
+        // border: 2px solid red;
+
+        .userName,.date {
+            margin: 0;
+            padding: 0;
+        }
+
+        .userName {
+            font-weight: bold;
+        }
+
+        .date {
+            font-weight: 600px;
+            margin-left: 3px;
+        }
+    }
+     .comment {
+        grid-column: 2;
+        grid-row: 2;
+     }
+}
+
