@@ -1,12 +1,12 @@
 import { storageService } from './async-storage.service'
 
-const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
+const STORAGE_KEY_LOGGEDIN_USER = 'loggedInUser'
 
 export const userService = {
     login,
     logout,
     signup,
-    getLoggedinUser,
+    getLoggedInUser,
     saveLocalUser,
     getUsers,
     getById,
@@ -62,7 +62,7 @@ async function logout() {
 }
 
 async function increaseFollowingCount() {
-    const user = getLoggedinUser()
+    const user = getLoggedInUser()
     if (!user) throw new Error('Not logged in')
     user.followingCount++
     await update(user)
@@ -76,17 +76,17 @@ function saveLocalUser(user) {
 }
 
 function updateLocalUserFields(user) {
-    const currUser = getLoggedinUser()
+    const currUser = getLoggedInUser()
     const userToSave = { ...currUser, ...user }
     sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(userToSave))
     return user
 }
 
-// function getLoggedinUser() {
+// function getLoggedInUser() {
 //     return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
 // }
 
-function getLoggedinUser() {
+function getLoggedInUser() {
     const imgPath = '../media_samples/img_profile/1.jpg'
     return { "_id": "u101", "userName": "Tuppence", "fullName": "Tuppence Beresford", "imgUrl": imgPath}
 }

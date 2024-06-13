@@ -1,7 +1,8 @@
-import { NavLink } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import { useEffect } from 'react';
 
-export function PostActionMenu({ onClose }) {
+export function PostActionMenu({ postId, onClose }) {
+    const navigate = useNavigate()
 
     useEffect(() => {
         document.body.classList.add('no-scroll');
@@ -14,8 +15,10 @@ export function PostActionMenu({ onClose }) {
 
     }
 
-    function onGoToPost() {
-
+    const onGoToPost = (e) => {
+        e.preventDefault();
+        navigate(`/p/${postId}`);
+        onClose(); // Close the menu after navigating
     }
 
     function onCopyPostLink() {
@@ -27,7 +30,7 @@ export function PostActionMenu({ onClose }) {
             <NavLink to="/" className="nav-link onUnFollow" onClick={onUnFollow}>
                 Unfollow
             </NavLink>
-            <NavLink to="/" className="nav-link" onClick={onGoToPost}>
+            <NavLink to="/p/:id" className="nav-link" onClick={onGoToPost}>
                 Go to post
             </NavLink>
             <NavLink to="/" className="nav-link" onClick={onCopyPostLink}>

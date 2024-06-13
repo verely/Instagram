@@ -7,18 +7,20 @@ export function PostCommentPreview({ postId, comment, likeAction, isLiked }) {
     const commentLikeCount = comment.likedBy?.length || 0;
     const commentsLikeSubtitle = commentLikeCount > 1 ? "likes" : "like";
     return (
-        <div className="card-container PostCommentPreview">
+        <div className="PostCommentPreview">
             <img className="icon" src={comment.by.imgUrl} alt="icon" />
             <div className="info">
                 <span className="userName">{comment.by.userName}</span>
-                <span className="date">• {commentDateFormatted}</span>
+                <span className="date">{commentDateFormatted}</span>
             </div>
-            <span className="comment">{comment.txt}</span>
+            <div className="comment">{comment.txt}</div>
             <button className="action-button" onClick={() => likeAction(postId, comment._id, isLiked ? "unlike" : "like")}>
-                <img className={isLiked ? "svg" : "svg with-effect"} src={isLiked ? unlike : like} alt="like" />
+                <img className="svg" src={isLiked ? unlike : like} alt="like" />
             </button>
-            <span className="commentLikeCount">{commentLikeCount}</span>
-            {commentLikeCount > 0 && <div className="comment-like-count"> {commentLikeCount} {commentsLikeSubtitle}</div>}
+            <div className="likeAndReply">
+                {commentLikeCount > 0 && <div className="comment-like-count"> {commentLikeCount} {commentsLikeSubtitle}</div>}
+                <span>Reply</span>
+            </div>
         </div>
     );
 }

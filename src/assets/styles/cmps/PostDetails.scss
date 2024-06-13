@@ -1,0 +1,92 @@
+.post-details {
+    padding-top: 10px;
+    padding-bottom: 50px;
+
+   .post-details-layout {
+        margin-top: 20px;
+        width: 100%;
+        height: 600px;
+        display: grid;
+        grid-column: 2;
+        justify-items: start;
+        justify-content: start;
+        // overflow: auto;
+
+        .image-area {
+            width: 600px;
+            height: 600px;
+            grid-column: 1;
+            border: 1px solid $separation-line-bgc;
+        }
+
+        .details-area {
+            max-width: 335px;
+            grid-column: 2;
+            // border: 3px solid blue;
+            display: flex;
+            flex-direction: column;
+            justify-items: start;
+            // overflow: auto;
+            border: 1px solid $separation-line-bgc;
+
+            .details-header {
+                height: 68px;
+                margin-bottom: 12px;
+                border-bottom: 1px solid $separation-line-bgc;
+            }
+
+            .comments {
+                //flex-grow: 1;
+                height: calc(600px - 82px - 102px - 56px);
+                display: flex;
+                flex-direction: column;
+                overflow: auto;
+                // border: 1px solid $separation-line-bgc;
+            }
+
+            .details-footer {
+                height: 102px+40px;
+                border: 1px solid $separation-line-bgc;
+                padding: 5px 22px 5px 16px;
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    }
+
+    .more-posts{
+        margin-top: 50px;
+        padding-top: 50px;
+        width: 935px;
+        display: flex;
+        flex-direction: column;
+        border-top: 1px solid $separation-line-bgc;
+
+        color: ($secondary-color-1);
+        font-size: rem(14px);
+        line-height: rem(18px);
+
+        .additional-posts {
+            width: 100%;
+            padding-top: 10px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
+
+            .additional-post-image{
+                // width: 100%;
+                // height: auto;
+                width: 307px;
+                height: 307px;
+                object-fit: cover;
+            }
+        }
+
+        .from-post-owner{
+         color: $primary-color-1;
+        }
+    }
+
+
+}

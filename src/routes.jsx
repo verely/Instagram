@@ -1,6 +1,7 @@
-import { PostIndex } from "./pages/PostIndex.jsx";
-import { UserProfile } from "./pages/UserProfile.jsx";
-import { MessagePage } from "./pages/MessagePage.jsx";
+import { PostIndex } from "./pages/PostIndex.jsx"
+import { UserProfile } from "./pages/UserProfile.jsx"
+import { MessagePage } from "./pages/MessagePage.jsx"
+import { PostDetails } from "./cmps/PostDetails.jsx"
 
 // Routes accessible from the main navigation
 const routes = [
@@ -33,6 +34,11 @@ const routes = [
     path: "/more",
     component: <PostIndex />,
     label: "More",
+  },
+  {
+    path: "/p/:id",
+    component: <PostDetails />,
+    label: "Post Details",
   },
 ];
 

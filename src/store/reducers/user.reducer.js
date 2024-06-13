@@ -13,7 +13,7 @@ export const SET_USERS = "SET_USERS";
 
 
 const initialState = {
-    user: userService.getLoggedinUser(),
+    user: userService.getLoggedInUser(),
     users: [],
     watchedUser: null,
     error: null,

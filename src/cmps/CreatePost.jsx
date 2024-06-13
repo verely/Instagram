@@ -45,7 +45,7 @@ export function CreatePost({ onClose }) {
 
     // const imgPath = '../media_samples/img_profile/sloner.jpeg'
     // return { "_id": "u103", "userName": "Sloner_garden", "fullName": "Mashtelat Sloner", "imgUrl": imgPath}
-    //return userService.getLoggedinUser()
+    //return userService.getLoggedInUser()
   }
 
   const handleFileChange = (event) => {

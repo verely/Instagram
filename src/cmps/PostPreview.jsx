@@ -7,7 +7,7 @@ export function PostPreview({ post, postActions, isLiked}) {
     return (
         <div className="post-preview">
 
-            <PostOwnerInfoCard owner={post.owner} postDate={post.created_at}/>
+            <PostOwnerInfoCard owner={post.owner} postDate={post.created_at} postId={post._id}/>
 
             <img className="post-image" src={post.imgUrl} alt={post.imgUrl} />
 
