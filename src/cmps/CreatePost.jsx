@@ -31,6 +31,15 @@ export function CreatePost({ onClose }) {
     }
   }, [fileLoadingComplete]);
 
+  useEffect(() => {
+    if (currentStep === States.SHARED) {
+      const timer = setTimeout(() => {
+        onClose()
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [currentStep]);
+
   async function onAddPost(post) {
     try {
         await addPost(post)
