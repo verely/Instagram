@@ -13,7 +13,8 @@ export const postService = {
     updateLikeStatus,
     // sharePost,
     getEmptyPost,
-    recentPosts
+    getPostsByOwnerId,
+    getPostsByIds
 }
 window.cs = postService
 
@@ -132,21 +133,45 @@ function sharePost(postId, senderId, recipientId){
     }
 }
 
-function recentPosts(num=6) {
-    const imagePaths = [
-        '/media_samples/recent/01.jpeg',
-        '/media_samples/recent/02.jpeg',
-        '/media_samples/recent/03.jpeg',
-        '/media_samples/recent/04.jpeg',
-        '/media_samples/recent/05.jpeg',
-        '/media_samples/recent/06.jpeg'
-    ];
+async function getPostsByOwnerId(ownerId) {
+    try {
+        const posts = await storageService.query(STORAGE_KEY)
 
-    const recentPosts = imagePaths.slice(0, num).map(path => ({
-        imgUrl: path
-    }));
+        const userPosts = posts
+            .filter(post => post.owner._id === ownerId)
+            .map(post => ({
+                _id: post._id,
+                imgUrl: post.imgUrl,
+                created_at: post.created_at,
+                likeCount: post.likedBy ? post.likedBy.length : 0,
+                commentCount: post.comments ? post.comments.length : 0
+            }))
+        return userPosts
+    } catch (err) {
+        console.error('Error occurred while querying posts by ownerId:', err.message)
+        throw new Error('Failed to query posts by ownerId. Please try again later.')
+    }
+}
 
-    return recentPosts;
+async function getPostsByIds(postIdList) {
+  try {
+    if (!postIdList)
+        return[]
+    var posts = await storageService.query(STORAGE_KEY)
+    const savedPosts = posts
+            .filter(post => postIdList.includes(post._id))
+            .map(post => ({
+                _id: post._id,
+                imgUrl: post.imgUrl,
+                created_at: post.created_at,
+                likeCount: post.likedBy ? post.likedBy.length : 0,
+                commentCount: post.comments ? post.comments.length : 0
+            }))
+        return savedPosts
+  } catch (err) {
+        console.error('Error occurred while querying posts by postIdList:', err.message)
+        throw new Error('Failed to query posts by postIdList. Please try again later.')
+  }
 }
 
 function getEmptyPost() {

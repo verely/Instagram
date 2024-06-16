@@ -114,6 +114,13 @@
 
             &.active {
                 font-weight: bold;
+
+                .nav-icon {
+                    &.profile {
+                        width: 28px;
+                        height: 28px;
+                        border: 2px solid white;}
+                }
             }
 
             &:hover {
@@ -124,6 +131,10 @@
                 width: 24px;
                 height: 24px;
                 margin-right: 14px;
+
+                &.profile{
+                    border-radius: 50%;
+                }
             }
 
             &:last-child {

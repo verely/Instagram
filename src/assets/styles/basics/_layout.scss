@@ -1,7 +1,9 @@
 .main-layout {
     display: flex;
     flex-direction: row;
-    padding: 0px 10px;
+    // padding: 0px 10px;
+    padding: 12px;
+    // border: 4px solid red;
     .sidebar-wrapper {
         position: fixed;
         margin: 0;

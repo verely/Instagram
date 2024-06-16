@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux'
 import brandName from '../assets/img/SideBarNavigation/brandName.svg';
 import brandIcon from '../assets/img/SideBarNavigation/brandIcon.svg';
 import home from '../assets/img/SideBarNavigation/home.svg';
@@ -9,11 +10,27 @@ import messenger from '../assets/img/SideBarNavigation/messenger.svg';
 import newPost from '../assets/img/SideBarNavigation/newPost.svg';
 import more from '../assets/img/SideBarNavigation/more.svg';
 import { CreatePost } from './CreatePost.jsx';
-
+import { login } from '../store/actions/user.actions'
 
 export function SideBarNavigation() {
+    const loggedInUser = useSelector(state => state.userModule.user)
+
     const [isCollapsed, setIsCollapsed] = useState(false)
     const [isCreatePostOpen, setIsCreatePostOpen] = useState(false)
+
+    useEffect(() => {
+        const getLoginUser = async ()=> {
+            try {
+              const credentials={userName:'Tuppence'}
+              await login(credentials)
+            } catch (error) {
+              console.error('Failed to fetch post:', error)
+            }
+        }
+
+        getLoginUser()
+    //}, [username])
+    }, [])
 
     const handleOpenCreatePost = () => {
         setIsCreatePostOpen(true)
@@ -90,10 +107,10 @@ export function SideBarNavigation() {
                         <img src={newPost} alt="CreatePost" className="nav-icon"  />
                             {!isCollapsed && <span>Create</span>}
                         </NavLink>
-                        <NavLink to="/profile" className="nav-link" onClick={expand}>
-                            <img src={explore} alt="Profile" className="nav-icon"/>
+                        {loggedInUser &&<NavLink to={`/${loggedInUser.userName}`} className="nav-link" onClick={expand}>
+                            <img className="nav-icon profile" src={loggedInUser.imgUrl} alt="Profile"/>
                             {!isCollapsed && <span>Profile</span>}
-                        </NavLink>
+                        </NavLink>}
                         <NavLink to="/more" className="nav-link">
                             <img src={more} alt="More" className="nav-icon"/>
                             {!isCollapsed && <span>More</span>}

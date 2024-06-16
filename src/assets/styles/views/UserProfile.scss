@@ -1,7 +1,193 @@
 .user-profile {
-    .user-img {
-        height: 200px;
-        width: 200px;
-        background-size: contain;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+
+
+    .profile-user-info {
+        height: 180px;
+        display: grid;
+        grid-template-columns: 283px 652px;
+        gap: 25px;
+        margin-bottom: 30px;
+
+        .profile-user-img {
+            grid-column: 1;
+            height: 150px;
+            width: 150px;
+            justify-self: center;
+            align-self: end;
+            border-radius: 50%;
+            background-size: contain;
+        }
+
+        .profile-activity-data {
+            margin-top: 8px;
+            grid-column: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+
+            .profile-name-and-settings{
+                .userName {
+                    font-size: 20px;
+                    line-height: 25px;
+                }
+                button {
+                    margin-left: 20px;
+                    height: 32px;
+                    width: 101px;
+                    font-size: 14px;
+                    line-height: 18px;
+                    font-weight: bold;
+                    background-color: $btn-settings-bgc;
+                    border-radius: 8px;
+                }
+            }
+
+            .profile-activity-numbers {
+                display: flex;
+                gap: 40px;
+                font-size: 16px;
+                line-height: 18px;
+
+                .activityCount span {
+                    margin-right: 5px;
+                    font-weight: bold;
+                  }
+            }
+
+            .userFullName {
+                font-size: 14px;
+                line-height: 18px;
+                font-weight: bold;
+            }
+        }
+    }
+
+    .tab-view {
+        width: 935px;
+        display: flex;
+        flex-direction: column;
+
+
+
+        .tab-menu {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            border-top: 1px solid $separation-line-bgc;
+
+            .tab {
+                margin-top: -1px;
+                padding: 17px;
+                display: flex;
+                align-items: center;
+                border: none;
+                background-color: transparent;
+
+                img {
+                  margin-right: 5px;
+                //   border: 1px solid red;
+                }
+
+                span {
+                    font-size: 12px;
+                    line-height: 18px;
+                    letter-spacing: 1px;
+                    color: $secondary-color-1;
+                }
+
+                &.active {
+                    border-top: 1px solid $primary-color-1;
+
+                    span {
+                        color: $primary-color-1;
+                    }
+                }
+            }
+
+            span {
+                font-size: 12px;
+                line-height: 18px;
+                letter-spacing: 1px;
+                color: $secondary-color-1;
+                &:hover {
+                    color: $primary-color-1;
+                }
+            }
+
+            .tab_icon {
+                width: 11px;
+                height: 11px;
+            }
+
+        }
+
+        .loader-container{
+            width: 100%;
+            display: flex;
+            justify-self: center;
+            align-self: center;
+            .loading-icon{
+                // border: 2px solid red;
+                width: 31px;
+                height: 31px;
+                filter: invert(1);
+            }
+        }
+
+
+        .user-posts {
+            width: 935px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
+
+            .profile-post-image{
+                // width: 100%;
+                // height: auto;
+                width: 307px;
+                height: 307px;
+                object-fit: cover;
+            }
+        }
+
+        .saved-posts-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+
+            span {
+                font-size: 14px;
+                line-height: 18px;
+                color: $primary-color-1;
+            }
+
+            .saved-posts-grid {
+                width: 300px;
+                height: 300px;
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0px;
+
+                .saved-post-image{
+                    // width: 100%;
+                    // height: auto;
+                    width: 150px;
+                    height: 150px;
+                    object-fit: cover;
+                }
+            }
+
+            .all_posts {
+                width: 85px;
+                margin-top: -35px;
+                font-size: 20px;
+                line-height: 25px;
+                // border: 1px solid red;
+            }
+        }
     }
 }

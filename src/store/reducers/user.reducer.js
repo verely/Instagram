@@ -7,7 +7,7 @@ export const UPDATE_PROFILE = "UPDATE_PROFILE";
 export const SET_ERROR = "SET_ERROR";
 
 export const SET_USER = "SET_USER";
-export const SET_WATCHED_USER = "SET_WATCHED_USER";
+export const SET_CURRENT_PROFILE = "SET_CURRENT_PROFILE";
 export const REMOVE_USER = "REMOVE_USER";
 export const SET_USERS = "SET_USERS";
 
@@ -15,7 +15,7 @@ export const SET_USERS = "SET_USERS";
 const initialState = {
     user: userService.getLoggedInUser(),
     users: [],
-    watchedUser: null,
+    currentProfile: null,
     error: null,
 };
 
@@ -24,8 +24,9 @@ export function userReducer(state = initialState, action) {
     switch (action.type) {
         case SET_USER:
           return { ...state, user: action.user };
-        case SET_WATCHED_USER:
-          return { ...state, watchedUser: action.user };
+        case SET_CURRENT_PROFILE:
+          console.log("SET_CURRENT_PROFILE", action.user)
+          return { ...state, currentProfile: action.user };
         case REMOVE_USER:
           return {
             ...state,

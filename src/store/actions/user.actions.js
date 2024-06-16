@@ -6,12 +6,23 @@ import {
     REMOVE_USER,
     SET_USER,
     SET_USERS,
-    SET_WATCHED_USER,
+    SET_CURRENT_PROFILE,
     FOLLOW_USER,
     UNFOLLOW_USER,
     UPDATE_PROFILE,
     SET_ERROR,
 } from "../reducers/user.reducer.js";
+
+
+export async function loadUser(userId) {
+  try {
+    const user = await userService.getById(userId);
+    store.dispatch({ type: SET_CURRENT_PROFILE, user });
+  } catch (err) {
+    console.log("Cannot load user", err);
+    store.dispatch({ type: SET_ERROR, error: "Error loading user." });
+  }
+}
 
 export async function loadUsers() {
     try {
@@ -80,15 +91,7 @@ export async function loadUsers() {
     }
   }
 
-  export async function loadUser(userId) {
-    try {
-      const user = await userService.getById(userId);
-      store.dispatch({ type: SET_WATCHED_USER, user });
-    } catch (err) {
-      console.log("Cannot load user", err);
-      store.dispatch({ type: SET_ERROR, error: "Error loading user." });
-    }
-  }
+
 
   // Implementing follow and unfollow actions
   export async function followUser(userId) {
