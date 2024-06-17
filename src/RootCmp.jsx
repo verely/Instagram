@@ -16,7 +16,13 @@ export function RootCmp() {
                 </div>
                 <main className='content-wrapper'>
                     <Routes>
-                        {routes.map(route => <Route key={route.path} exact={true} element={route.component} path={route.path} />)}
+                        {routes.map((route, index) => (
+                            <Route key={index} path={route.path} element={route.component}>
+                                {route.children && route.children.map((childRoute, childIndex) => (
+                                <Route key={childIndex} path={childRoute.path} element={childRoute.component} />
+                                ))}
+                            </Route>
+                        ))}
                     </Routes>
                 </main>
             </div>

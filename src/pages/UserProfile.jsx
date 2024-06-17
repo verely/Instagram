@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'
 //import { useParams } from 'react-router-dom'
 
@@ -13,12 +14,15 @@ import saved_tab from "../assets/img/UserProfile/saved_tab.svg"
 import tagged_tab from "../assets/img/UserProfile/tagged_tab.svg"
 import loading from "../assets/img/shared/Loading.svg"
 
+import { SavedPostsExpanded } from "../cmps/SavedPostsExpanded"
+
 export function UserProfile() {
     const [isLoading, setIsLoading] = useState(false)
     const [userPosts, setUserPosts] = useState([])
-    const [savedPosts, setSavedPosts] = useState([]);
-    const [expandedSaved, setExpandedSaved] = useState(false);
-    const [activeTab, setActiveTab] = useState('posts');
+    const [savedPosts, setSavedPosts] = useState([])
+    const [expandedSaved, setExpandedSaved] = useState(false)
+    const [activeTab, setActiveTab] = useState('posts')
+    const navigate = useNavigate()
 
     //const { username } = useParams()
     const loggedInUser = useSelector(state => state.userModule.user)
@@ -91,6 +95,11 @@ export function UserProfile() {
 
     function handleSavedGridClick() {
         setExpandedSaved(true);
+        navigate("saved/all-posts/")
+    }
+
+    if (expandedSaved) {
+        return <SavedPostsExpanded savedPosts={savedPosts} setExpandedSaved={setExpandedSaved} />
     }
 
     return (
@@ -145,20 +154,22 @@ export function UserProfile() {
             </div>
             )}
             {activeTab === 'saved' &&!isLoading && (
-            <div className='saved-posts-container'>
-                <span>Only you can see what you&apos;ve saved</span>
-                <div className={`saved-posts-grid ${expandedSaved? 'expanded' : ''}`} onClick={handleSavedGridClick}>
-                {savedPosts.slice(0, expandedSaved? savedPosts.length : 4).map((post, index) => (
-                    <img
-                    key={index}
-                    className='saved-post-image'
-                    src={post.imgUrl}
-                    alt={`saved post ${index}`}
-                    />
-                ))}
+                <div className='saved_tab'>
+                    <div className='saved-posts-container'>
+                         <span className='private-message'>Only you can see what you&apos;ve saved</span>
+                         <div className='saved-posts-grid' onClick={handleSavedGridClick}>
+                         {savedPosts.slice(0, 4).map((post, index) => (
+                            <img
+                            key={index}
+                            className='saved-post-image'
+                            src={post.imgUrl}
+                            alt={`saved post ${index}`}
+                            />
+                        ))}
+                        </div>
+                        <span className='all_posts'>All posts</span>
+                    </div>
                 </div>
-                <span className='all_posts'>All posts</span>
-            </div>
             )}
 
       </div>
