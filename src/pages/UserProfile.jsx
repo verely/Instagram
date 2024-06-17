@@ -14,7 +14,7 @@ import tagged_tab from "../assets/img/UserProfile/tagged_tab.svg"
 import loading from "../assets/img/shared/Loading.svg"
 
 export function UserProfile() {
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(false)
     const [userPosts, setUserPosts] = useState([])
     const [savedPosts, setSavedPosts] = useState([]);
     const [expandedSaved, setExpandedSaved] = useState(false);
@@ -40,18 +40,19 @@ export function UserProfile() {
         const fetchUserPosts = async () => {
             try {
                 if (loggedInUser) {
+                    setIsLoading(true);
                     await loadUser(loggedInUser._id)
 
                     //console.log('try fetchUserPosts')
                     const posts = await postService.getPostsByOwnerId(loggedInUser._id);
                     setUserPosts(posts);
-                    setIsLoading(false);
                 } else {
                     console.log('loggedInUser is null or undefined, cannot fetch posts.');
-                    setIsLoading(false);
                 }
             } catch (error) {
                 console.error('Failed to fetch posts:', error);
+            }
+            finally {
                 setIsLoading(false);
             }
         };
@@ -64,6 +65,7 @@ export function UserProfile() {
         const fetchSavedPosts = async () => {
             if (loggedInUser && activeTab === 'saved') {
                 try {
+                    setIsLoading(true);
                     const savedPostIds = loggedInUser.savedPostIds;
                     console.log("savedPostIds", savedPostIds)
                     const posts = await postService.getPostsByIds(savedPostIds);
@@ -71,6 +73,10 @@ export function UserProfile() {
                     setSavedPosts(posts);
                 } catch (error) {
                     console.error('Failed to fetch saved posts:', error);
+                }
+                finally
+                {
+                    setIsLoading(false);
                 }
             }
         };
@@ -88,7 +94,7 @@ export function UserProfile() {
     }
 
     return (
-<section className="user-profile">
+    <section className="user-profile">
 
       {currentProfile && userPosts && (
         <div className="profile-user-info">
@@ -122,13 +128,10 @@ export function UserProfile() {
             <span>TAGGED</span>
           </button>
         </div>
+            {isLoading && <div className="loader-container">
+                <img className={`loading-icon ${isLoading ? '' : 'hidden'}`} src={loading} alt="Loading..." />
+            </div>}
 
-        {isLoading? (
-            <div className="loader-container">
-                <img className="loading-icon" src={loading} alt="Loading..." />
-            </div>
-        ) : (
-        <>
             {activeTab === 'posts' &&!isLoading && (
             <div className='user-posts'>
                 {userPosts.map((post, index) => (
@@ -157,9 +160,8 @@ export function UserProfile() {
                 <span className='all_posts'>All posts</span>
             </div>
             )}
-        </>
-        )}
+
       </div>
-</section>
-)
-}
+    </section>
+    )
+    }

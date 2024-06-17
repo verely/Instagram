@@ -126,15 +126,23 @@
         }
 
         .loader-container{
-            width: 100%;
-            display: flex;
-            justify-self: center;
             align-self: center;
+            //border: 2px solid red;
             .loading-icon{
                 // border: 2px solid red;
                 width: 31px;
                 height: 31px;
                 filter: invert(1);
+                animation: spin 1s linear infinite;
+
+                &.hidden {
+                    display: none;
+                    animation-play-state: paused;
+                }
+            }
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
             }
         }
 
