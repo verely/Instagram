@@ -99,12 +99,12 @@ export function SideBarNavigation() {
                             <img src={explore} alt="Explore" className="nav-icon" onClick={expand}/>
                             {!isCollapsed && <span>Explore</span>}
                         </NavLink>
-                        <NavLink to="/messages" className="nav-link">
+                        <NavLink to="/message" className="nav-link">
                             <img src={messenger} alt="Messenger" className="nav-icon" onClick={expand}/>
                             {!isCollapsed && <span>Messages</span>}
                         </NavLink>
                         <NavLink className="nav-link" onClick={handleOpenCreatePost}>
-                        <img src={newPost} alt="CreatePost" className="nav-icon"  />
+                            <img src={newPost} alt="CreatePost" className="nav-icon"  />
                             {!isCollapsed && <span>Create</span>}
                         </NavLink>
                         {loggedInUser &&<NavLink to={`/${loggedInUser.userName}`} className="nav-link" onClick={expand}>

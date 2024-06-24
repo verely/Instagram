@@ -23,7 +23,7 @@ const routes = [
   },
   {
     path: "/message",
-    component: <MessagePage />,
+    component: <PostIndex />,
     label: "Messages",
   },
   {
