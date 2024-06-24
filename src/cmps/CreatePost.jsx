@@ -90,8 +90,14 @@ export function CreatePost({ onClose }) {
 
   const owner = getLoggedInUser()
 
+  const handleModalBackdropClick = (e) => {
+    if (e.currentTarget === e.target) {
+      onClose();
+    }
+  };
+
   return (
-    <div className="modal">
+    <div className="modal" onClick={handleModalBackdropClick}>
 
       <button className="close-button" onClick={onClose}>
         <img src={close} alt="closeImg" />
