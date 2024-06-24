@@ -1,18 +1,15 @@
-// normal/full layout (laptop, desktop)
 .post-index {
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: start;
-    height: 100vh;
     // border: 4px solid purple;
 
         .content-area {
+            width: 100%;
             display: grid;
-            grid-template-columns: rem(80px) 1fr rem(80px);
-            grid-template-rows: 0.3fr 1.7fr;
+            grid-template-columns: rem(80px) 468px rem(80px);
             gap: 0px 0px;
-            grid-auto-flow: row;
             grid-template-areas:
               "s s s"
               ". p .";
@@ -26,7 +23,7 @@
                 gap: rem(15px);
                 grid-area: s;
                 grid-column: 1/-1;
-
+                // background-color: red;
                 img {
                     border-radius: 50%;
                 }
@@ -34,41 +31,47 @@
 
             // Posts section
             .posts {
+                width: 100%;
                 margin-top: 10px;
                 display:flex;
                 flex-direction: column;
-                padding: 10px;
                 justify-self: center;
                 align-self: center;
                 grid-area: p;
-                // max-width: rem(470px);
             }
         }
 }
 
-// mobile layout
-// .posts-container  {
-//     display: grid;
-//     grid-template-columns: 1fr;
-//     grid-template-rows: 0.3fr 1.7fr;
-//     gap: 0px 0px;
-//     grid-auto-flow: row;
-//     grid-template-areas:
-//       "s"
-//       "p";
-//     height: 100vh;
-//}
+@media (max-width: 630px) {
+    .post-index .content-area {
+        //width: 100%;
+        display: grid;
+        grid-template-columns: minmax(7px, 81px) 468px minmax(7px, 81px);
+        max-width: 100%;
+        overflow-x: hidden;
 
-//   .story {
-//     justify-self: start;
-//     align-self: start;
-//     grid-area: s;
-//   }
+        gap: 0px 0px;
+        grid-auto-flow: row;
+        grid-template-areas:
+        "s s s"
+        ". p .";
 
-//   .post {
-//     justify-self: center;
-//     align-self: stretch;
-//     grid-area: p;
-//   }
+        .s {
+            background-color: green;
+          }
+    }
+}
 
-
+@media (max-width: 500px) {
+    .post-index .content-area {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 7px 468px 7px;
+        gap: 0px 0px;
+        grid-auto-flow: row;
+        grid-template-areas:
+        ". s ."
+        ". p .";
+        // background-color: brown;
+    }
+}

@@ -76,7 +76,6 @@ export function PostIndex() {
         <div className="post-index">
             <div className="content-area">
                 <div className="featured-stories">
-
                     <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
                     <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
                     <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
@@ -84,7 +83,6 @@ export function PostIndex() {
                     <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
                     <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
                     <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
-
                 </div>
                 <div className='posts'>
                     <PostList posts={posts} postActions={postActions} currentUser={getLoggedInUser()}/>

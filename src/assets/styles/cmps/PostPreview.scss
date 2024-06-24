@@ -1,8 +1,8 @@
 .post-preview {
     display: flex;
     flex-direction: column;
-    align-items: left;
-    width: 470px;
+    justify-items: left;
+    width: 468px;
     font-size: rem(14px);
     line-height: rem(18px);
     letter-spacing: normal;
@@ -56,12 +56,11 @@
     }
 
     .post-image {
-      width: 100%;
-      height: auto;
-      // width: 470px;
-      // width: 470px;
+      width: 468px;
+      height: 585px;
       border-radius: 5px;
       margin-bottom: 0;
+      object-fit: cover;
     }
 
     .post-message {

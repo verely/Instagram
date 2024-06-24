@@ -11,7 +11,8 @@
             margin-right: 15px;
         }
         .nav-link {
-            padding: 10px 5px 10px 10px;
+            padding: 10px 5px 10px 11px;
+            width: 48px;
             span {
                 display: none;
             }
@@ -22,7 +23,7 @@
  // used to resize sidebar by media query
  @mixin resize-navbar(
   $sidebarWidth, $sidebarAlignItems, $brandNameWidth, $brandNameHeight,
-  $brandNameMarginRight, $navLinkPadding, $spanVisibility) {
+  $brandNameMargin, $navLinkPadding, $navLinkMargin, $navLinkWidth, $spanVisibility) {
 
         .sidebar-mobile-layout {
             display: none;
@@ -39,10 +40,12 @@
             .brand-name {
                 height: $brandNameHeight;
                 width: $brandNameWidth;
-                margin-right: $brandNameMarginRight;
+                margin: $brandNameMargin;
             }
             .nav-link {
                 padding: $navLinkPadding;
+                width: $navLinkWidth;
+                margin: $navLinkMargin;
                 span {
                     display: $spanVisibility;
                 }
@@ -50,9 +53,14 @@
         }
  }
 
+ .sidebar-navigation {
+    width: 100%;
+    height: 100%;
+ }
+
 .navbar {
     width: 100%;
-    height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: start;
@@ -67,7 +75,7 @@
     text-align: center;
 
     position: relative;
-
+    // background-color: aquamarine;
     &::before {
         content: "";
         position: absolute;
@@ -76,6 +84,7 @@
         right: 0;
         width: 1px;
         background-color: $secondary-bgc;
+        height: 100vh;
     }
 
     &.collapsed {
@@ -86,7 +95,8 @@
     .navbar-brand {
         margin-top: 20px;
         align-items: center;
-
+        margin-left: 16px;
+        margin-top: 40px;
         .brand-name {
             height: 29px;
             width: 103px;
@@ -100,16 +110,16 @@
         justify-content: start;
         align-items: start;
         list-style: none;
-        gap: 10px;
+        gap: 8px;
         padding-top: 30px;
 
         .nav-link {
             display: flex;
             align-items: center;
             text-decoration: none;
-            border-radius: 5px;
-            padding: 10px 10px;
-            max-width: 170px;
+            border-radius: 8px;
+            padding: 12px;
+            height: 48px;
             color: $primary-color-1;
 
             &.active {
@@ -160,20 +170,28 @@
 
 @include for-mobile-layout {
     .sidebar-navigation {
+        width: 100vh;
+        .sidebar-normal-layout {
+            display: none;
+        }
+
+        .sidebar-mobile-layout {
+            display: block;
+        }
+
         .navbar-mobile {
             display: flex;
             justify-content: space-around ;
             background-color: $primary-bgc;
             align-items: center;
             height: $sidebar-height-hamburger;
+            border-top: 1px solid $separation-line-bgc;
+            // background-color: aquamarine;
+
+            .nav-icon {
+                padding-top: 2px;
+            }
         }
-        .sidebar-mobile-layout {
-            display: block;
-        }
-        .sidebar-normal-layout {
-            display: none;
-        }
-    //   border: 4px solid blue;
     }
 }
 
@@ -197,8 +215,10 @@
             center,  // $sidebarAlignItems
             54px, // $brandNameWidth
             24px, // $brandNameHeight
-            15px, // $brandNameMarginRight
-            10px 5px 10px 10px, // $navLinkPadding (top right bottom left)
+            0 15px 0 0, // $brandNameMargin
+            10px 5px 10px 11px, // $navLinkPadding (top right bottom left)
+            0 0 0 2px, // $navLinkMargin
+            48px, // $navLinkWidth
             none // $spanVisibility (use 'none', 'block')
         );
 
@@ -208,8 +228,10 @@
                 center,  // $sidebarAlignItems
                 54px, // $brandNameWidth
                 24px, // $brandNameHeight
-                15px, // $brandNameMarginRight
-                10px 5px 10px 10px, // $navLinkPadding (top right bottom left)
+                0 15px 0 0, // $brandNameMargin
+                10px 5px 10px 11px, // $navLinkPadding (top right bottom left)
+                0 0 0 2px, // $navLinkMargin
+                48px, // $navLinkWidth
                 none // $spanVisibility (use 'none', 'block')
             );
         }
@@ -238,8 +260,10 @@
             start,  // $sidebarAlignItems
             103px, // $brandNameWidth
             29px, // $brandNameHeight
-            0px, // $brandNameMarginRight
-            10px 10px, // $navLinkPadding
+            0px, // $brandNameMargin
+            12px, // $navLinkPadding
+            0 0 0 12px, // $navLinkMargin
+            220px, // $navLinkWidth
             block // $spanVisibility (use 'none', 'block')
         );
 
@@ -250,11 +274,12 @@
                 start,  // $sidebarAlignItems
                 103px, // $brandNameWidth
                 29px, // $brandNameHeight
-                0px, // $brandNameMarginRight
+                0px, // $brandNameMargin
                 10px 10px, // $navLinkPadding
+                0 0 0 12px, // $navLinkMargin
+                220px, // $navLinkWidth
                 block // $spanVisibility (use 'none', 'block')
             );
         }
-        // border: 4px solid red;
     }
 }
