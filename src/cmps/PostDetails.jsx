@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 import { PostOwnerInfoDetailsCard } from './PostOwnerInfoDetailsCard'
 import { PostOwnerCommentInfoDetailsCard } from './PostOwnerCommentInfoDetailsCard'
@@ -15,13 +16,14 @@ import { loadPosts, removePost,
     sharePost, getActionRemovePost } from '../store/actions/post.actions.js'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 
+
 export function PostDetails() {
 
     const { id } = useParams()
     const [post, setPost] = useState(null)
     const [recentPosts, setRecentPosts] = useState([])
     const [isLoading, setIsLoading] = useState(true)
-    const [loggedInUser, setLoggedInUser] = useState(null)
+    const loggedInUser = useSelector(state => state.userModule.user)
 
     useEffect(() => {
       const fetchPostDetails = async () => {
@@ -37,16 +39,11 @@ export function PostDetails() {
     }, [id])
 
     useEffect(() => {
-        const fetchMorePosts = ()=> {
+        const fetchMorePosts = async ()=> {
             try {
               console.log('try fetchMorePosts')
-              const rp = postService.recentPosts()
+              const rp = await postService.getPostsByOwnerId(loggedInUser._id)
               setRecentPosts(rp);
-            //   setRecentPosts((prevPosts) => {
-            //     console.log('Previous posts:', prevPosts)
-            //     console.log('Fetched posts:', rp)
-            //     return rp
-            //   });
               setIsLoading(false)
             } catch (error) {
               console.error('Failed to fetch post:', error)
@@ -55,9 +52,6 @@ export function PostDetails() {
         }
 
         fetchMorePosts()
-
-        const user = userService.getLoggedInUser()
-        setLoggedInUser(user)
     }, [])
 
     const isLiked = false; //to do
