@@ -17,6 +17,7 @@
             height: 600px;
             grid-column: 1;
             border: 1px solid $separation-line-bgc;
+            object-fit: cover;
         }
 
         .details-area {
