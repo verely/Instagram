@@ -98,6 +98,11 @@ export function UserProfile() {
         navigate("saved/all-posts/")
     }
 
+    const onGoToPost = (e, postId) => {
+        //console.log('onGoToPost called', {e, postId})
+        navigate(`/p/${postId}`)
+    }
+
     if (expandedSaved) {
         return <SavedPostsExpanded savedPosts={savedPosts} setExpandedSaved={setExpandedSaved} />
     }
@@ -149,6 +154,7 @@ export function UserProfile() {
                     className="profile-post-image"
                     src={post.imgUrl}
                     alt={`post image ${index}`}
+                    onClick = {(e) => onGoToPost(e, post._id)}
                 />
                 ))}
             </div>

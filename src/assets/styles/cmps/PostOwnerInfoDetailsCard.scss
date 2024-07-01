@@ -2,7 +2,7 @@
     // width: 303px;
     height: 82px;
     display: grid;
-    grid-template-columns: 39px 1fr 24px;
+    grid-template-columns: 39px 1fr 44px;
     // justify-items: center;
     // align-items: center;
     align-content: center;
@@ -61,4 +61,18 @@
             font-weight: 600px;
         }
     }
+
+    .menuIcon {
+        grid-column: 3;
+        grid-row: 1 /span 2;
+        align-self: center;
+        padding-right: 20px;
+
+        .svg.with-effect {
+            width: 24x;
+            height: 24px;
+            cursor: pointer;
+        }
+    }
+
 }

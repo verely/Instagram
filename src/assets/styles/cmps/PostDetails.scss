@@ -1,6 +1,9 @@
 .post-details {
-    padding-top: 10px;
+    //padding-top: 10px;
+    padding: 0;
+    margin: 0;
     padding-bottom: 50px;
+    padding-left: 40px;
 
    .post-details-layout {
         margin-top: 20px;
@@ -21,7 +24,7 @@
         }
 
         .details-area {
-            max-width: 335px;
+            width: 335px;
             grid-column: 2;
             // border: 3px solid blue;
             display: flex;
@@ -81,6 +84,7 @@
                 width: 307px;
                 height: 307px;
                 object-fit: cover;
+
             }
         }
 
