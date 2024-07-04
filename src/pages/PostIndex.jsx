@@ -74,12 +74,9 @@ export function PostIndex() {
 
     return (
         <div className="post-index">
+            <div className='spacer'></div>
             <div className="content-area">
                 <div className="featured-stories">
-                    <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
-                    <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
-                    <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
-                    <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
                     <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
                     <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
                     <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
@@ -88,6 +85,9 @@ export function PostIndex() {
                     <PostList posts={posts} postActions={postActions} currentUser={getLoggedInUser()}/>
                 </div>
             </div>
+            <div className='ad-wrapper'>
+            </div>
+            <div className='spacer'></div>
         </div>
     )
 }

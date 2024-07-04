@@ -1,77 +1,91 @@
 .post-index {
     width: 100%;
     display: flex;
-    flex-direction: row;
-    justify-content: start;
-    // border: 4px solid purple;
+    flex-direction: column;
+    align-items: center;
 
-        .content-area {
+    .content-area {
+        width: 100%;
+        max-width: 630px;
+        display: grid;
+        grid-template-columns: 7px 1fr 7px;
+        gap: 0px 0px;
+        grid-template-areas:
+            ". s ."
+            ". p .";
+
+        .featured-stories {
             width: 100%;
-            display: grid;
-            grid-template-columns: rem(80px) 468px rem(80px);
-            gap: 0px 0px;
-            grid-template-areas:
-              "s s s"
-              ". p .";
+            height: rem(100px);
+            display: flex;
+            flex-direction: row;
+            gap: rem(15px);
+            grid-area: s;
+            overflow-x: auto;
 
-            // Story section
-            .featured-stories {
+            img {
                 width: rem(56px);
                 height: rem(56px);
-                display: flex;
-                flex-direction: row;
-                gap: rem(15px);
-                grid-area: s;
-                grid-column: 1/-1;
-                // background-color: red;
-                img {
-                    border-radius: 50%;
-                }
-            }
-
-            // Posts section
-            .posts {
-                width: 100%;
-                margin-top: 10px;
-                display:flex;
-                flex-direction: column;
-                justify-self: center;
-                align-self: center;
-                grid-area: p;
+                border-radius: 50%;
+                flex-shrink: 0;
             }
         }
+
+        .posts {
+            width: 100%;
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            grid-area: p;
+        }
+    }
+
+    .ad-wrapper,
+    .spacer {
+        display: none;
+    }
+
 }
 
-@media (max-width: 630px) {
+@media (min-width: 501px) {
     .post-index .content-area {
-        //width: 100%;
-        display: grid;
-        grid-template-columns: minmax(7px, 81px) 468px minmax(7px, 81px);
-        max-width: 100%;
-        overflow-x: hidden;
-
-        gap: 0px 0px;
-        grid-auto-flow: row;
-        grid-template-areas:
-        "s s s"
-        ". p .";
-
-        .s {
-            background-color: green;
-          }
+        grid-template-columns: minmax(7px, 1fr) 468px minmax(7px, 1fr);
     }
 }
 
-@media (max-width: 500px) {
-    .post-index .content-area {
-        width: 100%;
-        display: grid;
-        grid-template-columns: 7px 468px 7px;
-        gap: 0px 0px;
-        grid-auto-flow: row;
-        grid-template-areas:
-        ". s ."
-        ". p .";
-        // background-color: brown;
+@media (min-width: 631px) {
+    .post-index {
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start;
+
+        .content-area {
+            width: 630px;
+            grid-template-columns: minmax(7px, 81px) 468px minmax(7px, 81px);
+            grid-template-areas:
+                "s s s"
+                ". p .";
+        }
+        .spacer {
+            display: block;
+            flex: 1;
+            height: 100%;
+            // background-color: blue;
+        }
+    }
+}
+
+@media (min-width: 1160px) {
+    .post-index {
+        .content-area {
+            width: 630px;
+            grid-template-columns: rem(80px) 468px rem(80px);
+        }
+        .ad-wrapper {
+            display: block;
+            width: 383px;
+            height: 500px;
+            // background-color: pink;
+        }
     }
 }

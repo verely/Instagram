@@ -14,7 +14,6 @@ export function RootCmp() {
                 <div className='sidebar-wrapper'>
                     <SideBarNavigation />
                 </div>
-                <div className='left spacer'></div>
                 <main className='main-wrapper'>
                     <Routes>
                         {routes.map((route, index) => (
@@ -26,9 +25,6 @@ export function RootCmp() {
                         ))}
                     </Routes>
                 </main>
-                <div className='ad-wrapper'>
-                </div>
-                <div className='right spacer'></div>
             </div>
             <ActionAlert/>
         </div>
