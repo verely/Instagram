@@ -1,7 +1,7 @@
 import { useNavigate, NavLink } from 'react-router-dom';
 import { useEffect } from 'react';
 
-export function PostActionMenu({ postId, onClose }) {
+export function PostActionMenu({ postId, onClose, onDelete, isOwner }) {
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -30,6 +30,11 @@ export function PostActionMenu({ postId, onClose }) {
             <NavLink to="/" className="nav-link onUnFollow" onClick={onUnFollow}>
                 Unfollow
             </NavLink>
+            {isOwner && (
+                <NavLink to="/" className="nav-link" onClick={() => onDelete(postId)}>
+                    Delete
+                </NavLink>
+            )}
             <NavLink to="/p/:id" className="nav-link" onClick={onGoToPost}>
                 Go to post
             </NavLink>

@@ -108,12 +108,13 @@ export function PostDetails() {
                 <img className="image-area" src={post.imgUrl} alt="post image" />
                 <div className='details-area'>
                     <div className='details-header'>
-                    <PostOwnerInfoDetailsCard owner = {post?.owner}/>
+                        <PostOwnerInfoDetailsCard owner = {post?.owner} postId={post._id}
+                          onDeleteAction={postActions.onRemovePost} isOwner={loggedInUser._id === post.owner._id}/>
                     </div>
 
                     <div className='comments'>
                         <PostOwnerCommentInfoDetailsCard owner={post?.owner}
-                    postDate={post.created_at} desc={post.desc}/>
+                            postDate={post.created_at} desc={post.desc}/>
                         <PostCommentList currentUser={loggedInUser} postId={post._id}
                             comments={post.comments} likeAction={postActions.onUpdateLikeStatus}/>
                     </div>
@@ -121,7 +122,7 @@ export function PostDetails() {
                     <div className='details-footer'>
                         <ActionButtons postActions={postActions} post={post} isLiked={isLiked}/>
                         <CommentArea post={post} onAddCommentToPost={postActions.onAddCommentToPost}
-                        showIcon="true" iconSrc={post.owner.imgUrl} isEmojiLarge="true"/>
+                            showIcon="true" iconSrc={post.owner.imgUrl} isEmojiLarge="true"/>
                     </div>
                 </div>
             </div>
