@@ -108,77 +108,76 @@ export function UserProfile() {
     }
 
     return (
-    <section className="user-profile">
-
-      {currentProfile && userPosts && (
-        <div className="profile-user-info">
-          <img className="profile-user-img" src={loggedInUser.imgUrl} alt="icon" />
-          <div className="profile-activity-data">
-            <div className="profile-name-and-settings">
-              <span className="userName">{loggedInUser.userName}</span>
-              <button>Edit Profile</button>
+        <div className='user-profile'>
+          <div className="profile-content">
+            {currentProfile && userPosts && (
+            <div className="profile-user-info">
+                <img className="profile-user-img" src={loggedInUser.imgUrl} alt="icon" />
+                <div className="profile-activity-data">
+                <div className="profile-name-and-settings">
+                    <span className="userName">{loggedInUser.userName}</span>
+                    <button>Edit Profile</button>
+                </div>
+                <div className="profile-activity-numbers">
+                    <div className="activityCount"><span>{userPosts.length}</span> posts</div>
+                    <div className="activityCount"><span>{currentProfile.followersCount}</span> followers</div>
+                    <div className="activityCount"><span>{currentProfile.followingCount}</span> following</div>
+                </div>
+                <span className="userFullName">{loggedInUser.fullName}</span>
+                </div>
             </div>
-            <div className="profile-activity-numbers">
-              <div className="activityCount"><span>{userPosts.length}</span> posts</div>
-              <div className="activityCount"><span>{currentProfile.followersCount}</span> followers</div>
-              <div className="activityCount"><span>{currentProfile.followingCount}</span> following</div>
+            )}
+            <div className="tab-view">
+                <div className='tab-menu'>
+                    <button className={`tab ${activeTab === 'posts'? 'active' : ''}`} onClick={() => setActiveTab('posts')}>
+                    <img className="tab_icon" src={post_tab} alt="post_grid_icon" />
+                    <span>POSTS</span>
+                    </button>
+                    <button className={`tab ${activeTab === 'saved'? 'active' : ''}`} onClick={() => setActiveTab('saved')}>
+                    <img className="tab_icon" src={saved_tab} alt="post_grid_icon" />
+                    <span>SAVED</span>
+                    </button>
+                    <button className={`tab ${activeTab === 'tagged'? 'active' : ''}`} onClick={() => setActiveTab('tagged')}>
+                    <img className="tab_icon" src={tagged_tab} alt="post_grid_icon" />
+                    <span>TAGGED</span>
+                    </button>
+                </div>
+                {isLoading && <div className="loader-container">
+                    <img className={`loading-icon ${isLoading ? '' : 'hidden'}`} src={loading} alt="Loading..." />
+                </div>}
+                {activeTab === 'posts' &&!isLoading && (
+                <div className='user-posts'>
+                    {userPosts.map((post, index) => (
+                    <img
+                        key={index}
+                        className="profile-post-image"
+                        src={post.imgUrl}
+                        alt={`post image ${index}`}
+                        onClick = {(e) => onGoToPost(e, post._id)}
+                    />
+                    ))}
+                </div>
+                )}
+                {activeTab === 'saved' &&!isLoading && (
+                    <div className='saved_tab'>
+                        <div className='saved-posts-container'>
+                            <span className='private-message'>Only you can see what you&apos;ve saved</span>
+                            <div className='saved-posts-grid' onClick={handleSavedGridClick}>
+                            {savedPosts.slice(0, 4).map((post, index) => (
+                                <img
+                                key={index}
+                                className='saved-post-image'
+                                src={post.imgUrl}
+                                alt={`saved post ${index}`}
+                                />
+                            ))}
+                            </div>
+                            <span className='all_posts'>All posts</span>
+                        </div>
+                    </div>
+                )}
             </div>
-            <span className="userFullName">{loggedInUser.fullName}</span>
           </div>
         </div>
-      )}
-      <div className="tab-view">
-        <div className='tab-menu'>
-          <button className={`tab ${activeTab === 'posts'? 'active' : ''}`} onClick={() => setActiveTab('posts')}>
-            <img className="tab_icon" src={post_tab} alt="post_grid_icon" />
-            <span>POSTS</span>
-          </button>
-          <button className={`tab ${activeTab === 'saved'? 'active' : ''}`} onClick={() => setActiveTab('saved')}>
-            <img className="tab_icon" src={saved_tab} alt="post_grid_icon" />
-            <span>SAVED</span>
-          </button>
-          <button className={`tab ${activeTab === 'tagged'? 'active' : ''}`} onClick={() => setActiveTab('tagged')}>
-            <img className="tab_icon" src={tagged_tab} alt="post_grid_icon" />
-            <span>TAGGED</span>
-          </button>
-        </div>
-            {isLoading && <div className="loader-container">
-                <img className={`loading-icon ${isLoading ? '' : 'hidden'}`} src={loading} alt="Loading..." />
-            </div>}
-
-            {activeTab === 'posts' &&!isLoading && (
-            <div className='user-posts'>
-                {userPosts.map((post, index) => (
-                <img
-                    key={index}
-                    className="profile-post-image"
-                    src={post.imgUrl}
-                    alt={`post image ${index}`}
-                    onClick = {(e) => onGoToPost(e, post._id)}
-                />
-                ))}
-            </div>
-            )}
-            {activeTab === 'saved' &&!isLoading && (
-                <div className='saved_tab'>
-                    <div className='saved-posts-container'>
-                         <span className='private-message'>Only you can see what you&apos;ve saved</span>
-                         <div className='saved-posts-grid' onClick={handleSavedGridClick}>
-                         {savedPosts.slice(0, 4).map((post, index) => (
-                            <img
-                            key={index}
-                            className='saved-post-image'
-                            src={post.imgUrl}
-                            alt={`saved post ${index}`}
-                            />
-                        ))}
-                        </div>
-                        <span className='all_posts'>All posts</span>
-                    </div>
-                </div>
-            )}
-
-      </div>
-    </section>
     )
     }

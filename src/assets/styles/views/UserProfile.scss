@@ -1,16 +1,22 @@
 .user-profile {
     width: 100%;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 10px 1fr 10px;
 
+    .profile-content {
+        grid-column: 2;
+        width: 100%;
 
+        display: flex;
+        flex-direction: column;
 
-    .profile-user-info {
-        height: 180px;
-        display: grid;
-        grid-template-columns: 283px 652px;
-        gap: 25px;
-        margin-bottom: 30px;
+        .profile-user-info {
+            width: 100%;
+            height: 180px;
+            display: grid;
+            grid-template-columns: 283px 652px;
+            gap: 25px;
+            margin-bottom: 30px;
 
         .profile-user-img {
             grid-column: 1;
@@ -55,7 +61,7 @@
                 .activityCount span {
                     margin-right: 5px;
                     font-weight: bold;
-                  }
+                }
             }
 
             .userFullName {
@@ -64,32 +70,46 @@
                 font-weight: bold;
             }
         }
-    }
+        }
 
-    .tab-view {
-        width: 935px;
-        display: flex;
-        flex-direction: column;
-
-
-
-        .tab-menu {
+        .tab-view {
+            width: 100%;
             display: flex;
-            justify-content: center;
-            gap: 60px;
-            border-top: 1px solid $separation-line-bgc;
+            flex-direction: column;
 
-            .tab {
-                margin-top: -1px;
-                padding: 17px;
+            .tab-menu {
                 display: flex;
-                align-items: center;
-                border: none;
-                background-color: transparent;
+                justify-content: center;
+                gap: 60px;
+                border-top: 1px solid $separation-line-bgc;
 
-                img {
-                  margin-right: 5px;
-                //   border: 1px solid red;
+                .tab {
+                    margin-top: -1px;
+                    padding: 17px;
+                    display: flex;
+                    align-items: center;
+                    border: none;
+                    background-color: transparent;
+
+                    img {
+                        margin-right: 5px;
+                    //   border: 1px solid red;
+                    }
+
+                    span {
+                        font-size: 12px;
+                        line-height: 18px;
+                        letter-spacing: 1px;
+                        color: $secondary-color-1;
+                    }
+
+                    &.active {
+                        border-top: 1px solid $primary-color-1;
+
+                        span {
+                            color: $primary-color-1;
+                        }
+                    }
                 }
 
                 span {
@@ -97,119 +117,148 @@
                     line-height: 18px;
                     letter-spacing: 1px;
                     color: $secondary-color-1;
-                }
-
-                &.active {
-                    border-top: 1px solid $primary-color-1;
-
-                    span {
+                    &:hover {
                         color: $primary-color-1;
                     }
                 }
-            }
 
-            span {
-                font-size: 12px;
-                line-height: 18px;
-                letter-spacing: 1px;
-                color: $secondary-color-1;
-                &:hover {
-                    color: $primary-color-1;
+                .tab_icon {
+                    width: 11px;
+                    height: 11px;
                 }
             }
 
-            .tab_icon {
-                width: 11px;
-                height: 11px;
-            }
+            .loader-container {
+                align-self: center;
+                //border: 2px solid red;
+                .loading-icon{
+                    // border: 2px solid red;
+                    width: 31px;
+                    height: 31px;
+                    filter: invert(1);
+                    animation: spin 1s linear infinite;
 
-        }
-
-        .loader-container{
-            align-self: center;
-            //border: 2px solid red;
-            .loading-icon{
-                // border: 2px solid red;
-                width: 31px;
-                height: 31px;
-                filter: invert(1);
-                animation: spin 1s linear infinite;
-
-                &.hidden {
-                    display: none;
-                    animation-play-state: paused;
-                }
-            }
-            @keyframes spin {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
-            }
-        }
-
-
-        .user-posts {
-            width: 935px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 4px;
-
-            .profile-post-image{
-                // width: 100%;
-                // height: auto;
-                width: 307px;
-                height: 307px;
-                object-fit: cover;
-                cursor: pointer;
-                // border: 1px solid red;
-            }
-        }
-
-        .saved_tab {
-            width: 100%;
-            // border: 1px solid red;
-
-            .saved-posts-container {
-                width: 300px;
-                display: flex;
-                flex-direction: column;
-                cursor: pointer;
-                // border: 1px solid red;
-
-                .private-message {
-                    display: block;
-                    font-size: 12px;
-                    line-height: 16px;
-                    color: $secondary-color-1;
-                    margin-bottom: 16px;
-                }
-
-                .saved-posts-grid {
-                    width: 300px;
-                    height: 300px;
-                    display: grid;
-                    grid-template-columns: repeat(2, 1fr);
-                    gap: 0px;
-
-                    .saved-post-image {
-                        // width: 100%;
-                        // height: auto;
-                        width: 150px;
-                        height: 150px;
-                        object-fit: cover;
+                    &.hidden {
+                        display: none;
+                        animation-play-state: paused;
                     }
                 }
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+            }
 
-                .all_posts {
-                    width: 85px;
-                    margin-top: -35px;
-                    margin-left: 20px;
-                    font-size: 20px;
-                    line-height: 25px;
-                    color: $primary-color-1;
+            .user-posts {
+                width: 100%;
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 2px;
+
+                .profile-post-image{
+                    width: 100%;
+                    aspect-ratio: 1 / 1;
+                    object-fit: cover;
+                    cursor: pointer;
                     // border: 1px solid red;
                 }
             }
 
+            .saved_tab {
+                width: 100%;
+                // border: 1px solid red;
+
+                .saved-posts-container {
+                    width: 300px;
+                    display: flex;
+                    flex-direction: column;
+                    cursor: pointer;
+                    // border: 1px solid red;
+
+                    .private-message {
+                        display: block;
+                        font-size: 12px;
+                        line-height: 16px;
+                        color: $secondary-color-1;
+                        margin-bottom: 16px;
+                    }
+
+                    .saved-posts-grid {
+                        width: 300px;
+                        height: 300px;
+                        display: grid;
+                        grid-template-columns: repeat(2, 1fr);
+                        gap: 0px;
+
+                        .saved-post-image {
+                            // width: 100%;
+                            // height: auto;
+                            width: 150px;
+                            height: 150px;
+                            object-fit: cover;
+                        }
+                    }
+
+                    .all_posts {
+                        width: 85px;
+                        margin-top: -35px;
+                        margin-left: 20px;
+                        font-size: 20px;
+                        line-height: 25px;
+                        color: $primary-color-1;
+                        // border: 1px solid red;
+                    }
+                }
+
+            }
+        }
+    }
+
+    @media (min-width: 500px) {
+        // border: 1px solid brown;
+        max-width: 766px;
+        grid-template-columns: minmax(0px, 1fr) minmax(auto, 750px) minmax(0px, 1fr);
+
+        .profile-content .tab-view .user-posts {
+            grid-column: 2;
+            max-width: 750px;
+            width: calc(483px + (750 - 483) * ((100vw - 500px) / (766 - 500)));
+            // border: 1px solid brown;
+        }
+        .profile-content .tab-view .user-posts .profile-post-image {
+            max-width: calc(158px + (245 - 158) * ((100vw - 500px) / (766 - 500)));
+        }
+    }
+
+    @media (min-width: 766px) {
+        // border: 1px solid blue;
+        max-width: 1068px;
+        grid-template-columns: minmax(20px, 1fr) minmax(auto, 935px) minmax(20px, 1fr);
+
+        .profile-content .tab-view .user-posts {
+            max-width: 935px;
+            width: calc(638px + (935 - 638) * ((100vw - 766px) / (1068 - 766)));
+            // border: 1px solid blue;
+        }
+        .profile-content .tab-view .user-posts .profile-post-image {
+            // The linear interpolation formula of width calculating
+            // to resize smoothly as the viewport width changes dynamically between 766px and 1068px;
+            // calc(min_size + (max_size - min_size) * ((100vw - min_viewport) / (max_viewport - min_viewport)))
+            max-width: calc(209px + (307 - 209) * ((100vw - 766px) / (1068 - 766)));
+        }
+    }
+
+    @media (min-width: 1068px) {
+        // border: 1px solid yellow;
+        grid-template-columns: minmax(20px, 1fr) minmax(auto, 935px) minmax(20px, 1fr);
+
+        .profile-content .tab-view .user-posts {
+            width: 935px;
+            // border: 1px solid yellow;
+        }
+
+        .profile-content .tab-view .user-posts .profile-post-image {
+            max-width: 307px;
         }
     }
 }
