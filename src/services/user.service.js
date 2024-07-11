@@ -6,7 +6,7 @@ const STORAGE_KEY_LOGGEDIN_USER = 'loggedInUser'
 export const userService = {
     login,
     logout,
-    signup,
+    signUp,
     getLoggedInUser,
     saveLocalUser,
     getUsers,
@@ -43,15 +43,14 @@ async function update({ _id, ...fieldsToUpdate }) {
 
 async function login(userCred) {
     const users = await storageService.query('user')
-    const user = users.find(user => user.username === userCred.username)
+    const user = users.find(user => user.userName === userCred.userName)
 
     if (user) {
         return saveLocalUser(user)
     }
 }
 
-async function signup(userCred) {
-
+async function signUp(userCred) {
     const user = {
         _id: utilService.makeId(),
         userName: userCred.userName,
@@ -105,13 +104,13 @@ function getLoggedInUser() {
     return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
 }
 
-(async ()=> {
-    const users = await userService.getUsers()
-    if (!users.some(user=> user.userName === 'Tuppence'))
-        await userService.signup({fullName: 'Tuppence Beresford', userName: 'Tuppence', password:'123',
-                              imgUrl: '../media_samples/img_profile/1.jpg'})
+// (async ()=> {
+//     const users = await userService.getUsers()
+//     if (!users.some(user=> user.userName === 'Tuppence'))
+//         await userService.signup({fullName: 'Tuppence Beresford', userName: 'Tuppence', password:'123',
+//                               imgUrl: '../media_samples/img_profile/1.jpg'})
 
-    if (!users.some(user=> user.userName === 'sloner_garden'))
-        await userService.signup({fullName: 'משתלת סלונר', userName: 'sloner_garden', password:'123',
-                            imgUrl: '../media_samples/img_profile/sloner.jpeg'})
-})()
+//     if (!users.some(user=> user.userName === 'sloner_garden'))
+//         await userService.signup({fullName: 'משתלת סלונר', userName: 'sloner_garden', password:'123',
+//                             imgUrl: '../media_samples/img_profile/sloner.jpeg'})
+// })()

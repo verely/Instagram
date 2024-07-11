@@ -1,4 +1,3 @@
-import { userService } from '../../services/user.service.js'
 
 // Add the new action types
 export const FOLLOW_USER = "FOLLOW_USER";
@@ -13,7 +12,7 @@ export const SET_USERS = "SET_USERS";
 
 
 const initialState = {
-    user: userService.getLoggedInUser(),
+    user: null,
     users: [],
     currentProfile: null,
     error: null,

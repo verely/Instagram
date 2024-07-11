@@ -1,36 +1,25 @@
-import { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { useState, useEffect } from 'react'
+import { NavLink } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import brandName from '../assets/img/SideBarNavigation/brandName.svg';
-import brandIcon from '../assets/img/SideBarNavigation/brandIcon.svg';
-import home from '../assets/img/SideBarNavigation/home.svg';
-import explore from '../assets/img/SideBarNavigation/explore.svg';
-import search from '../assets/img/SideBarNavigation/search.svg';
-import messenger from '../assets/img/SideBarNavigation/messenger.svg';
-import newPost from '../assets/img/SideBarNavigation/newPost.svg';
-import more from '../assets/img/SideBarNavigation/more.svg';
-import { CreatePost } from './CreatePost.jsx';
+import brandName from '../assets/img/SideBarNavigation/brandName.svg'
+import brandIcon from '../assets/img/SideBarNavigation/brandIcon.svg'
+import home from '../assets/img/SideBarNavigation/home.svg'
+import explore from '../assets/img/SideBarNavigation/explore.svg'
+import search from '../assets/img/SideBarNavigation/search.svg'
+import messenger from '../assets/img/SideBarNavigation/messenger.svg'
+import newPost from '../assets/img/SideBarNavigation/newPost.svg'
+import more from '../assets/img/SideBarNavigation/more.svg'
+import { CreatePost } from './CreatePost.jsx'
 import { login } from '../store/actions/user.actions'
+import { MoreMenu } from './MoreMenu.jsx'
 
 export function SideBarNavigation() {
     const loggedInUser = useSelector(state => state.userModule.user)
 
     const [isCollapsed, setIsCollapsed] = useState(false)
     const [isCreatePostOpen, setIsCreatePostOpen] = useState(false)
+    const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false)
 
-    useEffect(() => {
-        const getLoginUser = async ()=> {
-            try {
-              const credentials={userName:'Tuppence'}
-              await login(credentials)
-            } catch (error) {
-              console.error('Failed to fetch post:', error)
-            }
-        }
-
-        getLoginUser()
-    //}, [username])
-    }, [])
 
     const handleOpenCreatePost = () => {
         setIsCreatePostOpen(true)
@@ -46,6 +35,10 @@ export function SideBarNavigation() {
 
     const expand = () => {
         if (isCollapsed) { setIsCollapsed(false) }
+    }
+
+    function onMoreMenuToggle() {
+        setIsMoreMenuOpen(!isMoreMenuOpen)
     }
 
     return (
@@ -111,10 +104,17 @@ export function SideBarNavigation() {
                             <img className="nav-icon profile" src={loggedInUser.imgUrl} alt="Profile"/>
                             {!isCollapsed && <span>Profile</span>}
                         </NavLink>}
-                        <NavLink to="/more" className="nav-link">
-                            <img src={more} alt="More" className="nav-icon"/>
-                            {!isCollapsed && <span>More</span>}
-                        </NavLink>
+                        <div className="more-link-wrapper">
+                            <NavLink to="/more" className="nav-link" onClick={onMoreMenuToggle}>
+                                <img src={more} alt="More" className="nav-icon"/>
+                                {!isCollapsed && <span>More</span>}
+                            </NavLink>
+                            {isMoreMenuOpen && (
+                                <div className='more-menu-wrapper'>
+                                    <MoreMenu />
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </nav>
             </div>

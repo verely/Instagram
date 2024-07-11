@@ -1,21 +1,43 @@
+import { useSelector } from 'react-redux'
 import { Routes, Route } from 'react-router'
+import { useLocation, Navigate } from 'react-router-dom'
 
 import routes from './routes'
 
-// import { AppFooter } from './cmps/AppFooter'
 import { ActionAlert } from './cmps/ActionAlert'
 import { SideBarNavigation } from './cmps/SideBarNavigation'
+import { PostIndex } from './pages/PostIndex'
+import { LoginSignUpPage } from './pages/LoginSignUpPage'
+
 
 export function RootCmp() {
+
+    const location = useLocation()
+    const user = useSelector(state => state.userModule.user)
+    console.log("User state:", user)
+
+    const isLoginPage = location.pathname === '/login'
 
     return (
         <div style={{ backgroundColor: 'black', minHeight: '100vh' }}>
             <div className='main-layout'>
-                <div className='sidebar-wrapper'>
+                {!isLoginPage && <div className='sidebar-wrapper'>
                     <SideBarNavigation />
-                </div>
+                </div>}
                 <main className='main-wrapper'>
                     <Routes>
+                        <Route
+                            path="/"
+                            element={user ? <PostIndex /> : <Navigate to="/login" replace />}
+                        />
+                        <Route
+                            path="/login"
+                            element={
+                                !user
+                                    ? <LoginSignUpPage />
+                                    : <Navigate to="/" replace />
+                            }
+                        />
                         {routes.map((route, index) => (
                             <Route key={index} path={route.path} element={route.component}>
                                 {route.children && route.children.map((childRoute, childIndex) => (

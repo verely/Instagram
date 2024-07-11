@@ -1,24 +1,17 @@
-import { useState, useEffect } from 'react'
-import { userService } from '../services/user.service'
-import { ImgUploader } from '../cmps/ImgUploader'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { login, signup } from '../store/actions/user.actions'
 
-export function LoginSignupPage(props) {
-    const [credentials, setCredentials] = useState({ username: '', password: '', fullname: '' })
-    const [isSignup, setIsSignup] = useState(false)
-    const [users, setUsers] = useState([])
+export function LoginSignUpPage() {
+    const [credentials, setCredentials] = useState({ userName: '', password: '', fullName: '' })
+    const [isSignUp, setIsSignUp] = useState(false)
 
-    useEffect(() => {
-        loadUsers()
-    }, [])
+    const navigate = useNavigate()
 
-    async function loadUsers() {
-        const users = await userService.getUsers()
-        setUsers(users)
-    }
 
     function clearState() {
-        setCredentials({ username: '', password: '', fullname: '', imgUrl: '' })
-        setIsSignup(false)
+        setCredentials({ userName: '', password: '', fullName: '', imgUrl: '' })
+        setIsSignUp(false)
     }
 
     function handleChange(ev) {
@@ -27,47 +20,49 @@ export function LoginSignupPage(props) {
         setCredentials({ ...credentials, [field]: value })
     }
 
-    function onLogin(ev = null) {
+    async function onLogin(ev = null) {
         if (ev) ev.preventDefault()
-        if (!credentials.username) return
-        props.onLogin(credentials)
+
+        if (!credentials.userName) return
+
+        await login(credentials)
+
         clearState()
+        console.log("Try to navigate")
+        navigate("/")
+        console.log("onLogin end")
     }
 
-    function onSignup(ev = null) {
+    async function onSignUp(ev = null) {
         if (ev) ev.preventDefault()
-        if (!credentials.username || !credentials.password || !credentials.fullname) return
-        props.onSignup(credentials)
-        clearState()
+        if (credentials.userName && credentials.password && credentials.fullName){
+            await signup(credentials)
+            clearState()
+        }
+        console.log("SignUp end")
     }
 
-    function toggleSignup() {
-        setIsSignup(!isSignup)
+    function toggleSignUp() {
+        setIsSignUp(!isSignUp)
     }
 
-    function onUploaded(imgUrl) {
-        setCredentials({ ...credentials, imgUrl })
-    }
+    const signUpLabel = "Don't have an account? Sign Up"
+    const loginLabel = "Already have an account? Log In"
 
     return (
+
         <div className="login-page">
             <p>
-                <button className="btn-link" onClick={toggleSignup}>{!isSignup ? 'Signup' : 'Login'}</button>
+                <button >Continue as Guest</button>
             </p>
-            {!isSignup && <form className="login-form" onSubmit={onLogin}>
-                <select
-                    name="username"
-                    value={credentials.username}
-                    onChange={handleChange}
-                >
-                    <option value="">Select User</option>
-                    {users.map(user => <option key={user._id} value={user.username}>{user.fullname}</option>)}
-                </select>
-                {/* <input
+            <span>OR</span>
+
+            {!isSignUp && <form className="login-form" onSubmit={onLogin}>
+                <input
                         type="text"
-                        name="username"
-                        value={username}
-                        placeholder="Username"
+                        name="userName"
+                        value={credentials.userName}
+                        placeholder="UserName"
                         onChange={handleChange}
                         required
                         autoFocus
@@ -75,28 +70,28 @@ export function LoginSignupPage(props) {
                     <input
                         type="password"
                         name="password"
-                        value={password}
+                        value={credentials.password}
                         placeholder="Password"
                         onChange={handleChange}
                         required
-                    /> */}
-                <button>Login!</button>
+                    />
+                <button>Log in</button>
             </form>}
-            <div className="signup-section">
-                {isSignup && <form className="signup-form" onSubmit={onSignup}>
+            <div className="signUp-section">
+                {isSignUp && <form className="signUp-form" onSubmit={onSignUp}>
                     <input
                         type="text"
-                        name="fullname"
-                        value={credentials.fullname}
-                        placeholder="Fullname"
+                        name="fullName"
+                        value={credentials.fullName}
+                        placeholder="Full Name"
                         onChange={handleChange}
                         required
                     />
                     <input
                         type="text"
-                        name="username"
-                        value={credentials.username}
-                        placeholder="Username"
+                        name="userName"
+                        value={credentials.userName}
+                        placeholder="UserName"
                         onChange={handleChange}
                         required
                     />
@@ -108,10 +103,14 @@ export function LoginSignupPage(props) {
                         onChange={handleChange}
                         required
                     />
-                    <ImgUploader onUploaded={onUploaded} />
-                    <button >Signup!</button>
+                    <button >Sign up</button>
                 </form>}
+
             </div>
+
+            <p>
+                <button className="btn-link" onClick={toggleSignUp}>{!isSignUp ? signUpLabel : loginLabel}</button>
+            </p>
         </div>
     )
 }

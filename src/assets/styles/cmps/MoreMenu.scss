@@ -1,0 +1,19 @@
+.more-menu {
+    display: flex;
+    background-color: $secondary-bgc;
+    border-radius: 15px;
+    padding: 8px 0;
+    margin-bottom: 4px;
+
+    .more-nav-link {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        border-radius: 8px;
+        padding: 20px;
+        height: 48px;
+        color: $primary-color-1;
+        font-size: 14px;
+        line-height: 18px;
+    }
+}

@@ -53,41 +53,41 @@ export async function loadUsers() {
       store.dispatch({
         type: SET_USER,
         user,
-      });
-      return user;
+      })
+      return user
     } catch (err) {
-      console.log("Cannot login", err);
-      store.dispatch({ type: SET_ERROR, error: "Login failed." });
-      throw err;
+      console.log("Cannot login", err)
+      store.dispatch({ type: SET_ERROR, error: "Login failed." })
+      throw err
     }
   }
 
   export async function signup(credentials) {
     try {
-      const user = await userService.signup(credentials);
+      const user = await userService.signUp(credentials)
       store.dispatch({
         type: SET_USER,
         user,
       });
-      return user;
+      return user
     } catch (err) {
-      console.log("Cannot signup", err);
-      store.dispatch({ type: SET_ERROR, error: "Signup failed." });
-      throw err;
+      console.log("Cannot signup", err)
+      store.dispatch({ type: SET_ERROR, error: "Signup failed." })
+      throw err
     }
   }
 
   export async function logout() {
     try {
-      await userService.logout();
+      await userService.logout()
       store.dispatch({
         type: SET_USER,
         user: null,
-      });
+      })
     } catch (err) {
       console.log("Cannot logout", err);
-      store.dispatch({ type: SET_ERROR, error: "Logout failed." });
-      throw err;
+      store.dispatch({ type: SET_ERROR, error: "Logout failed." })
+      throw err
     }
   }
 

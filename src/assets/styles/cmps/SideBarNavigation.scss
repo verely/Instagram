@@ -148,9 +148,24 @@
                 }
             }
 
-            &:last-child {
-                margin-top: auto;
-                margin-bottom: 20px;
+            // &:last-child {
+            //     margin-top: auto;
+            //     margin-bottom: 20px;
+            // }
+        }
+
+        .more-link-wrapper {
+            margin-top: auto;
+            margin-bottom: 20px;
+
+            position: relative;
+
+            .more-menu-wrapper {
+                position: absolute;
+                bottom: 100%;
+                left: 12px;
+                width: 250px;
+                z-index: 1005;
             }
         }
     }
