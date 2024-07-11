@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { login, signup } from '../store/actions/user.actions'
+import { login, signup, loginAsGuest } from '../store/actions/user.actions'
 
 export function LoginSignUpPage() {
     const [credentials, setCredentials] = useState({ userName: '', password: '', fullName: '' })
@@ -46,6 +46,10 @@ export function LoginSignUpPage() {
         setIsSignUp(!isSignUp)
     }
 
+    const handleGuestLogin = () => {
+        loginAsGuest();
+    };
+
     const signUpLabel = "Don't have an account? Sign Up"
     const loginLabel = "Already have an account? Log In"
 
@@ -53,7 +57,7 @@ export function LoginSignUpPage() {
 
         <div className="login-page">
             <p>
-                <button >Continue as Guest</button>
+                <button onClick={handleGuestLogin}>Continue as Guest</button>
             </p>
             <span>OR</span>
 

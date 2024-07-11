@@ -5,6 +5,7 @@ const STORAGE_KEY_LOGGEDIN_USER = 'loggedInUser'
 
 export const userService = {
     login,
+    loginAsGuest,
     logout,
     signUp,
     getLoggedInUser,
@@ -48,6 +49,23 @@ async function login(userCred) {
     if (user) {
         return saveLocalUser(user)
     }
+}
+
+async function loginAsGuest() {
+    const user = {
+        _id: utilService.makeId(),
+        userName: "Guest",
+        password: "Guest", // Use bcrypt for hashed password on server
+        fullName: "Guest User",
+        imgUrl: 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png',
+        bio: '',
+        followingCount: 0,
+        followersCount: 0,
+        savedStoryIds: [],
+        isGuest: true
+    };
+
+    return saveLocalUser(user)
 }
 
 async function signUp(userCred) {

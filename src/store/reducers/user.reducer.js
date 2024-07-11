@@ -1,14 +1,15 @@
 
 // Add the new action types
-export const FOLLOW_USER = "FOLLOW_USER";
-export const UNFOLLOW_USER = "UNFOLLOW_USER";
-export const UPDATE_PROFILE = "UPDATE_PROFILE";
-export const SET_ERROR = "SET_ERROR";
+export const FOLLOW_USER = "FOLLOW_USER"
+export const UNFOLLOW_USER = "UNFOLLOW_USER"
+export const UPDATE_PROFILE = "UPDATE_PROFILE"
+export const SET_ERROR = "SET_ERROR"
 
-export const SET_USER = "SET_USER";
-export const SET_CURRENT_PROFILE = "SET_CURRENT_PROFILE";
-export const REMOVE_USER = "REMOVE_USER";
-export const SET_USERS = "SET_USERS";
+export const SET_USER = "SET_USER"
+export const SET_CURRENT_PROFILE = "SET_CURRENT_PROFILE"
+export const REMOVE_USER = "REMOVE_USER"
+export const SET_USERS = "SET_USERS"
+export const LOGIN_AS_GUEST = "LOGIN_AS_GUEST"
 
 
 const initialState = {
@@ -21,6 +22,7 @@ const initialState = {
 
 export function userReducer(state = initialState, action) {
     switch (action.type) {
+        case LOGIN_AS_GUEST:
         case SET_USER:
           return { ...state, user: action.user };
         case SET_CURRENT_PROFILE:

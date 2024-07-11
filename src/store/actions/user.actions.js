@@ -5,6 +5,7 @@ import { LOADING_DONE, LOADING_START } from "../reducers/system.reducer.js";
 import {
     REMOVE_USER,
     SET_USER,
+    LOGIN_AS_GUEST,
     SET_USERS,
     SET_CURRENT_PROFILE,
     FOLLOW_USER,
@@ -58,6 +59,21 @@ export async function loadUsers() {
     } catch (err) {
       console.log("Cannot login", err)
       store.dispatch({ type: SET_ERROR, error: "Login failed." })
+      throw err
+    }
+  }
+
+  export async function loginAsGuest() {
+    try {
+      const user = await userService.loginAsGuest();
+      store.dispatch({
+        type: LOGIN_AS_GUEST,
+        user,
+      })
+      return user
+    } catch (err) {
+      console.log("Cannot login as guest", err)
+      store.dispatch({ type: SET_ERROR, error: "Login as guest failed." })
       throw err
     }
   }
