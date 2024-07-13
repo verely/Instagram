@@ -16,8 +16,10 @@
 @import "views/PostIndex";
 @import "views/HomePage";
 @import "views/UserProfile";
+@import "views/LoginSignUpPage";
 
 // Components
+@import "cmps/RootCmp.scss";
 @import "cmps/AppFooter";
 @import "cmps/ActionAlert";
 @import "cmps/ActionButtons";

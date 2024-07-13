@@ -14,12 +14,12 @@ export function RootCmp() {
 
     const location = useLocation()
     const user = useSelector(state => state.userModule.user)
-    console.log("User state:", user)
+    // console.log("User state:", user)
 
     const isLoginPage = location.pathname === '/login'
 
     return (
-        <div style={{ backgroundColor: 'black', minHeight: '100vh' }}>
+        <div className={`root-container ${isLoginPage ? 'login-page' : ''}`}>
             <div className='main-layout'>
                 {!isLoginPage && <div className='sidebar-wrapper'>
                     <SideBarNavigation />
