@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { login, signup, loginAsGuest } from '../store/actions/user.actions'
-
+import  brand  from '../assets/img/shared/brand.svg'
 export function LoginSignUpPage() {
     const [credentials, setCredentials] = useState({ userName: '', password: '', fullName: '' })
     const [isSignUp, setIsSignUp] = useState(false)
@@ -50,18 +50,29 @@ export function LoginSignUpPage() {
         loginAsGuest();
     };
 
-    const signUpLabel = "Don't have an account? Sign Up"
-    const loginLabel = "Already have an account? Log In"
+    const signUpLabel = "Don't have an account?"
+    const signUpActionCall = "Sign Up"
+    const loginLabel = "Already have an account?"
+    const loginActionCall = "Log In"
 
     return (
-
+      <div className="login-page-container">
         <div className="login-page">
-            <p>
-                <button onClick={handleGuestLogin}>Continue as Guest</button>
-            </p>
-            <span>OR</span>
 
-            {!isSignUp && <form className="login-form" onSubmit={onLogin}>
+            <div className='brand-section'>
+                <img className='brand-img' src={brand} alt="brand" />
+                <span className="brand-description">Sign up to see photos and videos from your friends.</span>
+            </div>
+            <button className="blue-btn auth-btn" onClick={handleGuestLogin}>Continue as Guest</button>
+
+            <div className='separation-section'>
+                <div></div>
+                <span className='or'>Or</span>
+                <div></div>
+            </div>
+
+            <div className="login-section">
+              {!isSignUp && <form className="auth-form" onSubmit={onLogin}>
                 <input
                         type="text"
                         name="userName"
@@ -79,10 +90,12 @@ export function LoginSignUpPage() {
                         onChange={handleChange}
                         required
                     />
-                <button>Log in</button>
-            </form>}
+                <button className="blue-btn auth-btn">Log in</button>
+              </form>}
+            </div>
+
             <div className="signUp-section">
-                {isSignUp && <form className="signUp-form" onSubmit={onSignUp}>
+                {isSignUp && <form className="auth-form" onSubmit={onSignUp}>
                     <input
                         type="text"
                         name="fullName"
@@ -95,7 +108,7 @@ export function LoginSignUpPage() {
                         type="text"
                         name="userName"
                         value={credentials.userName}
-                        placeholder="UserName"
+                        placeholder="User Name"
                         onChange={handleChange}
                         required
                     />
@@ -107,14 +120,17 @@ export function LoginSignUpPage() {
                         onChange={handleChange}
                         required
                     />
-                    <button >Sign up</button>
+                    <button className="blue-btn auth-btn">Sign up</button>
                 </form>}
-
             </div>
 
-            <p>
-                <button className="btn-link" onClick={toggleSignUp}>{!isSignUp ? signUpLabel : loginLabel}</button>
-            </p>
+            <div className='auth-toggle'>
+                <span className="label">{!isSignUp ? signUpLabel : loginLabel}</span>
+                <span className="action-call" onClick={toggleSignUp}>
+                    {!isSignUp ? signUpActionCall : loginActionCall}
+                </span>
+            </div>
         </div>
+      </div>
     )
 }

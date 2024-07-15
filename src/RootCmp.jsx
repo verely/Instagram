@@ -24,7 +24,7 @@ export function RootCmp() {
                 {!isLoginPage && <div className='sidebar-wrapper'>
                     <SideBarNavigation />
                 </div>}
-                <main className='main-wrapper'>
+                <main className={`main-wrapper ${isLoginPage ? 'loginPageLayout' : ''}`}>
                     <Routes>
                         <Route
                             path="/"

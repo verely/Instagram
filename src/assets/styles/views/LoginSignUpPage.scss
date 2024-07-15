@@ -1,3 +1,113 @@
-.login-page{
+.login-page-container{
+    width: 100%;
+    height: 100%;
     background-color: white;
+    display: flex;
+    justify-content: center;
+
+    .login-page{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        border-color: $separation-line-bgc;
+        border: 1px solid rgb(219, 219, 219);
+        border-radius: 1px;
+        width: 350px;
+        height: 450px;
+        font-size: 14px;
+        line-height: 18px;
+
+        .brand-section{
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            .brand-img{
+               width: 175px;
+               height: 51px;
+            }
+            .brand-description{
+                width: 268px;
+                height: 40px;
+                color:  rgb(115, 115, 115);
+                font-weight: 600;
+                font-size: 16px;
+                text-align: center;
+            }
+        }
+
+        .auth-btn{
+            width: 268px;
+            height: 32px;
+            font-weight: 600;
+        }
+
+        .separation-section{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 7px;
+            div{
+                height: 1px;
+                width: 107px;
+                background-color: rgb(219, 219, 219);
+            }
+            .or{
+                font-size: 13px;
+                font-weight: 600;
+                text-transform: uppercase;
+                color:  rgb(115, 115, 115);
+                justify-self: end;
+                padding: 0 15px;
+              }
+        }
+
+        .auth-form {
+          input{
+            margin: 0;
+            margin-bottom: 7px;
+            width: 268px; //258px;
+            height: 36px;
+            font-size: 16px;
+            line-height: 18px;
+            background: none;
+            background-color: #fafafa !important;
+            border-top-right-radius: 3px;
+            border-bottom-right-radius: 3px;
+            border: 1px solid rgb(219, 219, 219);
+            font-size: 12px;
+            line-height: 18px;
+            text-overflow: ellipsis;
+            padding: 9px 0 7px 8px;
+            }
+
+            input:-webkit-autofill,
+            input:-webkit-autofill:hover,
+            input:-webkit-autofill:focus {
+            -webkit-box-shadow: 0 0 0px 1000px #fafafa inset;
+            transition: background-color 5000s ease-in-out 0s;
+            }
+
+          button{
+            margin-top: 15px;
+          }
+        }
+
+        .auth-toggle{
+            color: $primary-bgc;
+            background-color: $btn-secondary-color-1;
+            .label {
+                cursor: default;
+            }
+            .action-call{
+                color: $btn-secondary-bgc;
+                font-weight: 600;
+                margin: 5px;
+                cursor: pointer;
+            }
+        }
+    }
 }
+

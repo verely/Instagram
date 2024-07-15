@@ -1,8 +1,79 @@
 .root-container {
+  display: flex;
     min-height: 100vh;
     background-color: black;
 
     &.login-page {
       background-color: white;
+
+      .login-page-container{
+        align-self: center;
+        justify-content: center;
+      }
+    }
+
+    .main-layout {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      overflow-x: hidden;
+
+      .sidebar-wrapper {
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: $sidebar-height-hamburger;
+          z-index: 1000;
+      }
+
+      .main-wrapper {
+          display: flex;
+          flex: 1;
+          width: 100%;
+          max-width: 483px;
+          margin: 0 auto; // center content
+          padding-top: 25px;
+          padding-bottom: $sidebar-height-hamburger;
+
+          &.loginPageLayout{
+            margin: 0;
+            padding-top: 12px;
+          }
+      }
+
+      @media (min-width: 501px) {
+          .main-wrapper {
+              max-width: none; // removes constraint
+          }
+      }
+
+      @media (min-width: 767px) {
+          flex-direction: row;
+
+          .sidebar-wrapper {
+              position: fixed;
+              top: 0;
+              left: 0;
+              bottom: 0;
+              width: $sidebar-width-collapsed;
+              height: 100vh;
+          }
+
+          .main-wrapper {
+              margin-left: $sidebar-width-collapsed;
+              padding-bottom: 0;
+          }
+      }
+
+      @media (min-width: 1263px) {
+          .sidebar-wrapper {
+              width: $sidebar-width;
+          }
+
+          .main-wrapper {
+              margin-left: $sidebar-width;
+          }
+      }
     }
   }
