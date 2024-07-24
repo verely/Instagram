@@ -1,5 +1,6 @@
 import { postService } from './post.service.js'
 import { logger } from '../../services/logger.service.js'
+import { UnauthorizedError } from '../auth/auth.error.js'
 
 export async function addPost(req, res) {
     const { loggedInUser } = req
@@ -37,4 +38,19 @@ export async function getPosts(req, res) {
     }
 }
 
-
+export async function deletePost(req, res) {
+    const { loggedInUser } = req
+    const postId = req.params.id
+    try {
+        await postService.remove(postId, loggedInUser)
+        res.send('post deleted')
+    } catch (err) {
+        if (err instanceof UnauthorizedError) {
+            logger.error(`Failed remove post ${postId}: ${err.message}`)
+            res.status(err.statusCode).send(`Failed remove post: ${err.message}`)
+        } else {
+            logger.error(`Failed remove post ${postId}`, err);
+            res.status(500).send(`Failed remove post: ${err.message}`)
+        }
+    }
+}

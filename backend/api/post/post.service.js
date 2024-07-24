@@ -1,6 +1,7 @@
 // import { dbService } from '../../services/db.service.js'
 import { dbService } from '../../services/db.service.js'
 import { logger } from '../../services/logger.service.js'
+import { UnauthorizedError } from '../../api/auth/auth.error.js'
 
 import mongodb from 'mongodb'
 const { ObjectId } = mongodb
@@ -80,13 +81,30 @@ async function add(post, loggedInUser) {
     }
 }
 
-
-async function remove(postId) {
+async function remove(postId, loggedInUser) {
     try {
+        if (!(await hasPermission(postId, loggedInUser))) {
+            throw new UnauthorizedError("Only admin or post owner can remove it")
+        }
+
         const collection = await dbService.getCollection('post')
         await collection.deleteOne({ _id: ObjectId.createFromHexString(postId) })
-    } catch (err) {
+    }
+    catch (err) {
         logger.error(`Cannot remove post ${postId}`, err)
+        throw err
+    }
+}
+
+async function hasPermission(postId, loggedInUser) {
+    try {
+        if (loggedInUser.isAdmin)
+        return true
+
+        const post = await getById(postId)
+        return post.owner.id === loggedInUser._id
+    } catch (err) {
+        logger.error(`Error checking permission for post ${postId}`, err)
         throw err
     }
 }
