@@ -5,7 +5,6 @@ export async function addPost(req, res) {
     const { loggedInUser } = req
     const { post } = req.body
 
-    console.log(req.body)
     try {
         const postToSave = await postService.add(post, loggedInUser)
         res.send(postToSave)

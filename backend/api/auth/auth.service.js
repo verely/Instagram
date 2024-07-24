@@ -39,7 +39,7 @@ async function login(userName, password) {
 
 
 function getLoginToken(user) {
-    const userInfo = {_id : user._id, fullName: user.fullName, isAdmin: user.isAdmin}
+    const userInfo = {_id : user._id, userName: user.userName, fullName: user.fullName, imgUrl: user.imgUrl, isAdmin: user.isAdmin}
     return cryptr.encrypt(JSON.stringify(userInfo))
 }
 

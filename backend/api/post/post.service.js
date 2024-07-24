@@ -44,26 +44,33 @@ async function getById(postId) {
 
 async function add(post, loggedInUser) {
     try {
+        const { _id, userName, fullName, imgUrl, isAdmin } = loggedInUser
+        const owner = {
+            id: ObjectId.createFromHexString(_id),
+            userName,
+            fullName,
+            imgUrl,
+            isAdmin
+        }
         const postToSave = {
             desc: post.desc,
             imgUrl: post.imgUrl,
-            owner: loggedInUser
+            owner: owner
         }
+        console.log('postToSave',postToSave)
         const collection = await dbService.getCollection('post')
         const insertionResult = await collection.insertOne(postToSave)
         if (insertionResult.acknowledged) {
 
             const insertedId = insertionResult.insertedId
-            console.log(`createFromHexString: ${ObjectId.createFromHexString(insertedId).getTimestamp().getTime()}`)
-            console.log(`new ${ObjectId.createFromHexString(insertedId).getTimestamp().getTime()}`)
 
             const insertedPost = {
                 ...postToSave,
                 _id: insertedId,
-                created_at: ObjectId.createFromHexString(insertedId).getTimestamp().getTime()
-            };
+                created_at: insertedId.getTimestamp().getTime()
+            }
             console.log(insertedPost)
-            return insertedPost;
+            return insertedPost
         } else {
             throw new Error('Failed to insert post');
         }
