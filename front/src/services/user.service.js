@@ -1,134 +1,38 @@
-import { storageService } from './async-storage.service'
-import { utilService } from './util.service'
+import Axios from 'axios'
 
-const STORAGE_KEY_LOGGEDIN_USER = 'loggedInUser'
+var axios = Axios.create({
+    withCredentials: true
+})
+
+const BASE_URL = import.meta.env.VITE_DEV_ENV === 'true'
+  ? '//localhost:3000/api/user/'
+  : '/api/user/'
+
 
 export const userService = {
-    login,
-    loginAsGuest,
-    logout,
-    signUp,
-    getLoggedInUser,
-    saveLocalUser,
-    getUsers,
-    getById,
+    query,
+    get,
     remove,
-    update,
-    increaseFollowingCount,
-    updateLocalUserFields
+    save,
 }
 
-window.userService = userService
-
-
-function getUsers() {
-    return storageService.query('user')
+async function query(filterBy = {}) {
+    // console.log(`filterBy: index=${filterBy.pageIndex} title=${filterBy.fullname} severity=${filterBy.score}`)
+    let { data: users } = await axios.get(BASE_URL, { params: filterBy })
+    return users
 }
 
-async function getById(userId) {
-    const user = await storageService.get('user', userId)
+async function get(userId) {
+    const { data: user } = await axios.get(BASE_URL + userId)
     return user
 }
 
-function remove(userId) {
-    return storageService.remove('user', userId)
+async function remove(userId) {
+    return axios.delete(BASE_URL + userId)
 }
 
-async function update({ _id, ...fieldsToUpdate }) {
-    const user = await storageService.get('user', _id)
-    const userToSave = { ...user, ...fieldsToUpdate }
-    await storageService.put('user', userToSave)
-
-    return user
+async function save(user) {
+    const method = user._id ? 'put' : 'post'
+    const { data: savedUser } = await axios[method](BASE_URL + (user._id || ''), user)
+    return savedUser
 }
-
-async function login(userCred) {
-    const users = await storageService.query('user')
-    const user = users.find(user => user.userName === userCred.userName)
-
-    if (user) {
-        return saveLocalUser(user)
-    }
-}
-
-async function loginAsGuest() {
-    const user = {
-        _id: utilService.makeId(),
-        userName: "Guest",
-        password: "Guest", // Use bcrypt for hashed password on server
-        fullName: "Guest User",
-        imgUrl: 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png',
-        bio: '',
-        followingCount: 0,
-        followersCount: 0,
-        savedStoryIds: [],
-        isGuest: true
-    };
-
-    return saveLocalUser(user)
-}
-
-async function signUp(userCred) {
-    const user = {
-        _id: utilService.makeId(),
-        userName: userCred.userName,
-        password: userCred.password, // Use bcrypt for hashed password on server
-        fullName: userCred.fullName || 'New User',
-        imgUrl: userCred.imgUrl? userCred.imgUrl : 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png',
-        bio: '',
-        followingCount: 0,
-        followersCount: 0,
-        savedStoryIds: [],
-    };
-
-    await storageService.post('user', user)
-
-    return saveLocalUser(user)
-}
-
-async function logout() {
-    sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN_USER)
-}
-
-async function increaseFollowingCount() {
-    const user = getLoggedInUser()
-    if (!user) throw new Error('Not logged in')
-    user.followingCount++
-    await update(user)
-    return user.followingCount
-}
-
-
-function saveLocalUser(user) {
-    user = { _id: user._id, userName: user.userName, fullName: user.fullName, imgUrl: user.imgUrl,
-        bio: user.bio, followingCount: user.followingCount, followersCount: user.followersCount, savedPostIds: user.savedPostIds}
-    sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
-    return user
-}
-
-function updateLocalUserFields(user) {
-    const currUser = getLoggedInUser()
-    const userToSave = { ...currUser, ...user }
-    sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(userToSave))
-    return user
-}
-
-// function getLoggedInUser() {
-//     const imgPath = '../media_samples/img_profile/1.jpg'
-//     return { "_id": "u101", "userName": "Tuppence", "fullName": "Tuppence Beresford", "imgUrl": imgPath}
-// }
-
-function getLoggedInUser() {
-    return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
-}
-
-// (async ()=> {
-//     const users = await userService.getUsers()
-//     if (!users.some(user=> user.userName === 'Tuppence'))
-//         await userService.signup({fullName: 'Tuppence Beresford', userName: 'Tuppence', password:'123',
-//                               imgUrl: '../media_samples/img_profile/1.jpg'})
-
-//     if (!users.some(user=> user.userName === 'sloner_garden'))
-//         await userService.signup({fullName: 'משתלת סלונר', userName: 'sloner_garden', password:'123',
-//                             imgUrl: '../media_samples/img_profile/sloner.jpeg'})
-// })()

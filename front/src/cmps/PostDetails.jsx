@@ -9,7 +9,6 @@ import { ActionButtons } from './ActionButtons'
 import { CommentArea } from './CommentArea'
 
 import { postService } from '../services/post.service.local'
-import { userService } from '../services/user.service'
 
 import { loadPosts, removePost,
     updateLikeStatus, addCommentToPost,

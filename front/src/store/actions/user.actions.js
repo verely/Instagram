@@ -1,4 +1,5 @@
-import { userService } from "../../services/user.service.js";
+import { userService } from '../../services/user.service.js'
+import { authService } from '../../services/auth.service.js'
 import { store } from '../store.js'
 
 import { LOADING_DONE, LOADING_START } from "../reducers/system.reducer.js";
@@ -15,7 +16,7 @@ import {
 } from "../reducers/user.reducer.js";
 
 
-export async function loadUser(userId) {
+  export async function loadUser(userId) {
   try {
     const user = await userService.getById(userId);
     store.dispatch({ type: SET_CURRENT_PROFILE, user });
@@ -23,9 +24,9 @@ export async function loadUser(userId) {
     console.log("Cannot load user", err);
     store.dispatch({ type: SET_ERROR, error: "Error loading user." });
   }
-}
+  }
 
-export async function loadUsers() {
+  export async function loadUsers() {
     try {
       store.dispatch({ type: LOADING_START });
       const users = await userService.getUsers();
@@ -48,9 +49,10 @@ export async function loadUsers() {
     }
   }
 
+
   export async function login(credentials) {
     try {
-      const user = await userService.login(credentials);
+      const user = await authService.login(credentials);
       store.dispatch({
         type: SET_USER,
         user,
@@ -65,7 +67,7 @@ export async function loadUsers() {
 
   export async function loginAsGuest() {
     try {
-      const user = await userService.loginAsGuest();
+      const user = await authService.loginAsGuest();
       store.dispatch({
         type: LOGIN_AS_GUEST,
         user,
@@ -80,7 +82,7 @@ export async function loadUsers() {
 
   export async function signup(credentials) {
     try {
-      const user = await userService.signUp(credentials)
+      const user = await authService.signUp(credentials)
       store.dispatch({
         type: SET_USER,
         user,
@@ -95,7 +97,7 @@ export async function loadUsers() {
 
   export async function logout() {
     try {
-      await userService.logout()
+      await authService.logout()
       store.dispatch({
         type: SET_USER,
         user: null,

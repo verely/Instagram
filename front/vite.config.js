@@ -8,4 +8,8 @@ export default defineConfig({
     react(),
     svgr(),
   ],
+  build: {
+    outDir: '../backend/public',
+    emptyOutDir: true,
+  },
 })

@@ -22,7 +22,7 @@ async function query(filterBy = {}) {
         const collection = await dbService.getCollection('post')
         var posts = await collection.find(criteria).toArray()
         posts = posts.map(post => {
-            post.created_at = ObjectId.createFromHexString(post._id).getTimestamp()
+            post.created_at = post._id.getTimestamp()
             return post
         })
         return posts

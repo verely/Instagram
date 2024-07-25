@@ -1,9 +1,8 @@
-import { postService } from "../../services/post.service.local.js";
-import { userService } from "../../services/user.service.js";
+import { postService } from '../../services/post.service.js'
 import { store } from '../../store/store.js'
 import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service.js'
 import { ADD_POST, REMOVE_POST, LIKE_POST, UNLIKE_POST, COMMENT_POST,
-    SHARE_POST, SAVE_POST, SET_POSTS, UNDO_REMOVE_POST} from "../reducers/post.reducer.js";
+    SHARE_POST, SAVE_POST, SET_POSTS, UNDO_REMOVE_POST} from '../reducers/post.reducer.js'
 
 // Action Creators:
 export function getActionAddPost(post) {
@@ -74,7 +73,6 @@ export async function loadPosts() {
         console.error('Cannot load posts', err)
         throw err
     }
-
 }
 
 export async function addPost(post) {

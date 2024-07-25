@@ -5,10 +5,7 @@ import { loadPosts, removePost,
     sharePost, getActionRemovePost } from '../store/actions/post.actions.js'
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
-import { userService } from '../services/user.service.js'
 import { PostList } from '../cmps/PostList.jsx'
-
-
 
 
 export function PostIndex() {
