@@ -15,34 +15,32 @@ export const postService = {
     get,
     remove,
     save,
-    getEmptyBug,
+    getEmptyPost,
     getDefaultFilter,
 }
 
 async function query(filterBy = {}) {
-     const { data: bugs } = await axios.get(BASE_URL, { params: filterBy })
-    return bugs
+     const { data: posts } = await axios.get(BASE_URL, { params: filterBy })
+    return posts
 }
 
-async function get(bugId) {
-    const { data: bug } = await axios.get(BASE_URL + bugId)
-    return bug
+async function get(postId) {
+    const { data: post } = await axios.get(BASE_URL + postId)
+    return post
 }
 
-async function remove(bugId) {
-    return axios.delete(BASE_URL + bugId)
+async function remove(postId) {
+    return axios.delete(BASE_URL + postId)
 }
 
-async function save(bug) {
-    const method = bug._id ? 'put' : 'post'
-    const { data: savedBug } = await axios[method](BASE_URL + (bug._id || ''), {bug})
-
-    // const queryParams = `?_id=${bug._id || ''}&title=${bug.title}&desc=${bug.desc}&severity=${bug.severity}`
-    // const { data: savedBug } = await axios.get(BASE_URL + 'save' + queryParams)
-    return savedBug
+async function save(post) {
+    const method = post._id ? 'put' : 'post'
+    const { data: savedPost } = await axios[method](BASE_URL + (post._id || ''), {post})
+    console.log(savedPost)
+    return savedPost
 }
 
-function getEmptyBug(title = '', desc='', severity = '') {
+function getEmptyPost(title = '', desc='', severity = '') {
     return { title, desc, severity }
 }
 

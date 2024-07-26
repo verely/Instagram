@@ -78,13 +78,14 @@ export function CreatePost({ onClose }) {
       const newPost = {
         desc: postText,
         imgUrl: secure_url
-      };
-      onAddPost(newPost)
+      }
+      await onAddPost(newPost)
       setCurrentStep(States.SHARED)
       setImgFile("")
     } catch (err) {
       console.log(`Error occurred while post sharing: ${err}`)
       showErrorMsg("Cannot share post")
+      onClose()
     }
   }
 

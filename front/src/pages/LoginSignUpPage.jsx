@@ -28,9 +28,7 @@ export function LoginSignUpPage() {
         await login(credentials)
 
         clearState()
-        console.log("Try to navigate")
         navigate("/")
-        console.log("onLogin end")
     }
 
     async function onSignUp(ev = null) {
@@ -39,7 +37,6 @@ export function LoginSignUpPage() {
             await signup(credentials)
             clearState()
         }
-        console.log("SignUp end")
     }
 
     function toggleSignUp() {

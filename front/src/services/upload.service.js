@@ -7,8 +7,6 @@ async function uploadImgFile(file) {
     const UPLOAD_PRESET = import.meta.env.VITE_UPLOAD_PRESET;
     const UPLOAD_URL = import.meta.env.VITE_UPLOAD_URL
 
-    console.log('UPLOAD_PRESET:', UPLOAD_PRESET)
-    console.log('UPLOAD_URL:', UPLOAD_URL)
     try {
         const formData = new FormData()
         formData.append('upload_preset', UPLOAD_PRESET)
