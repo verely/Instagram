@@ -3,7 +3,7 @@ import { utilService } from './util.service'
 
 const STORAGE_KEY_LOGGEDIN_USER = 'loggedInUser'
 
-export const userService = {
+export const userServiceLocal = {
     login,
     loginAsGuest,
     logout,
@@ -18,7 +18,7 @@ export const userService = {
     updateLocalUserFields
 }
 
-window.userService = userService
+window.userServiceLocal = userServiceLocal
 
 
 function getUsers() {
@@ -123,12 +123,12 @@ function getLoggedInUser() {
 }
 
 // (async ()=> {
-//     const users = await userService.getUsers()
+//     const users = await userServiceLocal.getUsers()
 //     if (!users.some(user=> user.userName === 'Tuppence'))
-//         await userService.signup({fullName: 'Tuppence Beresford', userName: 'Tuppence', password:'123',
+//         await userServiceLocal.signup({fullName: 'Tuppence Beresford', userName: 'Tuppence', password:'123',
 //                               imgUrl: '../media_samples/img_profile/1.jpg'})
 
 //     if (!users.some(user=> user.userName === 'sloner_garden'))
-//         await userService.signup({fullName: 'משתלת סלונר', userName: 'sloner_garden', password:'123',
+//         await userServiceLocal.signup({fullName: 'משתלת סלונר', userName: 'sloner_garden', password:'123',
 //                             imgUrl: '../media_samples/img_profile/sloner.jpeg'})
 // })()

@@ -1,44 +1,50 @@
-import { useState, useEffect } from "react";
-import signV from "../assets/img/CreatePost/signV.png"
-import left from "../assets/img/CreatePost/leftArrow.svg"
-import close from "../assets/img/CreatePost/close.svg"
+import { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import signV from '../assets/img/CreatePost/signV.png'
+import left from '../assets/img/CreatePost/leftArrow.svg'
+import close from '../assets/img/CreatePost/close.svg'
 import { uploadService } from '../services/upload.service'
-import { showErrorMsg } from "../services/event-bus.service";
+import { showErrorMsg } from '../services/event-bus.service'
 import { addPost } from '../store/actions/post.actions.js'
+
 
 const States = {
     SELECT_IMAGE: 'selectImage',
     ADD_TEXT: 'addText',
     SHARED: 'shared',
-  };
+  }
+
 
 export function CreatePost({ onClose }) {
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [currentStep, setCurrentStep] = useState(States.SELECT_IMAGE);
-  const [fileLoadingComplete, setFileLoadingComplete] = useState(false);
-  const [postText, setPostText] = useState("");
-  const [imgFile, setImgFile] = useState("");
+  const [selectedImage, setSelectedImage] = useState(null)
+  const [currentStep, setCurrentStep] = useState(States.SELECT_IMAGE)
+  const [fileLoadingComplete, setFileLoadingComplete] = useState(false)
+  const [postText, setPostText] = useState("")
+  const [imgFile, setImgFile] = useState("")
+
+  const owner = useSelector(state => state.userModule.user)
+  
 
   useEffect(()=>{
-    setCurrentStep(States.SELECT_IMAGE);
+    setCurrentStep(States.SELECT_IMAGE)
     setPostText("")
-  },[]);
+  },[])
 
   useEffect(() => {
     if (fileLoadingComplete) {
-      setCurrentStep(States.ADD_TEXT);
-      setFileLoadingComplete(true);
+      setCurrentStep(States.ADD_TEXT)
+      setFileLoadingComplete(true)
     }
-  }, [fileLoadingComplete]);
+  }, [fileLoadingComplete])
 
   useEffect(() => {
     if (currentStep === States.SHARED) {
       const timer = setTimeout(() => {
         onClose()
-      }, 3000);
-      return () => clearTimeout(timer);
+      }, 3000)
+      return () => clearTimeout(timer)
     }
-  }, [currentStep]);
+  }, [currentStep])
 
   async function onAddPost(post) {
     try {
@@ -48,29 +54,21 @@ export function CreatePost({ onClose }) {
     }
   }
 
-  function getLoggedInUser() {
-    const imgPath = '../media_samples/img_profile/1.jpg'
-    return { "_id": "u101", "userName": "Tuppence", "fullName": "Tuppence Beresford", "imgUrl": imgPath}
-
-    // const imgPath = '../media_samples/img_profile/sloner.jpeg'
-    // return { "_id": "u103", "userName": "Sloner_garden", "fullName": "Mashtelat Sloner", "imgUrl": imgPath}
-    //return userService.getLoggedInUser()
-  }
 
   const handleFileChange = (event) => {
-    const file = event.target.files[0];
+    const file = event.target.files[0]
     if (file) {
        setImgFile(file)
-       const reader = new FileReader();
+       const reader = new FileReader()
        reader.onloadend = () => {
-         setSelectedImage(reader.result);
-         setCurrentStep(States.ADD_TEXT);
+         setSelectedImage(reader.result)
+         setCurrentStep(States.ADD_TEXT)
          console.log("Reading completed")
-         event.target.value = null;
-       };
-       reader.readAsDataURL(file);
+         event.target.value = null
+       }
+       reader.readAsDataURL(file)
     }
-   };
+  }
 
   async function sharePost() {
     try {
@@ -89,13 +87,11 @@ export function CreatePost({ onClose }) {
     }
   }
 
-  const owner = getLoggedInUser()
-
   const handleModalBackdropClick = (e) => {
     if (e.currentTarget === e.target) {
-      onClose();
+      onClose()
     }
-  };
+  }
 
   return (
     <div className="modal" onClick={handleModalBackdropClick}>

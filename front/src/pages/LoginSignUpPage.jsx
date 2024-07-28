@@ -44,8 +44,8 @@ export function LoginSignUpPage() {
     }
 
     const handleGuestLogin = () => {
-        loginAsGuest();
-    };
+        loginAsGuest()
+    }
 
     const signUpLabel = "Don't have an account?"
     const signUpActionCall = "Sign Up"

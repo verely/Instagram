@@ -12,4 +12,7 @@ export default defineConfig({
     outDir: '../backend/public',
     emptyOutDir: true,
   },
+  proxy: {
+    '/images': '<http://localhost:3000>',
+  },
 })

@@ -1,20 +1,19 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-//import { useParams } from 'react-router-dom'
 
-import { loadUser, login } from '../store/actions/user.actions'
+import { loadUser, loadGuestUser } from '../store/actions/user.actions'
 import { store } from '../store/store'
 import { showSuccessMsg } from '../services/event-bus.service'
 
 import { postService } from '../services/post.service.local'
 
-import post_tab from "../assets/img/UserProfile/post_tab.svg"
-import saved_tab from "../assets/img/UserProfile/saved_tab.svg"
-import tagged_tab from "../assets/img/UserProfile/tagged_tab.svg"
-import loading from "../assets/img/shared/Loading.svg"
+import post_tab from '../assets/img/UserProfile/post_tab.svg'
+import saved_tab from '../assets/img/UserProfile/saved_tab.svg'
+import tagged_tab from '../assets/img/UserProfile/tagged_tab.svg'
+import loading from '../assets/img/shared/Loading.svg'
 
-import { SavedPostsExpanded } from "../cmps/SavedPostsExpanded"
+import { SavedPostsExpanded } from '../cmps/SavedPostsExpanded'
 
 export function UserProfile() {
     const [isLoading, setIsLoading] = useState(false)
@@ -24,69 +23,59 @@ export function UserProfile() {
     const [activeTab, setActiveTab] = useState('posts')
     const navigate = useNavigate()
 
-    //const { username } = useParams()
     const loggedInUser = useSelector(state => state.userModule.user)
     const currentProfile = useSelector(storeState => storeState.userModule.currentProfile)
 
-    // Dummy login effect
-    useEffect(() => {
-        const dummyLogin = async () => {
-            if (!loggedInUser) {
-                const dummyCredentials = {userName: 'Tuppence', password: '123' };
-                await login(dummyCredentials);
-            }
-        };
-
-        dummyLogin();
-    }, []);
 
     useEffect(() => {
         const fetchUserPosts = async () => {
             try {
                 if (loggedInUser) {
-                    setIsLoading(true);
-                    await loadUser(loggedInUser._id)
+                    setIsLoading(true)
+                    if (loggedInUser.isGuest)
+                        await loadGuestUser()
+                    else
+                        await loadUser(loggedInUser._id)
 
-                    //console.log('try fetchUserPosts')
-                    const posts = await postService.getPostsByOwnerId(loggedInUser._id);
-                    setUserPosts(posts);
+                    const posts = await postService.getPostsByOwnerId(loggedInUser._id)
+                    setUserPosts(posts)
                 } else {
-                    console.log('loggedInUser is null or undefined, cannot fetch posts.');
+                    console.log('loggedInUser is null or undefined, cannot fetch posts.')
                 }
-            } catch (error) {
-                console.error('Failed to fetch posts:', error);
+            } catch (err) {
+                console.error('Failed to fetch posts:', err)
             }
             finally {
-                setIsLoading(false);
+                setIsLoading(false)
             }
-        };
+        }
 
-        fetchUserPosts();
-    }, [loggedInUser]);
+        fetchUserPosts()
+    }, [loggedInUser])
 
 
     useEffect(() => {
         const fetchSavedPosts = async () => {
             if (loggedInUser && activeTab === 'saved') {
                 try {
-                    setIsLoading(true);
-                    const savedPostIds = loggedInUser.savedPostIds;
+                    setIsLoading(true)
+                    const savedPostIds = loggedInUser.savedPostIds
                     console.log("savedPostIds", savedPostIds)
-                    const posts = await postService.getPostsByIds(savedPostIds);
+                    const posts = await postService.getPostsByIds(savedPostIds)
                     console.log("saved posts", posts)
-                    setSavedPosts(posts);
-                } catch (error) {
-                    console.error('Failed to fetch saved posts:', error);
+                    setSavedPosts(posts)
+                } catch (err) {
+                    console.error('Failed to fetch saved posts:', err)
                 }
                 finally
                 {
-                    setIsLoading(false);
+                    setIsLoading(false)
                 }
             }
-        };
+        }
 
-        fetchSavedPosts();
-    }, [loggedInUser, activeTab]);
+        fetchSavedPosts()
+    }, [loggedInUser, activeTab])
 
     function onUserUpdate(user) {
         showSuccessMsg(`This user ${user.fullName} just got updated from socket, new score: ${user.score}`)

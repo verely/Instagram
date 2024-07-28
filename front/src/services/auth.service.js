@@ -1,5 +1,7 @@
 import Axios from 'axios'
 
+import { guestServiceLocal } from  '../services/guest.service.local.js'
+
 var axios = Axios.create({
     withCredentials: true
 })
@@ -15,7 +17,8 @@ export const authService = {
     login,
     logout,
     getLoggedInUser,
-    getEmptyCredentials
+    getEmptyCredentials,
+    loginAsGuest
 }
 
 async function signUp({ userName, password, fullName }) {
@@ -25,16 +28,29 @@ async function signUp({ userName, password, fullName }) {
     return user
 }
 
-async function login({ userName, password }) {
-    const res = await axios.post(BASE_URL + 'login', { userName, password })
+async function login({ userName, password, isGuest=false }) {
+    const res = await axios.post(BASE_URL + 'login', { userName, password, isGuest })
     const user = res.data
     sessionStorage.setItem(STORAGE_KEY_LOGGED_IN_USER, JSON.stringify(user))
+    if(user.isGuest) {
+        guestServiceLocal.saveGuestUser(user)
+    }
     return user
 }
 
 async function logout() {
     await axios.post(BASE_URL + 'logout')
     sessionStorage.removeItem(STORAGE_KEY_LOGGED_IN_USER)
+    guestServiceLocal.removeGuestUser()
+}
+
+async function loginAsGuest() {
+    const guest = {
+        isGuest: true
+    }
+    const user = await login(guest)
+    return user
+
 }
 
 function getLoggedInUser() {

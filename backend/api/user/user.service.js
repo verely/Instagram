@@ -12,6 +12,9 @@ export const userService = {
     update,
     add
 }
+const BACKEND_PUBLIC_IMAGES_URL = process.env.NODE_ENV === 'true'
+  ? '//localhost:3000/images/'
+  : '/images/'
 
 async function query(filterBy = {}) {
     const criteria = _buildCriteria(filterBy)
@@ -103,7 +106,7 @@ async function add(user) {
             userName: user.userName,
             password: user.password,
             fullName: user.fullName || 'New User',
-            imgUrl: user.imgUrl || 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png',
+            imgUrl: user.imgUrl || `${BACKEND_PUBLIC_IMAGES_URL}guest-icon.png`,
             bio: user.bio || '',
             followingCount: user.followingCount || 0,
             followersCount: user.followersCount || 0,

@@ -11,18 +11,17 @@ const BASE_URL = import.meta.env.VITE_DEV_ENV === 'true'
 
 export const userService = {
     query,
-    get,
+    getById,
     remove,
     save,
 }
 
 async function query(filterBy = {}) {
-    // console.log(`filterBy: index=${filterBy.pageIndex} title=${filterBy.fullname} severity=${filterBy.score}`)
     let { data: users } = await axios.get(BASE_URL, { params: filterBy })
     return users
 }
 
-async function get(userId) {
+async function getById(userId) {
     const { data: user } = await axios.get(BASE_URL + userId)
     return user
 }

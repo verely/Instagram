@@ -20,9 +20,15 @@ export async function signup(req, res) {
 }
 
 export async function login(req, res) {
-    const { userName, password } = req.body
+    const { userName, password, isGuest } = req.body
     try {
-        const user = await authService.login(userName, password)
+
+        let user
+        if (isGuest)
+            user = authService.loginAsGuest()
+        else
+            user = await authService.login(userName, password)
+
         const loginToken = authService.getLoginToken(user)
 
         logger.info('User login: ', user)
