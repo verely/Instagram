@@ -8,7 +8,7 @@ import { PostCommentList } from './PostCommentList'
 import { ActionButtons } from './ActionButtons'
 import { CommentArea } from './CommentArea'
 
-import { postService } from '../services/post.service.local'
+import { postService } from '../services/post.service'
 
 import { loadPosts, removePost,
     updateLikeStatus, addCommentToPost,
@@ -27,7 +27,7 @@ export function PostDetails() {
     useEffect(() => {
       const fetchPostDetails = async () => {
         try {
-          const postData = await postService.getById(id)
+          const postData = await postService.get(id)
           setPost(postData)
         } catch (error) {
           console.error('Failed to fetch post:', error)
