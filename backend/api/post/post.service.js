@@ -20,7 +20,7 @@ async function query(filterBy = {}) {
             criteria.desc = { $regex: filterBy.txt, $options: 'i' }}
 
         const collection = await dbService.getCollection('post')
-        var posts = await collection.find(criteria).toArray()
+        var posts = await collection.find(criteria).sort({_id:-1}).toArray()
         posts = posts.map(post => {
             post.created_at = post._id.getTimestamp()
             return post
