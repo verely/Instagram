@@ -21,8 +21,8 @@ export const authService = {
     loginAsGuest
 }
 
-async function signUp({ userName, password, fullName }) {
-    const res = await axios.post(BASE_URL + 'signup', { userName, password, fullName })
+async function signUp({ userName, password, fullName, imgUrl }) {
+    const res = await axios.post(BASE_URL + 'signup', { userName, password, fullName, imgUrl })
     const user = res.data
     sessionStorage.setItem(STORAGE_KEY_LOGGED_IN_USER, JSON.stringify(user))
     return user

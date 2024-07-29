@@ -3,9 +3,9 @@ import { logger } from '../../services/logger.service.js'
 
 export async function signup(req, res) {
     try {
-        const { userName, password, fullName } = req.body
+        const { userName, password, fullName, imgUrl } = req.body
 
-        const account = await authService.signup(userName, password, fullName)
+        const account = await authService.signup(userName, password, fullName, imgUrl)
         logger.debug(`auth.route - new account created: ` + JSON.stringify({userName: account.userName, fullName: account.fullName}))
 
         const user = await authService.login(userName, password)

@@ -18,14 +18,14 @@ const BACKEND_PUBLIC_IMAGES_URL = process.env.NODE_ENV === 'true'
 const cryptr = new Cryptr(process.env.CRYPT_KEY || 'Secret-CRYPT')
 
 
-async function signup(userName, password, fullName) {
+async function signup(userName, password, fullName, imgUrl) {
     const saltRounds = 10
 
     logger.debug(`auth.service - signup with userName: ${userName}, fullName: ${fullName}`)
     if (!userName || !password || !fullName) throw new Error('Missing details')
 
     const hash = await bcrypt.hash(password, saltRounds)
-    return userService.add({ userName, password: hash, fullName })
+    return userService.add({ userName, password: hash, fullName, imgUrl })
 }
 
 async function login(userName, password) {
