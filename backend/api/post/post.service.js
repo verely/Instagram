@@ -17,10 +17,16 @@ async function query(filterBy = {}) {
     try {
         let criteria = {}
         if (filterBy.txt) {
-            criteria.desc = { $regex: filterBy.txt, $options: 'i' }}
+            criteria.desc = { $regex: filterBy.txt, $options: 'i' };
+        }
+
+        if (filterBy.postOwnerId) {
+            criteria['owner.id'] = { $eq: ObjectId.createFromHexString(filterBy.postOwnerId) }
+        }
 
         const collection = await dbService.getCollection('post')
         var posts = await collection.find(criteria).sort({_id:-1}).toArray()
+
         posts = posts.map(post => {
             post.created_at = post._id.getTimestamp()
             return post

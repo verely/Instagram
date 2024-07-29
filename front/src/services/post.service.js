@@ -17,6 +17,7 @@ export const postService = {
     save,
     getEmptyPost,
     getDefaultFilter,
+    getPostsByOwnerId,
 }
 
 async function query(filterBy = {}) {
@@ -38,6 +39,26 @@ async function save(post) {
     const { data: savedPost } = await axios[method](BASE_URL + (post._id || ''), {post})
     console.log(savedPost)
     return savedPost
+}
+
+async function getPostsByOwnerId(ownerId) {
+    try {
+        const posts = await query({postOwnerId: ownerId})
+
+        console.log(posts)
+        const userPosts = posts
+            .map(post => ({
+                _id: post._id,
+                imgUrl: post.imgUrl,
+                created_at: post.created_at,
+                likeCount: post.likedBy ? post.likedBy.length : 0,
+                commentCount: post.comments ? post.comments.length : 0
+            }))
+        return userPosts
+    } catch (err) {
+        console.error('Error occurred while querying posts by ownerId:', err.message)
+        throw new Error('Failed to query posts by ownerId. Please try again later.')
+    }
 }
 
 function getEmptyPost(title = '', desc='', severity = '') {

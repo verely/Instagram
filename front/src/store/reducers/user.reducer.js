@@ -26,7 +26,6 @@ export function userReducer(state = initialState, action) {
         case SET_USER:
           return { ...state, user: action.user };
         case SET_CURRENT_PROFILE:
-          console.log("SET_CURRENT_PROFILE", action.user)
           return { ...state, currentProfile: action.user };
         case REMOVE_USER:
           return {

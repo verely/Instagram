@@ -6,7 +6,7 @@ import { loadUser, loadGuestUser } from '../store/actions/user.actions'
 import { store } from '../store/store'
 import { showSuccessMsg } from '../services/event-bus.service'
 
-import { postService } from '../services/post.service.local'
+import { postService } from '../services/post.service'
 
 import post_tab from '../assets/img/UserProfile/post_tab.svg'
 import saved_tab from '../assets/img/UserProfile/saved_tab.svg'
