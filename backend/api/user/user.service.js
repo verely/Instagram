@@ -12,9 +12,11 @@ export const userService = {
     update,
     add
 }
+
 const BACKEND_PUBLIC_IMAGES_URL = process.env.NODE_ENV === 'true'
   ? '//localhost:3000/images/'
   : '/images/'
+
 
 async function query(filterBy = {}) {
     const criteria = _buildCriteria(filterBy)

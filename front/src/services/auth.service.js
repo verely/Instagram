@@ -10,6 +10,12 @@ const BASE_URL = import.meta.env.VITE_DEV_ENV === 'true'
   ? '//localhost:3000/api/auth/'
   : '/api/auth/'
 
+const AUTH_ENDPOINTS = {
+    SIGNUP: 'signup',
+    LOGIN: 'login',
+    LOGOUT: 'logout'
+}
+
 const STORAGE_KEY_LOGGED_IN_USER = 'loggedInUser'
 
 export const authService = {
@@ -22,26 +28,43 @@ export const authService = {
 }
 
 async function signUp({ userName, password, fullName, imgUrl }) {
-    const res = await axios.post(BASE_URL + 'signup', { userName, password, fullName, imgUrl })
-    const user = res.data
-    sessionStorage.setItem(STORAGE_KEY_LOGGED_IN_USER, JSON.stringify(user))
-    return user
+    try {
+        const {data: user} = await axios.post(`${BASE_URL}${AUTH_ENDPOINTS.SIGNUP}`, { userName, password, fullName, imgUrl })
+        const loginData = _saveLoginDataLocally(user)
+        return loginData
+    } catch (err) {
+        console.error('Signup failed:', err)
+        throw err
+    }
 }
 
 async function login({ userName, password, isGuest=false }) {
-    const res = await axios.post(BASE_URL + 'login', { userName, password, isGuest })
-    const user = res.data
-    sessionStorage.setItem(STORAGE_KEY_LOGGED_IN_USER, JSON.stringify(user))
-    if(user.isGuest) {
-        guestServiceLocal.saveGuestUser(user)
+    try {
+        const {data: user} = await axios.post(`${BASE_URL}${AUTH_ENDPOINTS.LOGIN}`, { userName, password, isGuest })
+        let loginData
+        if(user.isGuest) {
+            guestServiceLocal.saveGuestUser(user)
+            loginData = _extractUserInfo(user)
+        }
+        else {
+            loginData = _saveLoginDataLocally(user)
+        }
+        return loginData
+    } catch (err) {
+        console.error('Login failed:', err)
+        throw err
     }
-    return user
 }
 
 async function logout() {
-    await axios.post(BASE_URL + 'logout')
-    sessionStorage.removeItem(STORAGE_KEY_LOGGED_IN_USER)
-    guestServiceLocal.removeGuestUser()
+    try {
+        await axios.post(`${BASE_URL}${AUTH_ENDPOINTS.LOGOUT}`)
+        sessionStorage.removeItem(STORAGE_KEY_LOGGED_IN_USER)
+        guestServiceLocal.removeGuestUser()
+    } catch (err) {
+        console.error('Logout failed:', err)
+        throw err
+    }
 }
 
 async function loginAsGuest() {
@@ -50,7 +73,6 @@ async function loginAsGuest() {
     }
     const user = await login(guest)
     return user
-
 }
 
 function getLoggedInUser() {
@@ -63,4 +85,19 @@ function getEmptyCredentials() {
         password: '',
         fullName: ''
     }
+}
+
+function _extractUserInfo(user) {
+    return {
+        _id: user._id,
+        userName: user.userName,
+        fullName: user.fullName,
+        imgUrl: user.imgUrl
+    }
+}
+
+function _saveLoginDataLocally(user){
+    const userInfo = _extractUserInfo(user)
+    sessionStorage.setItem(STORAGE_KEY_LOGGED_IN_USER, JSON.stringify(userInfo))
+    return userInfo
 }

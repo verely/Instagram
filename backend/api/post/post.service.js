@@ -10,7 +10,8 @@ export const postService = {
     query,
     getById,
     add,
-    remove
+    remove,
+    update
 }
 
 async function query(filterBy = {}) {
@@ -86,6 +87,33 @@ async function add(post, loggedInUser) {
         throw err
     }
 }
+
+async function update(post, loggedInUser) {
+    try {
+        // if (!(await hasPermission(post._id, loggedInUser))) {
+        //     throw new UnauthorizedError("Only admin or post owner can update it")
+        // }
+
+        const postToSave = {
+            desc: post.desc,
+            likedBy: post.likedBy,
+        }
+        const collection = await dbService.getCollection('post')
+        const updateResult = await collection.updateOne({ _id: ObjectId.createFromHexString(post._id) }, { $set: postToSave })
+        if (updateResult.acknowledged) {
+            const updatedPost = {
+                ...postToSave
+            };
+            return updatedPost;
+        } else {
+            throw new Error('Failed to update post');
+        }
+    } catch (err) {
+        logger.error(`Cannot update post ${post._id}`, err)
+        throw err
+    }
+}
+
 
 async function remove(postId, loggedInUser) {
     try {

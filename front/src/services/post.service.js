@@ -18,6 +18,7 @@ export const postService = {
     getEmptyPost,
     getDefaultFilter,
     getPostsByOwnerId,
+    updateLikeStatus
 }
 
 async function query(filterBy = {}) {
@@ -59,6 +60,28 @@ async function getPostsByOwnerId(ownerId) {
         console.error('Error occurred while querying posts by ownerId:', err.message)
         throw new Error('Failed to query posts by ownerId. Please try again later.')
     }
+}
+
+async function updateLikeStatus(actionType, postId, currentUser) {
+
+    const post = await get(postId)
+    if (!post) {
+        throw new Error('Invalid post.')
+    }
+
+    if (!post.likedBy) {
+        post.likedBy = []
+    }
+
+    if (actionType === "like") {
+        post.likedBy.push(currentUser)
+    } else {
+        post.likedBy = post.likedBy.filter(user => user._id !== currentUser._id)
+    }
+
+    await save(post)
+
+    return post.likedBy
 }
 
 function getEmptyPost(title = '', desc='', severity = '') {

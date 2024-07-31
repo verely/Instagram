@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { loadPosts, removePost,
     updateLikeStatus, addCommentToPost,
     sharePost, getActionRemovePost } from '../store/actions/post.actions.js'
@@ -10,8 +10,8 @@ import { PostList } from '../cmps/PostList.jsx'
 
 export function PostIndex() {
 
+    const loggedInUser = useSelector(state => state.userModule.user)
     const posts = useSelector(storeState => storeState.postModule.posts)
-    const dispatch = useDispatch()
 
     useEffect(() => {
         loadPosts()
@@ -28,8 +28,7 @@ export function PostIndex() {
 
     async function onUpdateLikeStatus(postId, actionType) {
         try {
-            const user = getLoggedInUser()
-            updateLikeStatus(actionType, postId, user)
+            updateLikeStatus(actionType, postId, loggedInUser)
         } catch (err) {
             showErrorMsg(`Cannot ${actionType} post`)
         }
@@ -37,8 +36,7 @@ export function PostIndex() {
 
     function onAddCommentToPost(postId, text) {
         try {
-            const user = getLoggedInUser()
-            addCommentToPost(postId, text, user)
+            addCommentToPost(postId, text, loggedInUser)
         } catch (err) {
             showErrorMsg(`Cannot comment post`)
         }
@@ -52,14 +50,6 @@ export function PostIndex() {
         console.log(`TODO Save post`)
     }
 
-    function getLoggedInUser() {
-        const imgPath = '../media_samples/img_profile/1.jpg'
-        return { "_id": "u101", "userName": "Tuppence", "fullName": "Tuppence Beresford", "imgUrl": imgPath}
-
-        // const imgPath = '../media_samples/img_profile/sloner.jpeg'
-        // return { "_id": "u103", "userName": "Sloner_garden", "fullName": "Mashtelat Sloner", "imgUrl": imgPath}
-        //return userService.getLoggedInUser()
-    }
 
     const postActions = {
         onRemovePost: onRemovePost,
@@ -67,7 +57,7 @@ export function PostIndex() {
         onAddCommentToPost: onAddCommentToPost,
         onSharePost: onSharePost,
         onSavePost: onSavePost
-       };
+    }
 
     return (
         <div className="post-index">
@@ -79,7 +69,7 @@ export function PostIndex() {
                     <img src="../media_samples/img_profile/sloner.jpeg" alt="story" />
                 </div>
                 <div className='posts'>
-                    <PostList posts={posts} postActions={postActions} currentUser={getLoggedInUser()}/>
+                    <PostList posts={posts} postActions={postActions} currentUser={loggedInUser}/>
                 </div>
             </div>
             <div className='ad-wrapper'>

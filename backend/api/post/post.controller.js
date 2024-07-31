@@ -55,3 +55,21 @@ export async function deletePost(req, res) {
         }
     }
 }
+
+export async function updatePost(req, res) {
+    const { loggedInUser } = req
+    const { post } = req.body
+    console.log(post)
+    try {
+        await postService.update(post, loggedInUser)
+        res.send('updated')
+    } catch (err) {
+        if (err instanceof UnauthorizedError) {
+            logger.error(`Failed update post ${post._id}: ${err.message}`);
+            res.status(403).send(`Failed update post: ${err.message}`);
+        } else {
+            logger.error(`Failed update post ${post._id}`, err);
+            res.status(500).send(`Failed update post: ${err.message}`);
+        }
+    }
+}
