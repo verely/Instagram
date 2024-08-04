@@ -3,7 +3,6 @@ import { CommentArea } from './CommentArea'
 import { PostOwnerInfoCard } from './PostOwnerInfoCard';
 
 export function PostPreview({ post, postActions, isLiked}) {
-
     return (
         <div className="post-preview">
 
@@ -15,6 +14,11 @@ export function PostPreview({ post, postActions, isLiked}) {
 
             <div className="post-message">{post.desc}</div>
 
+            {post.commentCount > 0 && (
+                <div className="post-message">
+                    {post.commentCount === 1 ? 'View 1 comment' : `View all ${post.commentCount} comments`}
+                </div>
+            )}
             <CommentArea post={post} onAddCommentToPost={postActions.onAddCommentToPost}/>
 
             <hr/>

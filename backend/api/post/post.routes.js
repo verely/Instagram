@@ -1,6 +1,7 @@
 import express from 'express'
 import { requireAuth } from '../../middlewares/requireAuth.middleware.js'
-import { addPost, getPost, getPosts, deletePost, updatePost } from './post.controller.js'
+import { addPost, getPost, getPosts, deletePost, updatePost,
+    addComment } from './post.controller.js'
 
 export const postRoutes = express.Router()
 
@@ -9,3 +10,5 @@ postRoutes.get('/', getPosts)
 postRoutes.get('/:id', getPost)
 postRoutes.delete('/:id', requireAuth, deletePost)
 postRoutes.put('/:id',  requireAuth, updatePost)
+
+postRoutes.post('/:id/comments', requireAuth, addComment);

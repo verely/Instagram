@@ -26,12 +26,41 @@ async function query(filterBy = {}) {
         }
 
         const collection = await dbService.getCollection('post')
-        var posts = await collection.find(criteria).sort({_id:-1}).toArray()
+        var posts = await collection.aggregate([{
+            $match: criteria
+        },
+        {
+            $lookup: {
+                localField: '_id',
+                from: 'comments',
+                foreignField: 'postId',
+                as: 'comments'
+            }
+        },
+        {
+            $addFields: {
+                created_at: { $toDate: "$_id" }
+            }
+        },
+        {
+            $project: {
+                _id: 1,
+                desc: 1,
+                imgUrl: 1,
+                owner: 1,
+                created_at: 1,
+                likedBy: 1,
+                commentCount: { $size: "$comments" }
+            }
+        }
+    ]).sort({_id:-1}).toArray()
 
-        posts = posts.map(post => {
-            post.created_at = post._id.getTimestamp()
-            return post
-        })
+
+        // posts = posts.map(post => {
+        //     post.created_at = post._id.getTimestamp()
+        //     return post
+        // })
+        console.log(posts)
         return posts
     } catch (err) {
         logger.error('Cannot find posts', err)
@@ -42,7 +71,37 @@ async function query(filterBy = {}) {
 async function getById(postId) {
     try {
         const collection = await dbService.getCollection('post')
-        const post = await collection.findOne({ _id: ObjectId.createFromHexString(postId) })
+        var posts = await collection.aggregate([
+            {
+                $match: { _id: ObjectId.createFromHexString(postId) },
+            },
+            {
+                $lookup: {
+                    localField: '_id',
+                    from: 'comments',
+                    foreignField: 'postId',
+                    as: 'comments'
+                },
+
+            },
+            {
+                $addFields: {
+                    created_at: { $toDate: "$_id" }
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    desc: 1,
+                    imgUrl: 1,
+                    owner: 1,
+                    likedBy: 1,
+                    comments: 1
+                }
+            }
+            ]).toArray()
+        const post = posts.length > 0 ? posts[0] : null
+        console.log('getById post:', post)
         return post
     } catch (err) {
         logger.error(`Error while finding post ${postId}`, err)
@@ -52,13 +111,12 @@ async function getById(postId) {
 
 async function add(post, loggedInUser) {
     try {
-        const { _id, userName, fullName, imgUrl, isAdmin } = loggedInUser
+        const { _id, userName, fullName, imgUrl} = loggedInUser
         const owner = {
             id: ObjectId.createFromHexString(_id),
             userName,
             fullName,
             imgUrl,
-            isAdmin
         }
         const postToSave = {
             desc: post.desc,
@@ -80,7 +138,7 @@ async function add(post, loggedInUser) {
             console.log(insertedPost)
             return insertedPost
         } else {
-            throw new Error('Failed to insert post');
+            throw new Error('Failed to insert post')
         }
     } catch (err) {
         logger.error('Cannot insert post', err)

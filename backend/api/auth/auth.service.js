@@ -59,7 +59,7 @@ function loginAsGuest() {
 }
 
 function getLoginToken(user) {
-    const userInfo = {_id : user._id, userName: user.userName, fullName: user.fullName, imgUrl: user.imgUrl, isAdmin: user.isAdmin}
+    const userInfo = {_id : user._id, userName: user.userName, fullName: user.fullName, imgUrl: user.imgUrl}
     return cryptr.encrypt(JSON.stringify(userInfo))
 }
 

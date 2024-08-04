@@ -1,6 +1,7 @@
 import { postService } from './post.service.js'
 import { logger } from '../../services/logger.service.js'
 import { UnauthorizedError } from '../auth/auth.error.js'
+import { commentService } from './comment.service.js'
 
 export async function addPost(req, res) {
     const { loggedInUser } = req
@@ -65,11 +66,28 @@ export async function updatePost(req, res) {
         res.send('updated')
     } catch (err) {
         if (err instanceof UnauthorizedError) {
-            logger.error(`Failed update post ${post._id}: ${err.message}`);
-            res.status(403).send(`Failed update post: ${err.message}`);
+            logger.error(`Failed update post ${post._id}: ${err.message}`)
+            res.status(403).send(`Failed update post: ${err.message}`)
         } else {
-            logger.error(`Failed update post ${post._id}`, err);
-            res.status(500).send(`Failed update post: ${err.message}`);
+            logger.error(`Failed update post ${post._id}`, err)
+            res.status(500).send(`Failed update post: ${err.message}`)
         }
     }
 }
+
+export const addComment = async (req, res) => {
+    const { loggedInUser } = req
+    const {comment} = req.body
+    console.log('add comment',comment)
+    try {
+        const post = await postService.getById(comment.postId)
+        if (!post) {
+            return res.status(404).send({ error: 'Post not found' });
+        }
+        console.log('comment',comment)
+        const commentToSave = await commentService.addComment(comment, loggedInUser)
+        res.status(201).send(commentToSave)
+    } catch (error) {
+        res.status(500).send({ error: 'Failed to add comment' })
+    }
+  }

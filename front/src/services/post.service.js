@@ -18,7 +18,8 @@ export const postService = {
     getEmptyPost,
     getDefaultFilter,
     getPostsByOwnerId,
-    updateLikeStatus
+    updateLikeStatus,
+    addCommentToPost
 }
 
 async function query(filterBy = {}) {
@@ -82,6 +83,26 @@ async function updateLikeStatus(actionType, postId, currentUser) {
     await save(post)
 
     return post.likedBy
+}
+
+async function addCommentToPost(postId, text, user){
+    try {
+        const comment = {
+            postId: postId,
+            txt: text,
+            by: user
+        }
+
+        const httpMethod  = 'post'
+        const { data: savedComment } = await axios[httpMethod](`${BASE_URL}${postId}/comments`, {comment})
+        console.log(savedComment)
+
+        return savedComment
+
+    } catch (err) {
+        console.error('Error occurred while adding comment the post:', err.message)
+        throw new Error('Failed to add comment to the post. Please try again later.')
+    }
 }
 
 function getEmptyPost(title = '', desc='', severity = '') {
