@@ -53,7 +53,6 @@ export function PostDetails() {
         fetchMorePosts()
     }, [])
 
-    const isLiked = false; //to do
     const postActions = {
         onRemovePost: onRemovePost,
         onUpdateLikeStatus: onUpdateLikeStatus,
@@ -119,9 +118,9 @@ export function PostDetails() {
                     </div>
 
                     <div className='details-footer'>
-                        <ActionButtons postActions={postActions} post={post} isLiked={isLiked}/>
+                        <ActionButtons postActions={postActions} post={post} isLiked={post.likedBy?.some(user => user._id === loggedInUser._id)}/>
                         <CommentArea post={post} onAddCommentToPost={postActions.onAddCommentToPost}
-                            showIcon="true" iconSrc={post.owner.imgUrl} isEmojiLarge="true"/>
+                            showIcon="true" iconSrc={loggedInUser.imgUrl} isEmojiLarge="true"/>
                     </div>
                 </div>
             </div>
