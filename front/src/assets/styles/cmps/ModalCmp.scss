@@ -1,0 +1,34 @@
+.modal-cmp {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1003;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgba($primary-bgc, 0.5);
+    font-size: rem(16px);
+    line-height: rem(24px);
+    text-align: center;
+    // border: 4px solid aqua;
+
+    .modal-cmp-content {
+        background-color: black;
+        border-radius: 8px;
+        z-index: 1004;
+        // border: 4px solid aqua;
+        .close-modal-button {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: none;
+            border: none;
+            font-size: rem(20px);
+            cursor: pointer;
+        }
+    }
+}

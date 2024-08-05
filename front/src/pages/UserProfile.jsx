@@ -14,6 +14,8 @@ import tagged_tab from '../assets/img/UserProfile/tagged_tab.svg'
 import loading from '../assets/img/shared/Loading.svg'
 
 import { SavedPostsExpanded } from '../cmps/SavedPostsExpanded'
+import { PostDetails } from '../cmps/PostDetails'
+import { ModalCmp } from '../cmps/ModalCmp'
 
 export function UserProfile() {
     const [isLoading, setIsLoading] = useState(false)
@@ -22,6 +24,9 @@ export function UserProfile() {
     const [expandedSaved, setExpandedSaved] = useState(false)
     const [activeTab, setActiveTab] = useState('posts')
     const navigate = useNavigate()
+
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [selectedPostId, setSelectedPostId] = useState(null)
 
     const loggedInUser = useSelector(state => state.userModule.user)
     const currentProfile = useSelector(storeState => storeState.userModule.currentProfile)
@@ -88,8 +93,14 @@ export function UserProfile() {
     }
 
     const onGoToPost = (e, postId) => {
-        //console.log('onGoToPost called', {e, postId})
-        navigate(`/p/${postId}`)
+        setSelectedPostId(postId)
+        setIsModalOpen(true)
+        window.history.replaceState(null, '', `/p/${postId}`) //update the URL without full navigation
+    }
+
+    const closeModal = () => {
+        setIsModalOpen(false)
+        navigate(`/${loggedInUser.userName}`, { replace: true, state: { modal: false } });
     }
 
     if (expandedSaved) {
@@ -164,6 +175,12 @@ export function UserProfile() {
                             <span className='all_posts'>All posts</span>
                         </div>
                     </div>
+                )}
+
+                {isModalOpen && (
+                    <ModalCmp onClose={closeModal}>
+                        <PostDetails postId={selectedPostId} />
+                    </ModalCmp>
                 )}
             </div>
           </div>
