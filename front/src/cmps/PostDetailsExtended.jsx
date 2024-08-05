@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
-import { PostOwnerInfoDetailsCard } from './PostOwnerInfoDetailsCard'
-import { PostOwnerCommentInfoDetailsCard } from './PostOwnerCommentInfoDetailsCard'
-import { PostCommentList } from './PostCommentList'
-import { ActionButtons } from './ActionButtons'
-import { CommentArea } from './CommentArea'
+import { PostOwnerInfoDetailsCard } from './PostOwnerInfoDetailsCard.jsx'
+import { PostOwnerCommentInfoDetailsCard } from './PostOwnerCommentInfoDetailsCard.jsx'
+import { PostCommentList } from './PostCommentList.jsx'
+import { ActionButtons } from './ActionButtons.jsx'
+import { CommentArea } from './CommentArea.jsx'
 
-import { postService } from '../services/post.service'
+import { postService } from '../services/post.service.js'
 
 import { loadPosts, removePost,
     updateLikeStatus, addCommentToPost,
@@ -16,7 +16,7 @@ import { loadPosts, removePost,
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 
 
-export function PostDetails() {
+export function PostDetailsExtended() {
 
     const { id } = useParams()
     const [post, setPost] = useState(null)
@@ -103,7 +103,7 @@ export function PostDetails() {
     }
 
     return (
-        <div className="post-details">
+        <div className="post-details-extended">
             <div className="post-details-layout">
                 <img className="image-area" src={post.imgUrl} alt="post image" />
                 <div className='details-area'>

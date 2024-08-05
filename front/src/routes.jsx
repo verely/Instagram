@@ -2,7 +2,7 @@ import { PostIndex } from "./pages/PostIndex.jsx"
 import { UserProfile } from "./pages/UserProfile.jsx"
 import { MessagePage } from "./pages/MessagePage.jsx"
 import { LoginSignUpPage } from "./pages/LoginSignUpPage.jsx"
-import { PostDetails } from "./cmps/PostDetails.jsx"
+import { PostDetailsExtended } from "./cmps/PostDetailsExtended.jsx"
 import { SavedPostsExpanded } from "./cmps/SavedPostsExpanded.jsx"
 
 // Routes accessible from the main navigation
@@ -51,7 +51,7 @@ const routes = [
   },
   {
     path: "/p/:id",
-    component: <PostDetails />,
+    component: <PostDetailsExtended />,
     label: "Post Details",
   },
 ];
