@@ -39,19 +39,21 @@ export function PostDetails() {
 
     useEffect(() => {
         const fetchMorePosts = async ()=> {
+            setIsLoading(true)
             try {
-              console.log('try fetchMorePosts')
-              const rp = await postService.getPostsByOwnerId(loggedInUser._id)
-              setRecentPosts(rp);
-              setIsLoading(false)
-            } catch (error) {
-              console.error('Failed to fetch post:', error)
-              setIsLoading(false)
+                if(!post?.owner) return
+                const posts = await postService.getPostsByOwnerId(post.owner.id)
+                setRecentPosts(posts)
+            } catch (err) {
+                console.error('Failed to fetch post:', err)
+            }
+            finally {
+                setIsLoading(false)
             }
         }
 
         fetchMorePosts()
-    }, [])
+    }, [post?.owner])
 
     const postActions = {
         onRemovePost: onRemovePost,
@@ -59,7 +61,7 @@ export function PostDetails() {
         onAddCommentToPost: onAddCommentToPost,
         onSharePost: onSharePost,
         onSavePost: onSavePost
-       };
+       }
 
        async function onRemovePost(postId) {
         try {
@@ -97,8 +99,8 @@ export function PostDetails() {
 
 
     if (!post) {
-        return <div>Loading...</div>;
-      }
+        return <div>Loading...</div>
+    }
 
     return (
         <div className="post-details">
