@@ -11,7 +11,7 @@ import { postService } from '../services/post.service'
 import post_tab from '../assets/img/UserProfile/post_tab.svg'
 import saved_tab from '../assets/img/UserProfile/saved_tab.svg'
 import tagged_tab from '../assets/img/UserProfile/tagged_tab.svg'
-import loading from '../assets/img/shared/Loading.svg'
+import loading from '../assets/img/shared/loading.svg'
 
 import { SavedPostsExpanded } from '../cmps/SavedPostsExpanded'
 import { PostDetails } from '../cmps/PostDetails'
