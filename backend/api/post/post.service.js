@@ -80,7 +80,14 @@ async function getById(postId) {
                     localField: '_id',
                     from: 'comments',
                     foreignField: 'postId',
-                    as: 'comments'
+                    as: 'comments',
+                    pipeline: [
+                        {
+                            $addFields: {
+                                created_at: { $toDate: "$_id" }
+                            }
+                        }
+                    ]
                 },
 
             },

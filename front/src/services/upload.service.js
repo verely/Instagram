@@ -4,7 +4,7 @@ export const uploadService = {
 }
 
 async function uploadImgFile(file) {
-    const UPLOAD_PRESET = import.meta.env.VITE_UPLOAD_PRESET;
+    const UPLOAD_PRESET = import.meta.env.VITE_UPLOAD_PRESET
     const UPLOAD_URL = import.meta.env.VITE_UPLOAD_URL
 
     try {
