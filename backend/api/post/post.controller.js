@@ -91,3 +91,14 @@ export const addComment = async (req, res) => {
         res.status(500).send({ error: 'Failed to add comment' })
     }
   }
+
+export async function getComments(req, res) {
+    const postId = req.params.id
+    try {
+        const comments = await commentService.getCommentsByPostId(postId)
+        res.json(comments)
+    } catch (error) {
+        logger.error(`Failed to get comments for post ${postId}`, error)
+        res.status(500).send({ error: 'Failed to get comments' })
+    }
+}

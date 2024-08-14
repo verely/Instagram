@@ -4,6 +4,7 @@ import { ObjectId } from 'mongodb'
 
 export const commentService = {
   addComment,
+  getCommentsByPostId
 }
 
 async function addComment(comment, loggedInUser) {
@@ -44,6 +45,23 @@ async function addComment(comment, loggedInUser) {
   } catch (err) {
     logger.error('Cannot insert comment', err)
     throw err
+  }
+}
+
+
+async function getCommentsByPostId(postId) {
+  try {
+      const collection = await dbService.getCollection('comments')
+      const comments = await collection.find({ postId: ObjectId.createFromHexString(postId) }).sort({ created_at: -1 }).toArray()
+      const commentsWithTimestamp = comments.map(comment => ({
+        ...comment,
+        created_at: comment._id.getTimestamp().toISOString()
+      }))
+
+      return commentsWithTimestamp
+  } catch (err) {
+      logger.error(`Error fetching comments for post ${postId}`, err)
+      throw err
   }
 }
 

@@ -19,23 +19,34 @@ import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 export function PostDetailsExtended() {
 
     const { id } = useParams()
-    const [post, setPost] = useState(null)
+
+    const selectPostById = (state, postId) => state.postModule.posts.find(post => post._id === postId)
+    const post = useSelector(state => selectPostById(state, id))
+    const [comments, setComments] = useState(null)
+
     const [recentPosts, setRecentPosts] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const loggedInUser = useSelector(state => state.userModule.user)
 
-    useEffect(() => {
-      const fetchPostDetails = async () => {
-        try {
-          const postData = await postService.get(id)
-          setPost(postData)
-        } catch (error) {
-          console.error('Failed to fetch post:', error)
-        }
-      }
 
-      fetchPostDetails()
-    }, [id])
+    useEffect(() => {
+        const fetchComments = async () => {
+            if (!post) return
+            try {
+                setIsLoading(true)
+                const comments = await postService.getCommentsByPostId(post._id)
+                console.log('comments', comments)
+                setComments(comments)
+            } catch (error) {
+                console.error('Failed to fetch post:', error)
+            }
+        }
+
+        if (post) {
+            setIsLoading(false)
+            fetchComments()
+        }
+    }, [post])
 
     useEffect(() => {
         const fetchMorePosts = async ()=> {
@@ -63,7 +74,7 @@ export function PostDetailsExtended() {
         onSavePost: onSavePost
        }
 
-       async function onRemovePost(postId) {
+    async function onRemovePost(postId) {
         try {
             await removePost(postId)
             showSuccessMsg('Post removed')
@@ -116,7 +127,7 @@ export function PostDetailsExtended() {
                         <PostOwnerCommentInfoDetailsCard owner={post?.owner}
                             postDate={post.created_at} desc={post.desc}/>
                         <PostCommentList currentUser={loggedInUser} postId={post._id}
-                            comments={post.comments} likeAction={postActions.onUpdateLikeStatus}/>
+                            comments={comments} likeAction={postActions.onUpdateLikeStatus}/>
                     </div>
 
                     <div className='details-footer'>

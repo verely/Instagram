@@ -19,7 +19,8 @@ export const postService = {
     getDefaultFilter,
     getPostsByOwnerId,
     updateLikeStatus,
-    addCommentToPost
+    addCommentToPost,
+    getCommentsByPostId
 }
 
 async function query(filterBy = {}) {
@@ -102,6 +103,16 @@ async function addCommentToPost(postId, text, user){
     } catch (err) {
         console.error('Error occurred while adding comment the post:', err.message)
         throw new Error('Failed to add comment to the post. Please try again later.')
+    }
+}
+
+async function getCommentsByPostId(postId) {
+    try {
+        const { data: comments } = await axios.get(`${BASE_URL}${postId}/comments`)
+        return comments
+    } catch (err) {
+        console.error('Error occurred while fetching comments by postId:', err.message)
+        throw new Error('Failed to query comments by postId. Please try again later.')
     }
 }
 
