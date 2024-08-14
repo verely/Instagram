@@ -102,6 +102,7 @@ async function getById(postId) {
                     desc: 1,
                     imgUrl: 1,
                     owner: 1,
+                    created_at: 1,
                     likedBy: 1,
                     comments: 1
                 }
