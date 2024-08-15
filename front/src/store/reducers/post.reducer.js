@@ -50,7 +50,9 @@ export function postReducer(state = initialState, action) {
             break
         case COMMENT_POST:
             posts = state.posts.map(post => post._id === action.postId
-                ? { ...post, comments: [...post.comments || [], action.comment]}
+                ? { ...post,
+                    //comments: [...post.comments || [], action.comment],
+                    commentCount: (post.commentCount || 0) + 1 }
                 : post)
             newState = { ...state, posts }
             break
