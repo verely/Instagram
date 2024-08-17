@@ -1,5 +1,7 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+
 import { loadPosts, removePost,
     updateLikeStatus, addCommentToPost,
     sharePost, getActionRemovePost } from '../store/actions/post.actions.js'
@@ -7,11 +9,17 @@ import { loadPosts, removePost,
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { PostList } from '../cmps/PostList.jsx'
 
+import { PostDetails } from '../cmps/PostDetails'
+import { ModalCmp } from '../cmps/ModalCmp'
+
 
 export function PostIndex() {
 
     const loggedInUser = useSelector(state => state.userModule.user)
     const posts = useSelector(storeState => storeState.postModule.posts)
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [selectedPostId, setSelectedPostId] = useState(null)
+    const navigate = useNavigate()
 
     useEffect(() => {
         loadPosts()
@@ -42,6 +50,18 @@ export function PostIndex() {
         }
     }
 
+    function onCommentDisplayAction(postId) {
+        console.log('onCommentDisplayAction', postId)
+        setSelectedPostId(postId)
+        setIsModalOpen(true)
+        window.history.replaceState(null, '', `/p/${postId}`) //update the URL without full navigation
+    }
+
+    const closeModal = () => {
+        setIsModalOpen(false)
+        navigate(`/`, { replace: true, state: { modal: false } });
+    }
+
     function onSharePost(postId, recipient) {
         console.log(`TODO Share post`)
     }
@@ -55,6 +75,7 @@ export function PostIndex() {
         onRemovePost: onRemovePost,
         onUpdateLikeStatus: onUpdateLikeStatus,
         onAddCommentToPost: onAddCommentToPost,
+        onCommentDisplayAction: onCommentDisplayAction,
         onSharePost: onSharePost,
         onSavePost: onSavePost
     }
@@ -75,6 +96,12 @@ export function PostIndex() {
             <div className='ad-wrapper'>
             </div>
             <div className='spacer'></div>
+
+            {isModalOpen && (
+                    <ModalCmp onClose={closeModal}>
+                        <PostDetails postId={selectedPostId} />
+                    </ModalCmp>
+                )}
         </div>
     )
 }

@@ -18,7 +18,7 @@ export function ActionButtons({ postActions, post, isLiked }) {
                 <button className="action-button" onClick={() => postActions.onUpdateLikeStatus(post._id, isLiked? "unlike" : "like")}>
                     <img className={isLiked? "svg" : "svg with-effect"} src={isLiked? unlike : like} alt="like" />
                 </button>
-                <button className="action-button comment" onClick={() => postActions.onAddCommentToPost(post._id)}>
+                <button className="action-button comment" onClick={() => postActions.onCommentDisplayAction(post._id)}>
                     <img className="svg with-effect" src={comment} alt="comment" />
                 </button>
                 <button className="action-button share" onClick={() => postActions.onSharePost(post._id)}>
