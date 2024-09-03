@@ -40,7 +40,7 @@
         }
     }
 
-    .ad-wrapper,
+    .user-suggestions,
     .spacer {
         display: none;
     }
@@ -81,7 +81,7 @@
             width: 630px;
             grid-template-columns: rem(80px) 468px rem(80px);
         }
-        .ad-wrapper {
+        .user-suggestions {
             display: block;
             width: 383px;
             height: 500px;

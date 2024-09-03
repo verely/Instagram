@@ -93,7 +93,7 @@ export function PostIndex() {
                     <PostList posts={posts} postActions={postActions} currentUser={loggedInUser}/>
                 </div>
             </div>
-            <div className='ad-wrapper'>
+            <div className='user-suggestions'>
             </div>
             <div className='spacer'></div>
 
