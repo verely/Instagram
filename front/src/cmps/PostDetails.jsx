@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect , useRef} from 'react'
 import { useSelector } from 'react-redux'
 
 import { PostOwnerInfoDetailsCard } from './PostOwnerInfoDetailsCard.jsx'
@@ -16,6 +16,19 @@ export function PostDetails({postId}) {
 
     const [post, setPost] = useState(null)
     const loggedInUser = useSelector(state => state.userModule.user)
+    const [shouldFocus, setShouldFocus] = useState(false)
+    const commentInputRef = useRef(null)
+
+    const onCommentDisplayAction = () => {
+      setShouldFocus(true)
+    }
+
+    useEffect(() => {
+        if (shouldFocus && commentInputRef.current) {
+          commentInputRef.current.focus()
+          setShouldFocus(false)
+        }
+    }, [shouldFocus])
 
     useEffect(() => {
       const fetchPostDetails = async () => {
@@ -36,7 +49,8 @@ export function PostDetails({postId}) {
         onUpdateLikeStatus: onUpdateLikeStatus,
         onAddCommentToPost: onAddCommentToPost,
         onSharePost: onSharePost,
-        onSavePost: onSavePost
+        onSavePost: onSavePost,
+        onCommentDisplayAction: onCommentDisplayAction
     }
 
     async function onRemovePost(postId) {
@@ -98,7 +112,8 @@ export function PostDetails({postId}) {
                 </div>
                 <div className='comment-footer'>
                     <CommentArea post={post} onAddCommentToPost={postActions.onAddCommentToPost}
-                        showIcon={false} iconSrc={loggedInUser.imgUrl} isEmojiLarge={true}/>
+                        showIcon={false} iconSrc={loggedInUser.imgUrl} isEmojiLarge={true}
+                        inputRef={commentInputRef}/>
                 </div>
             </div>
         </div>

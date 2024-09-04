@@ -4,7 +4,8 @@ import EmojiPicker from 'emoji-picker-react'
 import emoji from '../assets/img/PostPreview/emoji.svg'
 
 
-export function CommentArea({post, onAddCommentToPost, showIcon = false, iconSrc = '', isEmojiLarge=false}) {
+export function CommentArea({post, onAddCommentToPost, showIcon = false, iconSrc = '', isEmojiLarge=false,
+    inputRef}) {
 
     const [postComment, setPostComment] = useState("")
     const [showEmojiPicker, setShowEmojiPicker] = useState(false)
@@ -39,6 +40,7 @@ export function CommentArea({post, onAddCommentToPost, showIcon = false, iconSrc
             <div className="comment-area">
                 {showIcon && <img src={iconSrc} alt="Owner Icon" className="comment-owner-icon" />}
                 <textarea
+                    ref={inputRef}
                     value={postComment}
                     onChange={(e) => setPostComment(e.target.value)}
                     onKeyDown={handleKeyPress}
