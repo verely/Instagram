@@ -9,6 +9,7 @@ import explore from '../assets/img/SideBarNavigation/explore.svg'
 import exploreActive from '../assets/img/SideBarNavigation/explore-active.svg'
 import search from '../assets/img/SideBarNavigation/search.svg'
 import messenger from '../assets/img/SideBarNavigation/messenger.svg'
+import messengerActive from '../assets/img/SideBarNavigation/messenger-active.svg'
 import newPost from '../assets/img/SideBarNavigation/newPost.svg'
 import more from '../assets/img/SideBarNavigation/more.svg'
 import { CreatePost } from './CreatePost.jsx'
@@ -59,7 +60,9 @@ export function SideBarNavigation() {
                         )}
                     </NavLink>
                     <NavLink to="/messages" className="nav-link">
-                        <img src={messenger} alt="Messenger" className="nav-icon"/>
+                        {({ isActive })=>(
+                            <img src={isActive ? messengerActive: messenger} alt="Messenger" className="nav-icon"/>
+                        )}
                     </NavLink>
                     <NavLink className="nav-link">
                         <img src={newPost} alt="CreatePost" className="nav-icon"  />
@@ -107,8 +110,12 @@ export function SideBarNavigation() {
                             )}
                         </NavLink>
                         <NavLink to="/message" className="nav-link">
-                            <img src={messenger} alt="Messenger" className="nav-icon" onClick={expand}/>
-                            {!isCollapsed && <span>Messages</span>}
+                            {({ isActive })=>(
+                                <>
+                                    <img src={isActive ? messengerActive : messenger} alt="Messenger" className="nav-icon" onClick={expand}/>
+                                    {!isCollapsed && <span>Messages</span>}
+                                </>
+                            )}
                         </NavLink>
                         <NavLink className="nav-link" onClick={handleOpenCreatePost}>
                             <img src={newPost} alt="CreatePost" className="nav-icon"  />
