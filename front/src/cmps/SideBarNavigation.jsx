@@ -3,7 +3,8 @@ import { NavLink } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import brandName from '../assets/img/SideBarNavigation/brandName.svg'
 import brandIcon from '../assets/img/SideBarNavigation/brandIcon.svg'
-import home from '../assets/img/SideBarNavigation/home.svg'
+import homeActive from '../assets/img/SideBarNavigation/home.svg'
+import home from '../assets/img/SideBarNavigation/home-outline.svg'
 import explore from '../assets/img/SideBarNavigation/explore.svg'
 import search from '../assets/img/SideBarNavigation/search.svg'
 import messenger from '../assets/img/SideBarNavigation/messenger.svg'
@@ -11,6 +12,7 @@ import newPost from '../assets/img/SideBarNavigation/newPost.svg'
 import more from '../assets/img/SideBarNavigation/more.svg'
 import { CreatePost } from './CreatePost.jsx'
 import { MoreMenu } from './MoreMenu.jsx'
+
 
 export function SideBarNavigation() {
     const loggedInUser = useSelector(state => state.userModule.user)
@@ -80,8 +82,12 @@ export function SideBarNavigation() {
                     </div>
                     <div className="navbar-nav">
                         <NavLink to="/" className="nav-link">
-                            <img src={home} alt="Home" className="nav-icon" onClick={expand}/>
-                            {!isCollapsed && <span>Home</span>}
+                        {({ isActive }) => (
+                            <>
+                                <img src={isActive ? homeActive : home} alt="Home" className="nav-icon" onClick={expand} />
+                                {!isCollapsed && <span>Search</span>}
+                            </>
+                        )}
                         </NavLink>
                         <NavLink to="/search" className="nav-link" onClick={toggleCollapse}>
                             <img src={search} alt="Search" className="nav-icon"/>
@@ -123,4 +129,3 @@ export function SideBarNavigation() {
         </div>
     )
 }
-
