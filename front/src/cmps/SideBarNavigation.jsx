@@ -6,6 +6,7 @@ import brandIcon from '../assets/img/SideBarNavigation/brandIcon.svg'
 import homeActive from '../assets/img/SideBarNavigation/home.svg'
 import home from '../assets/img/SideBarNavigation/home-outline.svg'
 import explore from '../assets/img/SideBarNavigation/explore.svg'
+import exploreActive from '../assets/img/SideBarNavigation/explore-active.svg'
 import search from '../assets/img/SideBarNavigation/search.svg'
 import messenger from '../assets/img/SideBarNavigation/messenger.svg'
 import newPost from '../assets/img/SideBarNavigation/newPost.svg'
@@ -48,20 +49,24 @@ export function SideBarNavigation() {
             <div className="sidebar-mobile-layout">
                 <div className="navbar-mobile">
                     <NavLink to="/" className="nav-link">
-                        <img src={home} alt="Home" className="nav-icon"/>
+                        {({ isActive }) => (
+                             <img src={isActive ? homeActive : home} alt="Home" className="nav-icon"/>
+                        )}
                     </NavLink>
                     <NavLink to="/explore" className="nav-link">
-                        <img src={explore} alt="Explore" className="nav-icon"/>
+                        {({ isActive }) => (
+                             <img src={isActive ? exploreActive: explore} alt="Explore" className="nav-icon"/>
+                        )}
                     </NavLink>
                     <NavLink to="/messages" className="nav-link">
                         <img src={messenger} alt="Messenger" className="nav-icon"/>
                     </NavLink>
                     <NavLink className="nav-link">
-                    <img src={newPost} alt="CreatePost" className="nav-icon"  />
+                        <img src={newPost} alt="CreatePost" className="nav-icon"  />
                     </NavLink>
-                    <NavLink to="/profile" className="nav-link">
-                        <img src={explore} alt="Profile" className="nav-icon"/>
-                    </NavLink>
+                    {loggedInUser &&<NavLink to="/profile" className="nav-link">
+                        <img src={loggedInUser.imgUrl} alt="Profile" className="nav-icon profile"/>
+                    </NavLink>}
                 </div>
             </div>
 
@@ -82,20 +87,24 @@ export function SideBarNavigation() {
                     </div>
                     <div className="navbar-nav">
                         <NavLink to="/" className="nav-link">
-                        {({ isActive }) => (
-                            <>
-                                <img src={isActive ? homeActive : home} alt="Home" className="nav-icon" onClick={expand} />
-                                {!isCollapsed && <span>Search</span>}
-                            </>
-                        )}
+                            {({ isActive }) => (
+                                <>
+                                    <img src={isActive ? homeActive : home} alt="Home" className="nav-icon" onClick={expand} />
+                                    {!isCollapsed && <span>Search</span>}
+                                </>
+                            )}
                         </NavLink>
                         <NavLink to="/search" className="nav-link" onClick={toggleCollapse}>
                             <img src={search} alt="Search" className="nav-icon"/>
                             {!isCollapsed && <span>Search</span>}
                         </NavLink>
                         <NavLink to="/explore" className="nav-link">
-                            <img src={explore} alt="Explore" className="nav-icon" onClick={expand}/>
-                            {!isCollapsed && <span>Explore</span>}
+                            {({ isActive }) => (
+                                <>
+                                    <img src={isActive ? exploreActive: explore} alt="Explore" className="nav-icon" onClick={expand}/>
+                                    {!isCollapsed && <span>Explore</span>}
+                                </>
+                            )}
                         </NavLink>
                         <NavLink to="/message" className="nav-link">
                             <img src={messenger} alt="Messenger" className="nav-icon" onClick={expand}/>

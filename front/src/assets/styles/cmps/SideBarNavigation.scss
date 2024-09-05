@@ -203,8 +203,26 @@
             border-top: 1px solid $separation-line-bgc;
             // background-color: aquamarine;
 
-            .nav-icon {
-                padding-top: 2px;
+            .nav-link {
+                .nav-icon {
+                    padding-top: 2px;
+                    width: 24px;
+                    height: 24px;
+                    margin-right: 14px;
+
+                    &.profile{
+                        border-radius: 50%;
+                    }
+                }
+
+                &.active {
+                    .nav-icon {
+                        &.profile {
+                            width: 28px;
+                            height: 28px;
+                            border: 2px solid white;}
+                    }
+                }
             }
         }
     }
