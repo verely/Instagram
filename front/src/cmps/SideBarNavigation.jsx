@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import brandName from '../assets/img/SideBarNavigation/brandName.svg'
@@ -10,7 +10,6 @@ import messenger from '../assets/img/SideBarNavigation/messenger.svg'
 import newPost from '../assets/img/SideBarNavigation/newPost.svg'
 import more from '../assets/img/SideBarNavigation/more.svg'
 import { CreatePost } from './CreatePost.jsx'
-import { login } from '../store/actions/user.actions'
 import { MoreMenu } from './MoreMenu.jsx'
 
 export function SideBarNavigation() {
@@ -23,15 +22,15 @@ export function SideBarNavigation() {
 
     const handleOpenCreatePost = () => {
         setIsCreatePostOpen(true)
-     };
+    }
 
     const handleCloseCreatePost = () => {
         setIsCreatePostOpen(false)
-     };
+    }
 
     const toggleCollapse = () => {
         setIsCollapsed(!isCollapsed)
-    };
+    }
 
     const expand = () => {
         if (isCollapsed) { setIsCollapsed(false) }
@@ -122,6 +121,6 @@ export function SideBarNavigation() {
                 <CreatePost onClose={handleCloseCreatePost}/>
             </div>}
         </div>
-    );
+    )
 }
 
