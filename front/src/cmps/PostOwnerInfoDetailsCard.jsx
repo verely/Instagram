@@ -31,7 +31,7 @@ export function PostOwnerInfoDetailsCard({ owner, postId, onDeleteAction, isOwne
 
             {showMenu && <div className="post-action-menu-modal">
                 {<PostActionMenu postId={postId} onClose={() => setShowMenu(false)}
-                  onDelete={onDelete} isOwner={isOwner}/>}
+                  onDelete={onDelete} isOwner={isOwner} showGoToPost={false}/>}
             </div>}
         </div>
     )

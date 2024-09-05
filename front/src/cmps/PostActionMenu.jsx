@@ -1,24 +1,24 @@
-import { useNavigate, NavLink } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useNavigate, NavLink } from 'react-router-dom'
+import { useEffect } from 'react'
 
-export function PostActionMenu({ postId, onClose, onDelete, isOwner }) {
+export function PostActionMenu({ postId, onClose, onDelete, isOwner, showGoToPost = true }) {
     const navigate = useNavigate()
 
     useEffect(() => {
         document.body.classList.add('no-scroll');
         return () => {
             document.body.classList.remove('no-scroll');
-        };
-    }, []);
+        }
+    }, [])
 
     function onUnFollow(){
 
     }
 
     const onGoToPost = (e) => {
-        e.preventDefault();
-        navigate(`/p/${postId}`);
-        onClose(); // Close the menu after navigating
+        e.preventDefault()
+        navigate(`/p/${postId}`)
+        onClose() // Close the menu after navigating
     }
 
     function onCopyPostLink() {
@@ -35,9 +35,9 @@ export function PostActionMenu({ postId, onClose, onDelete, isOwner }) {
                     Delete
                 </NavLink>
             )}
-            <NavLink to="/p/:id" className="nav-link" onClick={onGoToPost}>
+            {showGoToPost && <NavLink to="/p/:id" className="nav-link" onClick={onGoToPost}>
                 Go to post
-            </NavLink>
+            </NavLink>}
             <NavLink to="/" className="nav-link" onClick={onCopyPostLink}>
                 Copy link
             </NavLink>
@@ -45,5 +45,5 @@ export function PostActionMenu({ postId, onClose, onDelete, isOwner }) {
                 Cancel
             </NavLink>
         </div>
-    );
+    )
 }
