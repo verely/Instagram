@@ -94,11 +94,11 @@ export function SideBarNavigation() {
                             {({ isActive }) => (
                                 <>
                                     <img src={isActive ? homeActive : home} alt="Home" className="nav-icon" onClick={expand} />
-                                    {!isCollapsed && <span>Search</span>}
+                                    {!isCollapsed && <span>Home</span>}
                                 </>
                             )}
                         </NavLink>
-                        <NavLink to="/search" className="nav-link" onClick={toggleCollapse}>
+                        <NavLink to="/search" className="nav-link search" onClick={toggleCollapse}>
                             <img src={isCollapsed ? searchActive : search} alt="Search" className="nav-icon" />
                             {!isCollapsed && <span>Search</span>}
                         </NavLink>
@@ -118,7 +118,7 @@ export function SideBarNavigation() {
                                 </>
                             )}
                         </NavLink>
-                        <NavLink className="nav-link" onClick={handleOpenCreatePost}>
+                        <NavLink className="nav-link create" onClick={handleOpenCreatePost}>
                             <img src={newPost} alt="CreatePost" className="nav-icon"  />
                             {!isCollapsed && <span>Create</span>}
                         </NavLink>

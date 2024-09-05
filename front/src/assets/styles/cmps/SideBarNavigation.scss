@@ -154,6 +154,11 @@
             // }
         }
 
+        .nav-link.search.active span,
+        .nav-link.create.active span {
+            font-weight: normal;
+        }
+
         .more-link-wrapper {
             margin-top: auto;
             margin-bottom: 20px;
