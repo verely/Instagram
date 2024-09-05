@@ -8,6 +8,7 @@ import home from '../assets/img/SideBarNavigation/home-outline.svg'
 import explore from '../assets/img/SideBarNavigation/explore.svg'
 import exploreActive from '../assets/img/SideBarNavigation/explore-active.svg'
 import search from '../assets/img/SideBarNavigation/search.svg'
+import searchActive from '../assets/img/SideBarNavigation/search-active.svg'
 import messenger from '../assets/img/SideBarNavigation/messenger.svg'
 import messengerActive from '../assets/img/SideBarNavigation/messenger-active.svg'
 import newPost from '../assets/img/SideBarNavigation/newPost.svg'
@@ -67,7 +68,7 @@ export function SideBarNavigation() {
                     <NavLink className="nav-link">
                         <img src={newPost} alt="CreatePost" className="nav-icon"  />
                     </NavLink>
-                    {loggedInUser &&<NavLink to="/profile" className="nav-link">
+                        {loggedInUser &&<NavLink to="/profile" className="nav-link">
                         <img src={loggedInUser.imgUrl} alt="Profile" className="nav-icon profile"/>
                     </NavLink>}
                 </div>
@@ -98,7 +99,7 @@ export function SideBarNavigation() {
                             )}
                         </NavLink>
                         <NavLink to="/search" className="nav-link" onClick={toggleCollapse}>
-                            <img src={search} alt="Search" className="nav-icon"/>
+                            <img src={isCollapsed ? searchActive : search} alt="Search" className="nav-icon" />
                             {!isCollapsed && <span>Search</span>}
                         </NavLink>
                         <NavLink to="/explore" className="nav-link">
