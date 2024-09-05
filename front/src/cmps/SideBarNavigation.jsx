@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import brandName from '../assets/img/SideBarNavigation/brandName.svg'
@@ -23,6 +23,26 @@ export function SideBarNavigation() {
     const [isCollapsed, setIsCollapsed] = useState(false)
     const [isCreatePostOpen, setIsCreatePostOpen] = useState(false)
     const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false)
+    const moreMenuRef = useRef(null)
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (moreMenuRef.current && !moreMenuRef.current.contains(event.target)) {
+                setIsMoreMenuOpen(false)
+            }
+        }
+
+        if (isMoreMenuOpen) {
+            document.addEventListener('mousedown', handleClickOutside)
+        } else {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+
+        // Clean up the event listener on component unmount
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [isMoreMenuOpen])
 
 
     const handleOpenCreatePost = () => {
@@ -132,7 +152,7 @@ export function SideBarNavigation() {
                                 {!isCollapsed && <span>More</span>}
                             </NavLink>
                             {isMoreMenuOpen && (
-                                <div className='more-menu-wrapper'>
+                                <div className='more-menu-wrapper' ref={moreMenuRef}>
                                     <MoreMenu />
                                 </div>
                             )}
