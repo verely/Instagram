@@ -1,0 +1,35 @@
+.explore-page-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    padding: 25px 18px 0px 42px;
+
+    .explore-grid-item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+          width: 100%;
+          aspect-ratio: 1 / 1;
+          height: 100%;
+          object-fit: cover;
+          cursor: pointer;
+        }
+      }
+
+    & > .explore-grid-item:nth-child(12n + 3) {
+      grid-row: span 2;
+    }
+
+    & > .explore-grid-item:nth-child(12n + 6) {
+      grid-row: span 2;
+    }
+  }
+
+  .loading-indicator {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 20px;
+    background-color: #f0f0f0;
+  }
