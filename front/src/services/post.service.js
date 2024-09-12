@@ -24,8 +24,10 @@ export const postService = {
 }
 
 async function query(filterBy = {}) {
-    const { data: posts } = await axios.get(BASE_URL, { params: filterBy })
-    return posts
+    //console.log('query filterBy', filterBy)
+    const response = await axios.get(BASE_URL, { params: filterBy })
+    const { posts, totalCount } = response.data
+    return { posts, totalCount }
 }
 
 async function get(postId) {

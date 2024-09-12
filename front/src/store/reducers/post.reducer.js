@@ -34,7 +34,7 @@ export function postReducer(state = initialState, action) {
             newState = { ...state, posts, lastRemovedPost: removedPost }
             break
         case SET_POSTS:
-            newState = { ...state, posts: action.posts }
+            newState = { ...state, posts: [...state.posts, ...action.posts] }
             break
         case LIKE_POST:
             posts = state.posts.map(post => post._id === action.postId

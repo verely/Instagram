@@ -64,11 +64,20 @@ export function getActionLoadPosts(posts) {
     }
 }
 
-export async function loadPosts() {
+export async function loadPosts(page) {
     try {
-        const posts = await postService.query()
+        const filterBy = {pageIndex: page}
+        const {posts, totalCount} = await postService.query(filterBy)
+
         console.log(`Posts loaded successfully from DB`)
+
         store.dispatch(getActionLoadPosts(posts))
+
+        const loadedPostsCount = store.getState().postModule.posts.length
+        const hasMorePosts = loadedPostsCount < totalCount
+        //console.log(`page: ${page}, totalCount: ${totalCount}, loadedPostsCount: ${loadedPostsCount}, hasMorePosts: ${hasMorePosts}`)
+
+        return hasMorePosts
     } catch (err) {
         console.error('Cannot load posts', err)
         throw err

@@ -30,7 +30,8 @@ export async function getPosts(req, res) {
     try {
         const filterBy = {
             txt: req.query?.txt || '',
-            postOwnerId: req.query?.postOwnerId || ''
+            postOwnerId: req.query?.postOwnerId || '',
+            pageIndex: req.query?.pageIndex || 1
         }
         const posts = await postService.query(filterBy)
         res.send(posts)

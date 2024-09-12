@@ -1,10 +1,11 @@
-// import { dbService } from '../../services/db.service.js'
 import { dbService } from '../../services/db.service.js'
 import { logger } from '../../services/logger.service.js'
 import { UnauthorizedError } from '../../api/auth/auth.error.js'
 
 import mongodb from 'mongodb'
 const { ObjectId } = mongodb
+
+const PAGE_SIZE_DEFAULT = 10
 
 export const postService = {
     query,
@@ -16,6 +17,7 @@ export const postService = {
 
 async function query(filterBy = {}) {
     try {
+        //console.log('filterBy',filterBy)
         let criteria = {}
         if (filterBy.txt) {
             criteria.desc = { $regex: filterBy.txt, $options: 'i' };
@@ -26,42 +28,46 @@ async function query(filterBy = {}) {
         }
 
         const collection = await dbService.getCollection('post')
+
+        const totalCount = await collection.countDocuments(criteria)
+
+        const pageIndex = filterBy.pageIndex || 1
+        const pageSize = PAGE_SIZE_DEFAULT
+
         var posts = await collection.aggregate([{
-            $match: criteria
-        },
-        {
-            $lookup: {
-                localField: '_id',
-                from: 'comments',
-                foreignField: 'postId',
-                as: 'comments'
+                $match: criteria
+            },
+            {
+                $lookup: {
+                    localField: '_id',
+                    from: 'comments',
+                    foreignField: 'postId',
+                    as: 'comments'
+                }
+            },
+            {
+                $addFields: {
+                    created_at: { $toDate: "$_id" }
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    desc: 1,
+                    imgUrl: 1,
+                    owner: 1,
+                    created_at: 1,
+                    likedBy: 1,
+                    commentCount: { $size: "$comments" }
+                }
             }
-        },
-        {
-            $addFields: {
-                created_at: { $toDate: "$_id" }
-            }
-        },
-        {
-            $project: {
-                _id: 1,
-                desc: 1,
-                imgUrl: 1,
-                owner: 1,
-                created_at: 1,
-                likedBy: 1,
-                commentCount: { $size: "$comments" }
-            }
-        }
-    ]).sort({_id:-1}).toArray()
+        ])
+        .sort({ _id: -1 })
+        .skip((pageIndex - 1) * pageSize)
+        .limit(pageSize)
+        .toArray()
 
-
-        // posts = posts.map(post => {
-        //     post.created_at = post._id.getTimestamp()
-        //     return post
-        // })
-        console.log(posts)
-        return posts
+        return { posts, totalCount }
     } catch (err) {
         logger.error('Cannot find posts', err)
         throw err
