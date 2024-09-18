@@ -9,7 +9,7 @@ export const commentService = {
 
 async function addComment(comment, loggedInUser) {
   try {
-    console.log('comment.postId', comment.postId)
+    //console.log('comment.postId', comment.postId)
     const { _id, userName, fullName, imgUrl } = loggedInUser
     const by = {
         id: ObjectId.createFromHexString(_id),
@@ -24,8 +24,8 @@ async function addComment(comment, loggedInUser) {
     }
 
 
-    console.log('commentToSave', commentToSave)
-    console.log('by', by)
+    //console.log('commentToSave', commentToSave)
+    //console.log('by', by)
     const collection = await dbService.getCollection('comments')
     const result = await collection.insertOne(commentToSave)
     if (result.acknowledged) {
@@ -37,7 +37,7 @@ async function addComment(comment, loggedInUser) {
             _id: insertedId,
             created_at: insertedId.getTimestamp().getTime()
         }
-        console.log(insertedComment)
+        //console.log(insertedComment)
         return insertedComment
     } else {
         throw new Error('Failed to insert comment')

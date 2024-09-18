@@ -14,6 +14,7 @@ import {
     UPDATE_PROFILE,
     SET_ERROR,
 } from '../reducers/user.reducer.js'
+import { socketService } from '../../services/socket.service.js'
 
 
   export async function loadUser(userId) {
@@ -67,6 +68,7 @@ import {
           type: SET_USER,
           user,
         })
+        socketService.login(user._id)
         return user
     } catch (err) {
         console.log("Cannot login", err)
@@ -97,6 +99,7 @@ import {
           type: SET_USER,
           user,
         })
+        socketService.login(user._id)
         return user
     } catch (err) {
         console.log("Cannot signup", err)
@@ -112,6 +115,7 @@ import {
           type: SET_USER,
           user: null,
         })
+        socketService.logout()
     } catch (err) {
         console.log("Cannot logout", err);
         store.dispatch({ type: SET_ERROR, error: "Logout failed." })

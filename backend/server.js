@@ -2,11 +2,13 @@ import 'dotenv/config'
 import express from 'express'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
-
+import http from 'http'
+//import path from 'path'
 
 import { logger } from './services/logger.service.js'
 
 const app = express()
+const server = http.createServer(app)
 
 const corsOptions = {
     origin: [
@@ -32,10 +34,15 @@ app.use('/api/auth', authRoutes)
 app.use('/api/user', userRoutes)
 app.use('/api/post', postRoutes)
 
+import { setupSocketAPI } from './services/socket.service.js'
+setupSocketAPI(server)
 
 // const port = 3030
 const port = process.env.PORT || 3000
-app.get('/', (req, res) => res.send('Hello there'))
-app.listen(port, () =>
+app.get('/**', (req, res) => {
+    res.sendFile(path.resolve('public/index.html'))
+})
+
+server.listen(port, () =>
     logger.info(`Server listening on port ${port}`)
 )

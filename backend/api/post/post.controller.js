@@ -2,6 +2,7 @@ import { postService } from './post.service.js'
 import { logger } from '../../services/logger.service.js'
 import { UnauthorizedError } from '../auth/auth.error.js'
 import { commentService } from './comment.service.js'
+import { socketService } from '../../services/socket.service.js'
 
 export async function addPost(req, res) {
     const { loggedInUser } = req
@@ -61,7 +62,7 @@ export async function deletePost(req, res) {
 export async function updatePost(req, res) {
     const { loggedInUser } = req
     const { post } = req.body
-    console.log(post)
+    //console.log(post)
     try {
         await postService.update(post, loggedInUser)
         res.send('updated')
@@ -79,16 +80,20 @@ export async function updatePost(req, res) {
 export const addComment = async (req, res) => {
     const { loggedInUser } = req
     const {comment} = req.body
-    console.log('add comment',comment)
+    //console.log('add comment',comment)
     try {
         const post = await postService.getById(comment.postId)
         if (!post) {
             return res.status(404).send({ error: 'Post not found' });
         }
-        console.log('comment',comment)
-        const commentToSave = await commentService.addComment(comment, loggedInUser)
-        res.status(201).send(commentToSave)
-    } catch (error) {
+        const savedComment = await commentService.addComment(comment, loggedInUser)
+
+        // Notify all users except initiator of the post comment adding
+		socketService.broadcast({ type: 'post-comment-added', data: savedComment, userId: loggedInUser._id })
+
+        res.status(201).send(savedComment)
+    } catch (err) {
+        logger.error('Failed to add comment', err)
         res.status(500).send({ error: 'Failed to add comment' })
     }
   }

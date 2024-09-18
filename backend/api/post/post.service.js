@@ -12,7 +12,8 @@ export const postService = {
     getById,
     add,
     remove,
-    update
+    update,
+    getPostOwnerById
 }
 
 async function query(filterBy = {}) {
@@ -115,7 +116,7 @@ async function getById(postId) {
             }
             ]).toArray()
         const post = posts.length > 0 ? posts[0] : null
-        console.log('getById post:', post)
+        //console.log('getById post:', post)
         return post
     } catch (err) {
         logger.error(`Error while finding post ${postId}`, err)
@@ -123,6 +124,16 @@ async function getById(postId) {
     }
 }
 
+async function getPostOwnerById(postId) {
+    try {
+        const collection = await dbService.getCollection('post')
+        const post = await collection.findOne({ _id: ObjectId.createFromHexString(postId) })
+        return post.owner
+    } catch (err) {
+        logger.error(`Error while finding post ${postId}`, err)
+        throw err
+    }
+}
 async function add(post, loggedInUser) {
     try {
         const { _id, userName, fullName, imgUrl} = loggedInUser
@@ -137,7 +148,7 @@ async function add(post, loggedInUser) {
             imgUrl: post.imgUrl,
             owner: owner
         }
-        console.log('postToSave',postToSave)
+        //console.log('postToSave',postToSave)
         const collection = await dbService.getCollection('post')
         const insertionResult = await collection.insertOne(postToSave)
         if (insertionResult.acknowledged) {
@@ -149,7 +160,7 @@ async function add(post, loggedInUser) {
                 _id: insertedId,
                 created_at: insertedId.getTimestamp().getTime()
             }
-            console.log(insertedPost)
+            //console.log(insertedPost)
             return insertedPost
         } else {
             throw new Error('Failed to insert post')

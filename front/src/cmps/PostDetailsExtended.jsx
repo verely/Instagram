@@ -9,6 +9,7 @@ import { ActionButtons } from './ActionButtons.jsx'
 import { CommentArea } from './CommentArea.jsx'
 
 import { postService } from '../services/post.service.js'
+import { socketService } from '../services/socket.service.js'
 
 import { loadPosts, removePost,
     updateLikeStatus, addCommentToPost,
@@ -60,6 +61,18 @@ export function PostDetailsExtended() {
             fetchComments()
         }
     }, [post])
+
+    useEffect(() => {
+        const handleNewComment = (newComment) => {
+            if (newComment.postId === post._id) {
+                setComments(prevComments => [...prevComments, newComment])
+            }
+        }
+        socketService.on('post-comment-added', handleNewComment)
+        return () => {
+            socketService.off('post-comment-added', handleNewComment)
+        }
+    }, [post._id])
 
     useEffect(() => {
         const fetchMorePosts = async ()=> {
