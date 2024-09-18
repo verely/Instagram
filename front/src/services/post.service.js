@@ -48,11 +48,14 @@ async function save(post) {
 
 async function getPostsByOwnerId(ownerId) {
     try {
-        const posts = await query({postOwnerId: ownerId})
+        const result = await query({postOwnerId: ownerId})
+        console.log('Query result:', result)
 
-        console.log(posts)
-        const userPosts = posts
-            .map(post => ({
+        if (!Array.isArray(result.posts)) {
+            throw new Error('Invalid response from API')
+        }
+
+        const userPosts = result.posts?.map(post => ({
                 _id: post._id,
                 imgUrl: post.imgUrl,
                 created_at: post.created_at,
