@@ -61,7 +61,7 @@ async function loginAsGuest() {
         bio: '',
         followingCount: 0,
         followersCount: 0,
-        savedStoryIds: [],
+        savedPostIds: [],
         isGuest: true
     };
 
@@ -78,7 +78,7 @@ async function signUp(userCred) {
         bio: '',
         followingCount: 0,
         followersCount: 0,
-        savedStoryIds: [],
+        savedPostIds: [],
     };
 
     await storageService.post('user', user)

@@ -21,5 +21,5 @@ export const user = {
       "imgUrl": "https://professional-image.com/mallorybrown.jpg"
     }
   ],
-  "savedStoryIds": ["s104", "s111", "s123"]
+  "savedPostIds": ["s104", "s111", "s123"]
 }

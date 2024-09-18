@@ -13,7 +13,8 @@ export const postService = {
     add,
     remove,
     update,
-    getPostOwnerById
+    getPostOwnerById,
+    getSavedPosts
 }
 
 async function query(filterBy = {}) {
@@ -134,6 +135,46 @@ async function getPostOwnerById(postId) {
         throw err
     }
 }
+
+async function getSavedPosts(postIdList) {
+    try {
+      if (!postIdList || postIdList.length === 0) {
+          return []
+      }
+      const collection = await dbService.getCollection('post')
+      const posts = await collection.aggregate([
+        {
+            $match: {
+                _id: { $in: postIdList.map(id => ObjectId.createFromHexString(id)) }
+            }
+        },
+        {
+            $lookup: {
+                from: 'comments',
+                localField: '_id',
+                foreignField: 'postId',
+                as: 'comments'
+            }
+        },
+        {
+            $project: {
+                _id: 1,
+                imgUrl: 1,
+                owner: 1,
+                created_at: { $toDate: "$_id" },
+                likeCount: { $size: "$likedBy" },
+                commentCount: { $size: "$comments" }
+            }
+        }
+      ]).toArray()
+
+      return posts
+    } catch (err) {
+          console.error('Error occurred while querying posts by postIdList:', err.message)
+          throw new Error('Failed to query posts by postIdList. Please try again later.')
+    }
+}
+
 async function add(post, loggedInUser) {
     try {
         const { _id, userName, fullName, imgUrl} = loggedInUser

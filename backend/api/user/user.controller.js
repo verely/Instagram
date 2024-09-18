@@ -75,7 +75,7 @@ export async function addUser(req, res) {
 //         bio: '',
 //         followingCount: 0,
 //         followersCount: 0,
-//         savedStoryIds: [],
+//         savedPostIds: [],
 //         isAdmin: false
 //     }
 

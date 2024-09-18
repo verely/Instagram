@@ -50,7 +50,7 @@ function loginAsGuest() {
         bio: '',
         followingCount: 0,
         followersCount: 0,
-        savedStoryIds: [],
+        savedPostIds: [],
         isGuest: true,
         isAdmin: false
     }

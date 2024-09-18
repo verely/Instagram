@@ -79,7 +79,7 @@ async function update(userId, userData) {
             bio: userData.bio,
             followingCount: userData.followingCount,
             followersCount: userData.followersCount,
-            savedStoryIds: userData.savedStoryIds,
+            savedPostIds: userData.savedPostIds,
         }
         const collection = await dbService.getCollection('user')
         const updateResult = await collection.updateOne({ _id: ObjectId.createFromHexString(userId) }, { $set: fieldsToUpdate })
@@ -112,7 +112,7 @@ async function add(user) {
             bio: user.bio || '',
             followingCount: user.followingCount || 0,
             followersCount: user.followersCount || 0,
-            savedStoryIds: user.savedStoryIds || [],
+            savedPostIds: user.savedPostIds || [],
             isAdmin: user.isAdmin || false
         }
 

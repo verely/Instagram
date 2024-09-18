@@ -108,3 +108,21 @@ export async function getComments(req, res) {
         res.status(500).send({ error: 'Failed to get comments' })
     }
 }
+
+export async function getSavedPosts(req, res) {
+    try {
+        const userName = req.params.userName
+        const { postIdList } = req.body
+
+        if (!postIdList || !postIdList.length) {
+            return res.status(400).send({ message: 'PostId list is required' })
+        }
+        console.log(`userName:${userName}, postIdList: ${JSON.stringify(postIdList)}`)
+
+        const posts = await postService.getSavedPosts(postIdList)
+        res.json(posts)
+    } catch (err) {
+        console.error('Failed to get posts by postIdList', err.message)
+        res.status(500).send({ message: 'Failed to get posts. Please try again later.' })
+    }
+}

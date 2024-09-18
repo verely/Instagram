@@ -61,13 +61,12 @@ export function UserProfile() {
 
     useEffect(() => {
         const fetchSavedPosts = async () => {
-            if (loggedInUser && activeTab === 'saved') {
+            if (currentProfile && activeTab === 'saved') {
                 try {
                     setIsLoading(true)
-                    const savedPostIds = loggedInUser.savedPostIds
-                    console.log("savedPostIds", savedPostIds)
-                    const posts = await postService.getPostsByIds(savedPostIds)
-                    console.log("saved posts", posts)
+                    const savedPostIds = currentProfile.savedPostIds
+                    const posts = await postService.getSavedPosts(savedPostIds, currentProfile.userName)
+                    //console.log("saved posts", posts)
                     setSavedPosts(posts)
                 } catch (err) {
                     console.error('Failed to fetch saved posts:', err)

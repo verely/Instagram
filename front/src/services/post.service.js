@@ -20,7 +20,8 @@ export const postService = {
     getPostsByOwnerId,
     updateLikeStatus,
     addCommentToPost,
-    getCommentsByPostId
+    getCommentsByPostId,
+    getSavedPosts
 }
 
 async function query(filterBy = {}) {
@@ -118,6 +119,20 @@ async function getCommentsByPostId(postId) {
     } catch (err) {
         console.error('Error occurred while fetching comments by postId:', err.message)
         throw new Error('Failed to query comments by postId. Please try again later.')
+    }
+}
+
+async function getSavedPosts(postIdList, userName) {
+    try {
+        //console.log(`postIdList: ${JSON.stringify(postIdList)}`)
+        if (!postIdList || !postIdList.length) return []
+
+        const { data: savedPosts } = await axios.post(`${BASE_URL}${userName}/saved`,{postIdList})
+
+        return savedPosts
+    } catch (err) {
+        console.error('Error occurred while getting saved posts', err.message)
+        throw new Error('Failed to get saved posts by postIdList. Please try again later.')
     }
 }
 
