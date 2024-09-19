@@ -29,7 +29,7 @@ export function ExplorePage() {
         const endIndex = startIndex + imagesPerPage
 
         const data = flowerImages.slice(startIndex, endIndex).map((image, index) => ({
-          url: `/public/media_samples/img_flowers/${image}`,
+          url: `/media_samples/img_flowers/${image}`,
           id: `${pageToFetch}-${index}`,
         }))
 

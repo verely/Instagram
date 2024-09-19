@@ -10,20 +10,22 @@ import { logger } from './services/logger.service.js'
 const app = express()
 const server = http.createServer(app)
 
-const corsOptions = {
-    origin: [
-        'http://127.0.0.1:5173',
-        'http://127.0.0.1:3000',
-        'http://localhost:5173',
-        'http://localhost:3000',
-    ],
-    credentials: true
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.resolve('public')))
+} else {
+    const corsOptions = {
+        origin: [
+            'http://127.0.0.1:3000',
+            'http://localhost:3000',
+            'http://127.0.0.1:5173',
+            'http://localhost:5173'
+        ],
+        credentials: true
+    }
+    app.use(cors(corsOptions))
 }
 
-// Express Config:
-app.use(express.static('public'))
 app.use(cookieParser())
-app.use(cors(corsOptions))
 app.use(express.json())
 
 import { authRoutes } from './api/auth/auth.routes.js'
