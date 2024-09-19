@@ -57,10 +57,11 @@ export function getActionSavePost(post) {
     }
 }
 
-export function getActionLoadPosts(posts) {
+export function getActionLoadPosts(posts, shouldClear = false) {
     return {
         type: SET_POSTS,
-        posts
+        posts,
+        shouldClear
     }
 }
 
@@ -69,15 +70,15 @@ export async function loadPosts(page) {
         const filterBy = {pageIndex: page}
         const {posts, totalCount} = await postService.query(filterBy)
 
-        console.log(`Posts loaded successfully from DB`)
+        console.log(`Posts loaded successfully from DB, page ${page}, postsCount ${posts?.length}`)
 
-        store.dispatch(getActionLoadPosts(posts))
+        if (page === 1) {
+            store.dispatch(getActionLoadPosts(posts, true))
+        } else {
+            store.dispatch(getActionLoadPosts(posts))
+        }
 
-        const loadedPostsCount = store.getState().postModule.posts.length
-        const hasMorePosts = loadedPostsCount < totalCount
-        //console.log(`page: ${page}, totalCount: ${totalCount}, loadedPostsCount: ${loadedPostsCount}, hasMorePosts: ${hasMorePosts}`)
-
-        return hasMorePosts
+        return totalCount > posts?.length ?? 0
     } catch (err) {
         console.error('Cannot load posts', err)
         throw err

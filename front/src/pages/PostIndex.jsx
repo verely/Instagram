@@ -23,7 +23,7 @@ export function PostIndex() {
     const navigate = useNavigate()
 
     const [page, setPage] = useState(1)
-    const [hasMorePosts, setHasMorePosts] = useState(true);
+    const [hasMorePosts, setHasMorePosts] = useState(true)
     const [observerRef, isIntersecting] = useIntersectionObserver({
       root: null,
       rootMargin: '0px',
@@ -90,7 +90,7 @@ export function PostIndex() {
 
     const closeModal = () => {
         setIsModalOpen(false)
-        navigate(`/`, { replace: true, state: { modal: false } });
+        navigate(`/`, { replace: true, state: { modal: false } })
     }
 
     function onSharePost(postId, recipient) {
@@ -109,6 +109,11 @@ export function PostIndex() {
         onCommentDisplayAction: onCommentDisplayAction,
         onSharePost: onSharePost,
         onSavePost: onSavePost
+    }
+
+    if (posts.length === 0) {
+        console.log('Posts are not yet available')
+        return <div>Loading...</div>
     }
 
     return (
