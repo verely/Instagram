@@ -13,6 +13,7 @@ import { PostList } from '../cmps/PostList.jsx'
 import { PostDetails } from '../cmps/PostDetails'
 import { ModalCmp } from '../cmps/ModalCmp'
 
+import loading from '../assets/img/shared/loading.svg'
 
 export function PostIndex() {
 
@@ -29,6 +30,8 @@ export function PostIndex() {
       rootMargin: '0px',
       threshold: 1.0
     })
+
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         if (hasMorePosts) {
@@ -47,12 +50,17 @@ export function PostIndex() {
     const loadPostsAndUpdateState = async () => {
         try {
             //console.log(`Loading posts for page: ${page}`)
+            setIsLoading(true)
             const hasMore = await loadPosts(page)
             setHasMorePosts(hasMore)
             //console.log(`Posts loaded. More posts available: ${hasMore}`)
         } catch (error) {
             console.error('Error loading posts:', error)
             setHasMorePosts(false)
+        }
+        finally
+        {
+            setIsLoading(false)
         }
     }
 
@@ -111,9 +119,18 @@ export function PostIndex() {
         onSavePost: onSavePost
     }
 
-    if (posts.length === 0) {
-        console.log('Posts are not yet available')
-        return <div>Loading...</div>
+    if ( isLoading) {
+        return (
+            <div className="post-index">
+                <div className="loader-container">
+                    <img
+                        className={`loading-icon ${isLoading ? '' : 'hidden'}`}
+                        src={loading}
+                        alt="Loading..."
+                    />
+                </div>
+            </div>
+        )
     }
 
     return (
