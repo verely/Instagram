@@ -14,6 +14,7 @@ export const userService = {
     getById,
     remove,
     save,
+    addPostToSaved
 }
 
 async function query(filterBy = {}) {
@@ -34,4 +35,14 @@ async function save(user) {
     const method = user._id ? 'put' : 'post'
     const { data: savedUser } = await axios[method](BASE_URL + (user._id || ''), user)
     return savedUser
+}
+
+async function addPostToSaved(userId, postId){
+    try {
+        await axios.put(`${BASE_URL}/${userId}/saved`, { postId })
+        return true
+      } catch (err) {
+        console.error('Failed to save post:', err)
+        throw err
+      }
 }

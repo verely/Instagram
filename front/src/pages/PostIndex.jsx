@@ -5,8 +5,8 @@ import { useIntersectionObserver } from '../hook/useIntersectionObserver'
 
 import { loadPosts, removePost,
     updateLikeStatus, addCommentToPost,
-    sharePost, getActionRemovePost } from '../store/actions/post.actions.js'
-
+    sharePost } from '../store/actions/post.actions.js'
+import { addPostToSaved } from '../store/actions/user.actions.js'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { PostList } from '../cmps/PostList.jsx'
 
@@ -105,8 +105,13 @@ export function PostIndex() {
         console.log(`TODO Share post`)
     }
 
-    function onSavePost(post) {
-        console.log(`TODO Save post`)
+    function onAddPostToSaved(postId) {
+        try {
+            console.log(`Saving post ${postId}...`)
+            addPostToSaved(loggedInUser._id , postId)
+        } catch (err) {
+            showErrorMsg(`Cannot add post to saved collection`)
+        }
     }
 
 
@@ -116,7 +121,7 @@ export function PostIndex() {
         onAddCommentToPost: onAddCommentToPost,
         onCommentDisplayAction: onCommentDisplayAction,
         onSharePost: onSharePost,
-        onSavePost: onSavePost
+        onSavePost: onAddPostToSaved
     }
 
     if ( isLoading) {

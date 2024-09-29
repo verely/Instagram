@@ -10,7 +10,8 @@ export const userService = {
     getByUserName,
     remove,
     update,
-    add
+    add,
+    updateSavedPosts
 }
 
 const BACKEND_PUBLIC_IMAGES_URL = process.env.NODE_ENV === 'true'
@@ -121,6 +122,25 @@ async function add(user) {
         return userToSave
     } catch (err) {
         logger.error('Cannot add a user', err)
+        throw err
+    }
+}
+
+async function updateSavedPosts(userId, postId) {
+    try {
+        const collection = await dbService.getCollection('user')
+        const updateResult = await collection.updateOne(
+            { _id: ObjectId.createFromHexString(userId) },
+            { $addToSet: { savedPostIds: postId } })
+
+            if (updateResult.acknowledged) {
+                return true 
+            }
+            else {
+                throw new Error('Failed to update user');
+            }
+    } catch (err) {
+        logger.error(`Cannot update user ${userId} saved posts`, err);
         throw err
     }
 }

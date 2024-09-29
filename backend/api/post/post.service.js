@@ -187,7 +187,8 @@ async function add(post, loggedInUser) {
         const postToSave = {
             desc: post.desc,
             imgUrl: post.imgUrl,
-            owner: owner
+            owner: owner,
+            likedBy: []
         }
         //console.log('postToSave',postToSave)
         const collection = await dbService.getCollection('post')

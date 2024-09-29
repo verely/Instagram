@@ -12,6 +12,7 @@ import {
     FOLLOW_USER,
     UNFOLLOW_USER,
     UPDATE_PROFILE,
+    UPDATE_SAVED_POST,
     SET_ERROR,
 } from '../reducers/user.reducer.js'
 import { socketService } from '../../services/socket.service.js'
@@ -20,6 +21,7 @@ import { socketService } from '../../services/socket.service.js'
   export async function loadUser(userId) {
     try {
         const user = await userService.getById(userId)
+        // console.log(`loadUser user: ${JSON.stringify(user)}`)
         store.dispatch({ type: SET_CURRENT_PROFILE, user })
     } catch (err) {
         console.log("Cannot load user", err)
@@ -145,12 +147,22 @@ import { socketService } from '../../services/socket.service.js'
     }
   }
 
-  export async function updateUserProfile(userId, profileData) {
+  export async function updateUserProfile(user) {
     try {
-        const updatedUser = await userService.updateProfile(userId, profileData)
+        const updatedUser = await userService.save(user)
         store.dispatch({ type: UPDATE_PROFILE, user: updatedUser })
     } catch (err) {
         console.log("UserActions: err in updateUserProfile", err)
         store.dispatch({ type: SET_ERROR, error: "Error updating profile." })
+    }
+  }
+
+  export async function addPostToSaved(userId, postId) {
+    try {
+      await userService.addPostToSaved(userId, postId)
+      store.dispatch({ type: UPDATE_SAVED_POST, postId })
+    } catch (err) {
+        console.log(`Failed to save post ${postId}: ${err}`)
+        store.dispatch({ type: SET_ERROR, error: "Failed to save post." })
     }
   }

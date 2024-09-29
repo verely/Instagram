@@ -26,7 +26,7 @@ export function postReducer(state = initialState, action) {
             newState = { ...state, posts: [action.post, ...state.posts] }
             break
         case SAVE_POST:
-            newState = { ...state, posts: [...state.posts, action.post] }
+            newState = { ...state, posts: [action.post, ...state.posts] }
             break
         case REMOVE_POST:
             removedPost = state.posts.find(post => post._id === action.postId);

@@ -87,3 +87,21 @@ export async function addUser(req, res) {
 //         res.status(400).send(`Cannot add a user`)
 //     }
 // }
+
+export async function updateUserSavedPosts(req, res) {
+    try {
+        const userId = req.params.id
+        const postId = req.body.postId
+        console.log(`userId: ${userId}, userData: ${postId}`)
+        const succeed = await userService.updateSavedPosts(userId, postId)
+
+        if (succeed) {
+            res.status(200).send()
+        } else {
+            res.status(404).send({ error: 'User not found or update failed' })
+        }
+    } catch (err) {
+        logger.error('Failed to update user saved posts', err)
+        res.status(500).send({ err: 'Failed to update user saved posts' })
+    }
+}

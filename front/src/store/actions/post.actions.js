@@ -50,13 +50,6 @@ export function getActionSharePost(post) {
     }
 }
 
-export function getActionSavePost(post) {
-    return {
-        type: SAVE_POST,
-        post
-    }
-}
-
 export function getActionLoadPosts(posts, shouldClear = false) {
     return {
         type: SET_POSTS,
@@ -158,8 +151,4 @@ export async function sharePost(postId, senderId, recipientId) {
         console.error(`Failed to share post ${postId}:`, err)
         throw err
     }
-}
-
-export async function savePost(post) {
-    addPost(post)
 }
