@@ -11,14 +11,14 @@ async function uploadImgFile(file) {
         const formData = new FormData()
         formData.append('upload_preset', UPLOAD_PRESET)
         formData.append('file', file)
-        console.log('file:', file)
+        //console.log('file:', file)
 
         const res = await fetch(UPLOAD_URL, {
             method: 'POST',
             body: formData
         })
         const imgData = await res.json()
-        console.log('imgData', imgData)
+        //console.log('imgData', imgData)
 
         return imgData
     } catch (err) {
@@ -29,9 +29,9 @@ async function uploadImgFile(file) {
 
 async function handleUploadImg(ev) {
     if (!ev || !ev.target || !ev.target.files || !ev.target.files[0]) {
-        throw new Error('No file selected for upload');
+        throw new Error('No file selected for upload')
     }
 
-    const file = ev.target.files[0];
-    return await uploadImgFile(file);
+    const file = ev.target.files[0]
+    return await uploadImgFile(file)
 }
