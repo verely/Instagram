@@ -49,7 +49,7 @@ async function login({ userName, password, isGuest=false }) {
         else {
             loginData = _saveLoginDataLocally(user)
         }
-        return loginData
+        return {...loginData, isGuest}
     } catch (err) {
         console.error('Login failed:', err)
         throw err

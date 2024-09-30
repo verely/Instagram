@@ -43,7 +43,7 @@ async function login(userName, password) {
 
 function loginAsGuest() {
     const user = {
-        _id: '',
+        _id: 'guest',
         userName: "Guest",
         fullName: "Guest User",
         imgUrl:`${BACKEND_PUBLIC_IMAGES_URL}guest-icon.png`,

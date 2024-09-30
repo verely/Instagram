@@ -37,13 +37,15 @@ export function UserProfile() {
             try {
                 if (loggedInUser) {
                     setIsLoading(true)
-                    if (loggedInUser.isGuest)
+                    if (loggedInUser.isGuest) {
                         await loadGuestUser()
+                    }
                     else
+                    {
                         await loadUser(loggedInUser._id)
-
-                    const posts = await postService.getPostsByOwnerId(loggedInUser._id)
-                    setUserPosts(posts)
+                        const posts = await postService.getPostsByOwnerId(loggedInUser._id)
+                        setUserPosts(posts)
+                    }
                 } else {
                     console.log('loggedInUser is null or undefined, cannot fetch posts.')
                 }

@@ -157,9 +157,17 @@ import { socketService } from '../../services/socket.service.js'
     }
   }
 
+  function getService(userId) {
+    if (userId === 'guest') {
+      return guestServiceLocal
+    }
+    return userService
+  }
+
   export async function addPostToSaved(userId, postId) {
+    const service = getService(userId)
     try {
-      await userService.addPostToSaved(userId, postId)
+      await service.addPostToSaved(userId, postId)
       store.dispatch({ type: UPDATE_SAVED_POST, postId })
     } catch (err) {
         console.log(`Failed to save post ${postId}: ${err}`)

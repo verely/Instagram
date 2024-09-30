@@ -4,7 +4,8 @@ export const guestServiceLocal = {
     getGuestUser,
     saveGuestUser,
     updateGuestUserFields,
-    removeGuestUser
+    removeGuestUser,
+    addPostToSaved
 }
 window.userServiceLocal = guestServiceLocal
 
@@ -29,4 +30,20 @@ function updateGuestUserFields(user) {
 
 async function removeGuestUser() {
     sessionStorage.removeItem(STORAGE_KEY_GUEST_USER)
+}
+
+async function addPostToSaved(userId, postId){
+    try {
+        const currUser = getGuestUser()
+        const savedPostIds = currUser.savedPostIds?? []
+        if (!savedPostIds.includes(postId)) {
+            savedPostIds.push(postId)
+        }
+        currUser.savedPostIds = savedPostIds
+        sessionStorage.setItem(STORAGE_KEY_GUEST_USER, JSON.stringify(currUser))
+        return true
+      } catch (err) {
+        console.error('Failed to save post:', err)
+        throw err
+      }
 }
