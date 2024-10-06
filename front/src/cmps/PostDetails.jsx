@@ -8,6 +8,7 @@ import { ActionButtons } from './ActionButtons.jsx'
 import { CommentArea } from './CommentArea.jsx'
 
 import { postService } from '../services/post.service.js'
+import { guestPostService } from '../services/guest.post.service.js'
 import { removePost,
          updateLikeStatus, addCommentToPost } from '../store/actions/post.actions.js'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
@@ -16,6 +17,7 @@ export function PostDetails({postId}) {
 
     const [post, setPost] = useState(null)
     const loggedInUser = useSelector(state => state.userModule.user)
+    const isGuestMode = useSelector(state => state.userModule.isGuestMode)
     const [shouldFocus, setShouldFocus] = useState(false)
     const commentInputRef = useRef(null)
 
@@ -33,8 +35,9 @@ export function PostDetails({postId}) {
     useEffect(() => {
       const fetchPostDetails = async () => {
         try {
-            console.log('postId',postId)
-            const postData = await postService.get(postId)
+            const postServiceToUse = isGuestMode ? guestPostService : postService;
+
+            const postData = await postServiceToUse.get(postId)
             setPost(postData)
         } catch (error) {
             console.error('Failed to fetch post:', error)
@@ -42,7 +45,7 @@ export function PostDetails({postId}) {
       }
 
       fetchPostDetails()
-    }, [postId])
+    }, [postId, isGuestMode])
 
     const postActions = {
         onRemovePost: onRemovePost,

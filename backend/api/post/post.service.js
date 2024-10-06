@@ -247,7 +247,9 @@ async function remove(postId, loggedInUser) {
         }
 
         const collection = await dbService.getCollection('post')
-        await collection.deleteOne({ _id: ObjectId.createFromHexString(postId) })
+        const result = await collection.deleteOne({ _id: ObjectId.createFromHexString(postId) })
+
+        return result.deletedCount > 0
     }
     catch (err) {
         logger.error(`Cannot remove post ${postId}`, err)

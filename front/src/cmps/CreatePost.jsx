@@ -23,7 +23,7 @@ export function CreatePost({ onClose }) {
   const [imgFile, setImgFile] = useState("")
 
   const owner = useSelector(state => state.userModule.user)
-  
+
 
   useEffect(()=>{
     setCurrentStep(States.SELECT_IMAGE)
@@ -48,9 +48,9 @@ export function CreatePost({ onClose }) {
 
   async function onAddPost(post) {
     try {
-        await addPost(post)
+      return await addPost(post)
     } catch (err) {
-        showErrorMsg('Cannot add post')
+      showErrorMsg('Cannot add post')
     }
   }
 
@@ -77,8 +77,10 @@ export function CreatePost({ onClose }) {
         desc: postText,
         imgUrl: secure_url
       }
-      await onAddPost(newPost)
-      setCurrentStep(States.SHARED)
+      const result = await onAddPost(newPost)
+      if (result)
+        setCurrentStep(States.SHARED)
+
       setImgFile("")
     } catch (err) {
       console.log(`Error occurred while post sharing: ${err}`)

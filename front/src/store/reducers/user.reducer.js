@@ -18,12 +18,14 @@ const initialState = {
     users: [],
     currentProfile: null,
     error: null,
+    isGuestMode: false
 }
 
 
 export function userReducer(state = initialState, action) {
     switch (action.type) {
         case LOGIN_AS_GUEST:
+          return { ...state, isGuestMode: true, user: action.user }
         case SET_USER:
           return { ...state, user: action.user }
         case SET_CURRENT_PROFILE:

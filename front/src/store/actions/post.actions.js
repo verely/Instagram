@@ -1,8 +1,9 @@
 import { postService } from '../../services/post.service.js'
+import { guestPostService } from '../../services/guest.post.service.js'
 import { store } from '../../store/store.js'
 import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service.js'
 import { ADD_POST, REMOVE_POST, LIKE_POST, UNLIKE_POST, COMMENT_POST,
-    SHARE_POST, SAVE_POST, SET_POSTS, UNDO_REMOVE_POST} from '../reducers/post.reducer.js'
+    SHARE_POST, SET_POSTS, UNDO_REMOVE_POST} from '../reducers/post.reducer.js'
 
 // Action Creators:
 export function getActionAddPost(post) {
@@ -62,15 +63,16 @@ export async function loadPosts(page) {
     try {
         const filterBy = {pageIndex: page}
         const {posts, totalCount} = await postService.query(filterBy)
-
         console.log(`Posts loaded successfully from DB, page ${page}, postsCount ${posts?.length}`)
 
-        if (page === 1) {
-            store.dispatch(getActionLoadPosts(posts, true))
-        } else {
-            store.dispatch(getActionLoadPosts(posts))
+        let allPosts = posts
+        const isGuestMode = store.getState().userModule.isGuestMode
+        if (isGuestMode && page === 1) {
+            const guestPosts = await guestPostService.query()
+            allPosts = [...guestPosts, ...posts]
         }
 
+        store.dispatch(getActionLoadPosts(allPosts, page === 1))
         return totalCount > posts?.length ?? 0
     } catch (err) {
         console.error('Cannot load posts', err)
@@ -78,11 +80,18 @@ export async function loadPosts(page) {
     }
 }
 
+function getService() {
+    const isGuestMode = store.getState().userModule.isGuestMode
+    return isGuestMode ? guestPostService : postService
+}
+
 export async function addPost(post) {
     try {
-        const savedPost = await postService.save(post)
-        console.log(`Post ${savedPost} added successfully`)
-        store.dispatch(getActionAddPost(savedPost))
+        const service = getService()
+        const savedPost = await service.save(post)
+        if(savedPost) {
+            store.dispatch(getActionAddPost(savedPost))
+        }
         return savedPost
     } catch (err) {
         console.error('Failed to add post:', err)
@@ -92,8 +101,14 @@ export async function addPost(post) {
 
 export async function removePost(postId) {
     try {
-        await postService.remove(postId)
-        store.dispatch(getActionRemovePost(postId))
+        const isGuestMode = store.getState().userModule.isGuestMode
+        const postServiceToUse = isGuestMode ? guestPostService : postService
+
+        const wasRemoved = await postServiceToUse.remove(postId)
+        if (wasRemoved)
+            store.dispatch(getActionRemovePost(postId))
+        else
+            console.log('No post to remove')
     } catch (err) {
         console.error(`Failed to delete post ${postId}:`, err)
         throw err
@@ -108,11 +123,11 @@ export async function onRemovePostOptimistic(postId) {
         await postService.remove(postId)
         console.log(`Post ${postId} deleted successfully`)
     } catch (err) {
-        showErrorMsg('Cannot remove post');
+        showErrorMsg('Cannot remove post')
         console.error(`Failed to delete post ${postId}:`, err)
         store.dispatch({
             type: UNDO_REMOVE_POST,
-        });
+        })
     }
 }
 

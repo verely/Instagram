@@ -7,6 +7,7 @@ import { store } from '../store/store'
 import { showSuccessMsg } from '../services/event-bus.service'
 
 import { postService } from '../services/post.service'
+import { guestPostService } from '../services/guest.post.service'
 
 import post_tab from '../assets/img/UserProfile/post_tab.svg'
 import saved_tab from '../assets/img/UserProfile/saved_tab.svg'
@@ -37,15 +38,19 @@ export function UserProfile() {
             try {
                 if (loggedInUser) {
                     setIsLoading(true)
-                    if (loggedInUser.isGuest) {
-                        await loadGuestUser()
-                    }
-                    else
-                    {
-                        await loadUser(loggedInUser._id)
-                        const posts = await postService.getPostsByOwnerId(loggedInUser._id)
-                        setUserPosts(posts)
-                    }
+
+                    const getLoadFunction = (isGuest) => isGuest
+                        ? loadGuestUser
+                        : loadUser
+                    const getFetchFunction = (isGuest) => isGuest
+                        ? guestPostService.getPostsByOwnerId
+                        : postService.getPostsByOwnerId
+
+                    await getLoadFunction(loggedInUser.isGuest)(loggedInUser._id)
+
+                    const posts = await getFetchFunction(loggedInUser.isGuest)(loggedInUser._id)
+                    setUserPosts(posts)
+
                 } else {
                     console.log('loggedInUser is null or undefined, cannot fetch posts.')
                 }
