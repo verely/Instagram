@@ -15,7 +15,7 @@ const STORAGE_KEY = 'guest_posts'
 async function query(filterBy = {txt: ''}) {
     try {
         var posts = await storageService.query(STORAGE_KEY, 'session')
-        console.log(JSON.stringify(posts))
+
         if (filterBy.txt) {
             const regex = new RegExp(filterBy.txt, 'i')
             posts = posts.filter(post => regex.test(post.desc))
@@ -29,7 +29,7 @@ async function query(filterBy = {txt: ''}) {
                 commentCount: post.comments ? post.comments.length : 0,
                 owner: post.owner
             }))
-        console.log(JSON.stringify(userPosts))
+
         return userPosts
     } catch (err) {
         console.error('Error occurred while querying posts', err.message)
