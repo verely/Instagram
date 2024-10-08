@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Routes, Route } from 'react-router'
 import { useLocation, Navigate } from 'react-router-dom'
@@ -11,18 +12,22 @@ import { LoginSignUpPage } from './pages/LoginSignUpPage'
 
 
 export function RootCmp() {
-
+    const [isSidebarExpanded, setSidebarExpanded] = useState(false)
     const location = useLocation()
     const user = useSelector(state => state.userModule.user)
     // console.log("User state:", user)
 
     const isLoginPage = location.pathname === '/login'
 
+    const expandSidebar = (expandFlag) => {
+        setSidebarExpanded(expandFlag)
+    }
+
     return (
         <div className={`root-container ${isLoginPage ? 'login-page' : ''}`}>
             <div className='main-layout'>
-                {!isLoginPage && <div className='sidebar-wrapper'>
-                    <SideBarNavigation />
+                {!isLoginPage && <div className={`sidebar-wrapper ${isSidebarExpanded ? 'expanded' : ''}`}>
+                    <SideBarNavigation expandSidebar={expandSidebar}/>
                 </div>}
                 <main className={`main-wrapper ${isLoginPage ? 'loginPageLayout' : ''}`}>
                     <Routes>

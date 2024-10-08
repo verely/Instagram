@@ -53,6 +53,10 @@
               bottom: 0;
               width: $sidebar-width-collapsed;
               height: 100vh;
+
+              &.expanded {
+                width:  $sidebar-search-width + $sidebar-width-collapsed;
+              }
           }
 
           .main-wrapper {

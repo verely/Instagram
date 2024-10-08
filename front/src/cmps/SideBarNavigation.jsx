@@ -15,9 +15,10 @@ import newPost from '../assets/img/SideBarNavigation/newPost.svg'
 import more from '../assets/img/SideBarNavigation/more.svg'
 import { CreatePost } from './CreatePost.jsx'
 import { MoreMenu } from './MoreMenu.jsx'
+import { SidebarSearch } from './SidebarSearch.jsx'
 
 
-export function SideBarNavigation() {
+export function SideBarNavigation({expandSidebar}) {
     const loggedInUser = useSelector(state => state.userModule.user)
 
     const [isCollapsed, setIsCollapsed] = useState(false)
@@ -57,8 +58,15 @@ export function SideBarNavigation() {
         setIsCollapsed(!isCollapsed)
     }
 
+    const onSearchClick = () => {
+        expandSidebar(!isCollapsed)
+        toggleCollapse()
+    }
+
     const expand = () => {
-        if (isCollapsed) { setIsCollapsed(false) }
+        if (isCollapsed) {
+            expandSidebar(false)
+            setIsCollapsed(false) }
     }
 
     function onMoreMenuToggle() {
@@ -97,16 +105,15 @@ export function SideBarNavigation() {
             <div className='sidebar-normal-layout'>
                 <nav className={`navbar ${isCollapsed ? 'collapsed' : ''}`}>
                     <div className="navbar-brand">
-                        {isCollapsed && <img src={isCollapsed? brandIcon : brandName} alt="Brand Name"
-                        className={`brand-name ${isCollapsed ? 'collapsed' : ''}`} onClick={expand}/>}
+                        {isCollapsed && <img src={brandIcon} alt="Brand Icon" className="brand-icon" onClick={expand}/>}
 
-                        {!isCollapsed && <span className="brandName">
+                        {!isCollapsed && <span className="brand-name">
                             <img src={brandName} alt="Brand Name"
                             className={`brand-name ${isCollapsed ? 'collapsed' : ''}`} onClick={expand}/>
                         </span> }
-                        {!isCollapsed && <span className="brandIcon">
-                            <img src={brandIcon} alt="Brand Name"
-                            className={`brand-name ${isCollapsed ? 'collapsed' : ''}`} onClick={expand}/>
+                        {!isCollapsed && <span className="brand-icon">
+                            <img src={brandIcon} alt="Brand Icon"
+                            className={`brand-icon ${isCollapsed ? 'collapsed' : ''}`} onClick={expand}/>
                         </span> }
                     </div>
                     <div className="navbar-nav">
@@ -118,7 +125,7 @@ export function SideBarNavigation() {
                                 </>
                             )}
                         </NavLink>
-                        <NavLink to="/search" className="nav-link search" onClick={toggleCollapse}>
+                        <NavLink to="/search" className="nav-link search" onClick={onSearchClick}>
                             <img src={isCollapsed ? searchActive : search} alt="Search" className="nav-icon" />
                             {!isCollapsed && <span>Search</span>}
                         </NavLink>
@@ -159,7 +166,9 @@ export function SideBarNavigation() {
                         </div>
                     </div>
                 </nav>
+                {isCollapsed && <SidebarSearch/>}
             </div>
+
             {isCreatePostOpen && <div className='createPost-modal'>
                 <CreatePost onClose={handleCloseCreatePost}/>
             </div>}
