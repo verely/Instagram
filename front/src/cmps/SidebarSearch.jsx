@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { userService } from '../services/user.service.js'
+import { UserInfoCard } from './UserInfoCard'
 
 export function SidebarSearch() {
 
@@ -17,6 +18,7 @@ export function SidebarSearch() {
 
     return (
       <div className="sidebar-search">
+
         <div className='search-header'>
           <div className="search-title"> Search </div>
           <input type="text"
@@ -28,9 +30,9 @@ export function SidebarSearch() {
         </div>
 
         <div className="search-results">
-          {searchResults.map((result, index) => (
-            <div key={index}>
-
+          {searchResults.map((user, index) => (
+            <div key={index} className="user-info-card-container">
+              <UserInfoCard user={user}/>
             </div>
           ))}
         </div>
