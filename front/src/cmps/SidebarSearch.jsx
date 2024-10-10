@@ -60,12 +60,12 @@ export function SidebarSearch() {
       </div>
 
       <div className="search-results">
-        {searchState.isLoading && <div className='loading'>Searching...</div>}
+        {searchState.isLoading && <div className='search-loading'>Searching...</div>}
         {!searchState.isLoading && searchState.pattern.trim() === '' && (
-          <div className="recent-search">Recent</div>
+          <div className="search-recent">Recent</div>
         )}
         {!searchState.isLoading && searchState.pattern.trim() !== '' && searchState.results.length === 0 && (
-          <div>No Results Found</div>
+          <div className="search-no-result">No Results Found</div>
         )}
         {!searchState.isLoading && searchState.results.length > 0 && (
           searchState.results.map((user) => (

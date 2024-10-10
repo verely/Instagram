@@ -28,6 +28,8 @@
             width: 100%;
 
             .search-input {
+                position: relative;
+                // display: flex;
                 background-color: $btn-settings-bgc;
                 font-size: 16px;
                 line-height: 18px;
@@ -90,7 +92,9 @@
         justify-content: center;
         // border: 2px solid purple;
 
-        .recent-search {
+        .search-loading,
+        .search-recent,
+        .search-no-result {
             font-size: 16px;
             font-weight: 600;
             line-height: 18px;
