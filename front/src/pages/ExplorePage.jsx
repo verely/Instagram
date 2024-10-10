@@ -17,7 +17,7 @@ export function ExplorePage() {
   const fetchImages = async (pageToFetch) => {
     setLoading(true)
     try {
-        console.log('page', pageToFetch)
+        //console.log('page', pageToFetch)
         const flowerImages = [
           '1.jpg', '2.jpg', '3.jpg', 'nuriot2.jpg', '4.jpg',
           'green_flowers.jpeg', 'in_store.jpeg', 'sahlav.jpeg',

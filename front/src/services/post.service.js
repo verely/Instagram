@@ -50,7 +50,7 @@ async function save(post) {
 async function getPostsByOwnerId(ownerId) {
     try {
         const result = await query({postOwnerId: ownerId})
-        console.log('Query result:', result)
+        // console.log('Query result:', result)
 
         if (!Array.isArray(result.posts)) {
             throw new Error('Invalid response from API')

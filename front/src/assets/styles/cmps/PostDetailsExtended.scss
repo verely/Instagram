@@ -46,6 +46,9 @@
                 flex-direction: column;
                 overflow: auto;
                 // border: 1px solid $separation-line-bgc;
+                .comment-list{
+                    margin-left: 17px;
+                }
             }
 
             .details-footer {

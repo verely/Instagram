@@ -30,7 +30,7 @@ function createSocketService() {
             console.log('socketService setup completed')
         },
         on(eventName, cb) {
-            console.log(eventName)
+            //console.log(eventName)
             socket.on(eventName, cb)
         },
         off(eventName, cb = null) {

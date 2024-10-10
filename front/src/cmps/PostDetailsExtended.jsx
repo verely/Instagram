@@ -49,7 +49,7 @@ export function PostDetailsExtended() {
             try {
                 setIsLoading(true)
                 const comments = await postService.getCommentsByPostId(post._id)
-                console.log('comments', comments)
+                // console.log('comments', comments)
                 setComments(comments)
             } catch (error) {
                 console.error('Failed to fetch post:', error)

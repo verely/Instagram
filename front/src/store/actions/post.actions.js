@@ -63,7 +63,7 @@ export async function loadPosts(page) {
     try {
         const filterBy = {pageIndex: page}
         const {posts, totalCount} = await postService.query(filterBy)
-        console.log(`Posts loaded successfully from DB, page ${page}, postsCount ${posts?.length}`)
+        // console.log(`Posts loaded successfully from DB, page ${page}, postsCount ${posts?.length}`)
 
         let allPosts = posts
         const isGuestMode = store.getState().userModule.isGuestMode

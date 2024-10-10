@@ -10,7 +10,7 @@ export function PostOwnerInfoCard({ owner, postDate, postId }) {
 
     const handleMenuToggle = () => {
       setShowMenu(!showMenu)
-      console.log('handleMenuToggle')
+      // console.log('handleMenuToggle')
     };
 
     return (
