@@ -69,7 +69,7 @@ export function SidebarSearch() {
         )}
         {!searchState.isLoading && searchState.results.length > 0 && (
           searchState.results.map((user) => (
-            <div key={user.id} className="user-info-card-container">
+            <div key={user._id} className="user-info-card-container">
               <UserInfoCard user={user} />
             </div>
           ))
