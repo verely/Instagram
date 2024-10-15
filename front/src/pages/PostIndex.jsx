@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { useIntersectionObserver } from '../hook/useIntersectionObserver'
+import { useIntersectionObserver } from '../customHooks/useIntersectionObserver'
 
 import { loadPosts, removePost,
     updateLikeStatus, addCommentToPost,

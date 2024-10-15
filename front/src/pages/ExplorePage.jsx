@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react'
 import { ExploreGridItem } from '../cmps/ExploreGridItem'
-import { useIntersectionObserver } from '../hook/useIntersectionObserver'
+import { useIntersectionObserver } from '../customHooks/useIntersectionObserver'
 
 export function ExplorePage() {
   const [images, setImages] = useState([])
