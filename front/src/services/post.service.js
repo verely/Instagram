@@ -43,7 +43,7 @@ async function remove(postId) {
 async function save(post) {
     const method = post._id ? 'put' : 'post'
     const { data: savedPost } = await axios[method](BASE_URL + (post._id || ''), {post})
-    console.log(savedPost)
+    //console.log(savedPost)
     return savedPost
 }
 
@@ -102,7 +102,7 @@ async function addCommentToPost(postId, text, user){
 
         const httpMethod  = 'post'
         const { data: savedComment } = await axios[httpMethod](`${BASE_URL}${postId}/comments`, {comment})
-        console.log(savedComment)
+        //console.log(savedComment)
 
         return savedComment
 

@@ -90,7 +90,7 @@ export function PostIndex() {
     }
 
     function onCommentDisplayAction(postId) {
-        console.log('onCommentDisplayAction', postId)
+        //console.log('onCommentDisplayAction', postId)
         setSelectedPostId(postId)
         setIsModalOpen(true)
         window.history.replaceState(null, '', `/p/${postId}`) //update the URL without full navigation
@@ -102,12 +102,12 @@ export function PostIndex() {
     }
 
     function onSharePost(postId, recipient) {
-        console.log(`TODO Share post`)
+        //console.log(`TODO Share post`)
     }
 
     function onAddPostToSaved(postId) {
         try {
-            console.log(`Saving post ${postId}...`)
+            //console.log(`Saving post ${postId}...`)
             addPostToSaved(loggedInUser._id , postId)
         } catch (err) {
             showErrorMsg(`Cannot add post to saved collection`)

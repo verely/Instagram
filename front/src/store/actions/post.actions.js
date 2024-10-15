@@ -146,7 +146,7 @@ export async function addCommentToPost(postId, text, user) {
 export async function updateLikeStatus(actionType, postId, user) {
     try {
         const likeByUser = await postService.updateLikeStatus(actionType, postId, user)
-        console.log(`${actionType} post ${postId} completed`)
+        //console.log(`${actionType} post ${postId} completed`)
         if (actionType === "like")
          store.dispatch(getActionLikePost(postId, user))
         else

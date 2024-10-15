@@ -8,18 +8,22 @@ import { ActionButtons } from './ActionButtons.jsx'
 import { CommentArea } from './CommentArea.jsx'
 
 import { postService } from '../services/post.service.js'
-import { guestPostService } from '../services/guest.post.service.js'
+// import { guestPostService } from '../services/guest.post.service.js'
 import { removePost,
          updateLikeStatus, addCommentToPost } from '../store/actions/post.actions.js'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 
 export function PostDetails({postId}) {
 
-    const [post, setPost] = useState(null)
+    //const [post, setPost] = useState(null)
+    const selectPostById = (state, postId) => state.postModule.posts.find(post => post._id === postId)
+    const post = useSelector(state => selectPostById(state, postId))
     const loggedInUser = useSelector(state => state.userModule.user)
-    const isGuestMode = useSelector(state => state.userModule.isGuestMode)
+    //const isGuestMode = useSelector(state => state.userModule.isGuestMode)
     const [shouldFocus, setShouldFocus] = useState(false)
     const commentInputRef = useRef(null)
+    const [isLoading, setIsLoading] = useState(true)
+    const [comments, setComments] = useState(null)
 
     const onCommentDisplayAction = () => {
       setShouldFocus(true)
@@ -33,19 +37,23 @@ export function PostDetails({postId}) {
     }, [shouldFocus])
 
     useEffect(() => {
-      const fetchPostDetails = async () => {
-        try {
-            const postServiceToUse = isGuestMode ? guestPostService : postService;
-
-            const postData = await postServiceToUse.get(postId)
-            setPost(postData)
-        } catch (error) {
-            console.error('Failed to fetch post:', error)
+        const fetchComments = async () => {
+            try {
+                setIsLoading(true)
+                const comments = await postService.getCommentsByPostId(postId)
+                console.log('comments', comments)
+                setComments(comments)
+            } catch (error) {
+                console.error('Failed to fetch post:', error)
+            }
+            finally {
+                setIsLoading(false)
+            }
         }
-      }
 
-      fetchPostDetails()
-    }, [postId, isGuestMode])
+        fetchComments()
+
+    }, [postId])
 
     const postActions = {
         onRemovePost: onRemovePost,
@@ -82,7 +90,7 @@ export function PostDetails({postId}) {
     }
 
     function onSharePost(postId, recipient) {
-        console.log(`TODO Share post`)
+        //console.log(`TODO Share post`)
     }
 
 
@@ -106,8 +114,8 @@ export function PostDetails({postId}) {
                 <div className='comments'>
                     <PostOwnerCommentInfoDetailsCard owner={post?.owner}
                         postDate={post.created_at} desc={post.desc}/>
-                    <PostCommentList currentUser={loggedInUser} postId={post._id}
-                        comments={post.comments} likeAction={postActions.onUpdateLikeStatus}/>
+                    {!isLoading  && <PostCommentList currentUser={loggedInUser} postId={post._id}
+                        comments={comments} likeAction={postActions.onUpdateLikeStatus}/>}
                 </div>
 
                 <div className='details-footer'>
