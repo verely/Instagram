@@ -43,3 +43,5 @@ Welcome to **FlashGram**, a dynamic social media platform inspired by Instagram.
 
 ## Architecture and Design
 The project follows a modern adaptation of the **MVC (Model-View-Controller)** pattern, blending elements of **service-oriented architecture (SOA)** and **single-page application (SPA)** design. It emphasizes **Functional Programming**, leveraging **asynchronous promises** for smooth data handling and **React functional components with hooks** for state management and side effects.
+
+The project is deployed on Render: [FlashGram Live Site](https://flashgram.onrender.com). Feel free to sign up or use the 'Continue as guest' feature to explore the app.
